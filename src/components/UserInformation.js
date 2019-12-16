@@ -1,17 +1,43 @@
-// import React, { Component } from "react";
-// import {
-//   StyleSheet,
-//   ScrollView,
-//   ActivityIndicator,
-//   View,
-//   TextInput
-// } from "react-native";
-// import { Button, CheckBox } from "react-native-elements";
-// import firebase, { secondFirebaseInstance } from "./Firebase";
-// import { DotIndicator } from "react-native-indicators";
-// import Button3 from '../src/components/common/Button3';
+import React, { Component } from "react";
+import { StyleSheet, ScrollView, View, TextInput, TouchableOpacity, Text, Picker, Alert } from "react-native";
+import { Button, CheckBox, Header } from "react-native-elements";
+import DatePicker from 'react-native-date-picker';
 
-// class CreateUser extends Component {
+
+//import firebase, { secondFirebaseInstance } from "./Firebase";
+//import { DotIndicator } from "react-native-indicators";
+
+class UserInformation extends Component {
+
+    static navigationOptions = {
+        title: "Details",
+        headerStyle: {
+            backgroundColor: '#F8F8F8',
+        },
+        // headerTintColor: '#005D93',
+        // headerTitleStyle: {
+        //     fontSize: 26,
+        //     color: "#005D93",
+        //     fontFamily: "AmaticSC-Bold"
+        // },
+    };
+    
+    state = {
+        firstName: '',
+        lastName: '',
+        gender: '',
+        dateOfBirth: new Date(),
+        address: '',
+        phoneNumber: '',
+    }
+
+    handleDetails = () => {
+        if (this.state.firstName === '' || this.state.lastName === '' 
+        || this.state.gender === '' || this.state.gender === 'gender' || this.state.dateOfBirth === ''
+        || this.state.address === '' || this.state.phoneNumber === '') {
+            Alert.alert("Missing details")
+        }
+    }
 
 //   static navigationOptions = {
 //     title: "יצירת משתמש חדש",
@@ -28,13 +54,13 @@
 
 //   constructor() {
 //     super();
-//     this.ref = firebase.firestore().collection("user");
+//  //   this.ref = firebase.firestore().collection("user");
 //     this.state = {
 //       FirstName: "",
 //       LastName: "",
 //       Gender: "",
 //       DateOfBirth: "",
-//       Location: "",
+//       Address: "",
 //       Email: "",
 //       Password: "",
 //       ConfirmPassword: "",
@@ -66,7 +92,7 @@
 //           LastName: this.state.LastName,
 //           Gender: this.state.Gender,
 //           DateOfBirth: this.state.DateOfBirth,
-//           Location: this.state.Location,
+//           Address: this.state.Address,
 //           Email: this.state.Email,
 //           Password: this.state.Password,
 //           uid: this.state.uid
@@ -84,190 +110,155 @@
 //     // this.updateTextInput(id, "uid");
 //   }
 
-//   checkBoxPressed = () =>
-//     this.setState({
-//       checked: !this.state.checked
-//     });
+  render() {
+    // if (this.state.isLoading) {
+    //   return (
+    //     <View style={styles.activity}>
+    //       <DotIndicator color="#004577" />
+    //     </View>
+    //   );
+    // }
+    return (
+      <ScrollView style={styles.scroll}>
+        <Header
+            centerComponent={{ text: 'Details', style: { color: '#bbd8d8', fontSize: 30, fontWeight: 'bold'} }}
+            containerStyle={{
+                backgroundColor: '#FE5F55',
+                justifyContent: 'space-around',
+            }}
+        />
+        <View style={styles.container}>
+            <TextInput 
+                style={styles.inputBox}
+                value={this.state.firstName}
+                onChangeText={firstName => this.setState({ firstName })}
+                placeholder={"first name"}
+                autoCapitalize='none'
+            />
+            <TextInput
+                style={styles.inputBox}
+                value={this.state.lastName}
+                onChangeText={lastName => this.setState({ lastName })}          
+                placeholder={"last name"}
+                autoCapitalize='none' 
+            />
+            <Picker style={styles.pickerStyle}
+                selectedValue={this.state.gender}  
+                onValueChange={(itemValue) =>  
+                    this.setState({gender: itemValue})}    
+            >  
+                <Picker.Item label="gender" value="gender" />  
+                <Picker.Item label="male" value="male" />  
+                <Picker.Item label="female" value="female" />  
+            </Picker>
+            
+            {/* <TextInput
+                style={styles.inputBox}
+                value={this.state.dateOfBirth}
+                onChangeText={dateOfBirth => this.setState({ dateOfBirth })}
+                placeholder={"date of birth"}
+                autoCapitalize='none'
+            /> */}
 
-//   setAdmin = checked => {
-//     if (checked === true) {
-//       this.updateTextInput("Admin", "manager");
-//     }
-//   };
+{/* <DatePicker
+        style={{width: 200}}
+        date={this.state.dateOfBirth}
+        mode="date"
+        placeholder="date of birth"
+        format="DD-MM-YYYY"
+        minDate="1920-01-01"
+        //maxDate="2016-06-01"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+          // ... You can check the source to find the other keys.
+        }}
+        onDateChange={(dateOfBirth) => {this.setState({dateOfBirth: date})}}
+      /> */}
 
-//   render() {
-//     if (this.state.isLoading) {
-//       return (
-//         <View style={styles.activity}>
-//           <DotIndicator color="#004577" />
-//         </View>
-//       );
-//     }
-//     return (
-//       <ScrollView style={styles.container}>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"שם פרטי"}
-//             value={this.state.FirstName}
-//             onChangeText={text => this.updateTextInput(text, "FirstName")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"שם משפחה"}
-//             value={this.state.LastName}
-//             onChangeText={text => this.updateTextInput(text, "LastName")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"מין"}
-//             value={this.state.Gender}
-//             onChangeText={text => this.updateTextInput(text, "Gender")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"תאריך לידה"}
-//             value={this.state.DateOfBirth}
-//             onChangeText={text => this.updateTextInput(text, "DateOfBirth")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"מקום מגורים"}
-//             value={this.state.Location}
-//             onChangeText={text => this.updateTextInput(text, "Location")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"אימייל"}
-//             value={this.state.Email}
-//             onChangeText={text => this.updateTextInput(text, "Email")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"מספר פלאפון"}
-//             value={this.state.PhoneNumber}
-//             onChangeText={text => this.updateTextInput(text, "PhoneNumber")}
-//           />
-//         </View>
-        
+            <DatePicker
+                mode={'date'}
+                date={this.state.dateOfBirth}
+                onDateChange={(date) => {this.setState({dateOfBirth: date})}}
+            /> 
 
-//         <View>
-//           <CheckBox
-//             textStyle={{fontSize: 26, color:"#005D93"}}
-//             fontFamily= "AmaticSC-Bold"
-//             center
-//             title="מנהל"
-//             checked={this.state.checked}
-//             onPress={() => this.checkBoxPressed()}
-//           />
-//         </View>
+            <TextInput
+                style={styles.inputBox}
+                value={this.state.address}
+                onChangeText={address => this.setState({ address })}
+                placeholder={"address"}
+                autoCapitalize='none'
+            />
+            
+            <TouchableOpacity
+            style={styles.button}
+            onPress = {this.handleDetails}
+            >
+                <Text style={styles.buttonText}>Countine</Text>
+            </TouchableOpacity>
+        </View>
+    </ScrollView>
+    );
+  }
+}
 
-//         <View style={{paddingTop: 20}}>
-//         <Button3
-//           onPress={() => {
-//           this.setAdmin(this.state.checked);
-//           this.saveBoard();
-//       // this.createNewAcount(this.state.Email, this.state.PhoneNumber);
-// }}        >
-//           שמירת פרטים
-//         </Button3>
+const styles = StyleSheet.create({
+    scroll: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: '#7a9e9f'
+    },
 
-//         </View>
-//       </ScrollView>
-//     );
-//   }
-// }
+    container: {
+        flex: 1,
+        backgroundColor: '#EEF5D8',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 20
-//   },
-//   subContainer: {
-//     alignItems:'flex-end',
-//     flex: 1,
-//     marginBottom: 20,
-//     padding: 5,
-//     borderBottomWidth: 2,
-//     borderBottomColor: "#CCCCCC"
-//   },
-//   activity: {
-//     position: "absolute",
-//     left: 0,
-//     right: 0,
-//     top: 0,
-//     bottom: 0,
-//     alignItems: "center",
-//     justifyContent: "center"
-//   }
-// });
+    inputBox: {
+        width: '85%',
+        margin: 10,
+        padding: 15,
+        fontSize: 16,
+        borderColor: '#d3d3d3',
+        borderBottomWidth: 1,
+        color: "#4f6367"
+    },
 
-// export default CreateUser;
+    button: {
+        marginTop: 30,
+        marginBottom: 30,
+        paddingVertical: 5,
+        alignItems: 'center',
+        backgroundColor: '#FE5F55',
+        borderColor: '#FFA611',
+        borderWidth: 1,
+        borderRadius: 5,
+        width: 200
+    },
+
+    pickerStyle:{  
+        height: 150,  
+        width: "80%",  
+        color: '#344953',  
+        justifyContent: 'center'
+    },
+
+    buttonText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#bbd8d8'
+    }
+});
+
+export default UserInformation;

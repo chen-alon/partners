@@ -9,9 +9,9 @@ class LoginForm extends Component {
 
     renderButton() {
         if (this.state.loading) {
-          return <DotIndicator color="#004577" />;
+          return <DotIndicator color="#ef5f55" />;
         }
-        return <Button> LOGIN </Button>;
+        return <Button style = {styles.login}> LOGIN </Button>;
         //onPress={this.onButtonPress.bind(this)}
     }
 
@@ -39,7 +39,7 @@ class LoginForm extends Component {
                       placeholderStyle={{
                         fontFamily: "AmaticSC-Bold"
                       }}
-                      placeholderTextColor="#004577"
+                      placeholderTextColor="#4f6367"
                       height={45}
                       autoCorrect={false}
                       //onChangeText={email => this.setState({ email })}
@@ -55,7 +55,7 @@ class LoginForm extends Component {
                       placeholderStyle={{
                         fontFamily: "AmaticSC-Bold"
                       }}
-                      placeholderTextColor="#004577"
+                      placeholderTextColor="#4f6367"
                       secureTextEntry={true}
                       autoCorrect={false}
                       height={45}
@@ -76,7 +76,7 @@ class LoginForm extends Component {
             <View>
                 <Text style = {styles.signIn}> Don't have an account yet?</Text>
                 <Text onPress = {() => navigate('CreateUser')}
-                    style={{color:'#e93766', fontSize: 18, textAlign: 'center'}}>
+                    style={{color:'#fe5f55', fontSize: 18, textAlign: 'center', fontWeight: 'bold'}}>
                     Create
                 </Text>
             </View>
@@ -89,13 +89,22 @@ class LoginForm extends Component {
 
     const styles = StyleSheet.create ({
 
+      login: {
+        //borderColor: '#000',
+        //borderWidth: 0.2,
+        //borderRadius: 10,
+        //width: "80%",
+        alignSelf: "center",
+        color: "#fe5f55"
+      },
         signIn: {
             textAlign: "center",
-            fontSize: 14
+            fontSize: 14,
+            color: "#fe5f55" 
         },
 
         forgetPassword: {
-          color: "#130f40",
+          color: "#7a9e9f",
           fontSize: 12,
           justifyContent: "center",
           textAlign: "center",
