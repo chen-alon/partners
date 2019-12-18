@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { StyleSheet, ScrollView, View, TextInput, TouchableOpacity, Text, Picker, Alert } from "react-native";
 import { Button, CheckBox, Header } from "react-native-elements";
 import DatePicker from 'react-native-date-picker';
+import { IconButton, Colors } from 'react-native-paper';
+
 
 
 //import firebase, { secondFirebaseInstance } from "./Firebase";
@@ -27,8 +29,7 @@ class UserInformation extends Component {
         lastName: '',
         gender: '',
         dateOfBirth: new Date(),
-        address: '',
-        phoneNumber: '',
+        address: ''
     }
 
     handleDetails = () => {
@@ -185,9 +186,45 @@ class UserInformation extends Component {
         onDateChange={(dateOfBirth) => {this.setState({dateOfBirth: date})}}
       /> */}
 
+{/* <View style={{ backgroundColor: '#fff', margin: 0}}>
+            <DatePicker date={this.state.dateOfBirth} placeholder="date of birth" mode="date" format="DD-MM-YYYY"
+              customStyles={{
+                dateInput: {
+                  borderWidth: 0,
+                  height: 50,
+                  width: 170,
+                  right: 30,
+                },
+                dateText: {
+                  marginTop: 5,
+                  color: 'white',
+                  fontSize: 18,
+                },
+                placeholderText: {
+                  marginTop: 5,
+                  right: 10,
+                  color: 'white',
+                  fontSize: 18,
+                }
+              }
+              }
+              onDateChange={(date) => { this.setState({ dateOfBirth: date }) }} placeholderTextColor="white" underlineColorAndroid={'rgba(0,0,0,0)'} style={{ height: 50, width: 170, paddingLeft: 15, borderRadius: 4, backgroundColor: 'rgba(0,0,0,0.4)' }}></DatePicker>
+          </View> */}
+
+            {/* <TouchableOpacity 
+                style={styles.inputBox}
+                onPress = {this.DatePicker}
+            >
+                <Text>date of birth</Text>
+            </TouchableOpacity> */}
+
             <DatePicker
                 mode={'date'}
                 date={this.state.dateOfBirth}
+                placeholder="date of birth"
+                format="DD-MM-YYYY"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
                 onDateChange={(date) => {this.setState({dateOfBirth: date})}}
             /> 
 
@@ -198,6 +235,14 @@ class UserInformation extends Component {
                 placeholder={"address"}
                 autoCapitalize='none'
             />
+
+            <IconButton
+                icon="camera"
+                color={Colors.red500}
+                size={25}
+                onPress={() => console.log('Pressed')}
+            />
+
             
             <TouchableOpacity
             style={styles.button}
@@ -241,15 +286,14 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         alignItems: 'center',
         backgroundColor: '#FE5F55',
-        borderColor: '#FFA611',
+        borderColor: '#fff',
         borderWidth: 1,
         borderRadius: 5,
         width: 200
     },
 
     pickerStyle:{  
-        height: 150,  
-        width: "80%",  
+        width: "90%",  
         color: '#344953',  
         justifyContent: 'center'
     },

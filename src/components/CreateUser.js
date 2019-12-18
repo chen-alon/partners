@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         alignItems: 'center',
         backgroundColor: '#FE5F55',
-        borderColor: '#FFA611',
+        borderColor: '#fff',
         borderWidth: 1,
         borderRadius: 5,
         width: 200
