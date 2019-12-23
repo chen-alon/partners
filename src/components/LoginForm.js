@@ -1,37 +1,75 @@
 import React, { Component } from 'react';
-import {  StyleSheet, View, TextInput, Text, KeyboardAvoidingView, Image } from 'react-native';
+import { ImageBackground, StyleSheet, View, TextInput, Text, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-paper';
 import { DotIndicator } from "react-native-indicators";
-// ImageBackground
+// import firebase from "firebase";
+// import {
+//   Container,
+//   Content,
+//   Header,
+//   Body,
+//   Left,
+//   Input,
+//   View
+// } from "native-base";
 
 class LoginForm extends Component {
-    state = { loading: false };
+    state = {
+      loading: false,
+      email: '',
+      password: ''
+    };
 
+    onButtonPress() {
+      const { email, password } = this.state;
+      this.setState({ error: "", loading: true });
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(this.onLoginSuccess.bind(this))
+        .catch(this.onLoginFail.bind(this));
+    }
+  
+    onLoginFail() {
+      this.setState({ loading: false });
+      Alert.alert(
+        "ERROR",
+        "incorrect email or password",
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        { cancelable: false }
+      );
+    }
+  
+    onLoginSuccess() {
+      this.setState({
+        email: '',
+        password: '',
+        loading: false,
+        error: ''
+      });
+    }
+  
     renderButton() {
-        if (this.state.loading) {
-          return <DotIndicator color="#ef5f55" />;
-        }
-        return <Button style = {styles.login}> LOGIN </Button>;
-        //onPress={this.onButtonPress.bind(this)}
+      if (this.state.loading) {
+        return <DotIndicator color="#4f6367" />;
+      }
+      return <Button 
+                style = {styles.login}
+                onPress={this.onButtonPress.bind(this)}> LOGIN
+              </Button>;
     }
 
     render() {
         return (
-            <View>
-                <KeyboardAvoidingView>
+          <View>
             {/* <ImageBackground
                 source={require("./images/start.jpg")}
-                style={styles.backgroundImage}>
-            </ImageBackground> */}
+                style={styles.backgroundImage}       
+            /> */}
 
-            <View>
-              <Image
-                source={require("./images/logo.png")}
-                style={{ width: 200, height: 200, alignSelf: "center" }}
-              />
-            </View>
-
-            <View style={styles.Content2}>
+          <View style={{paddingTop: 200}}>
+            <KeyboardAvoidingView behavior="position">
+              <View style={styles.Content2}>
                 <TextInput
                     style={ styles.inputContainer }
                       textAlign="center"
@@ -42,12 +80,11 @@ class LoginForm extends Component {
                       placeholderTextColor="#4f6367"
                       height={45}
                       autoCorrect={false}
-                      //onChangeText={email => this.setState({ email })}
-                      //value={this.state.email}
-                    />
-            </View>
-
-            <View style={styles.Content2}>
+                      onChangeText={email => this.setState({ email })}
+                      value={this.state.email}
+                />
+              </View>
+              <View style={styles.Content2}>
                 <TextInput
                       style={ styles.inputContainer }
                       textAlign="center"
@@ -59,35 +96,31 @@ class LoginForm extends Component {
                       secureTextEntry={true}
                       autoCorrect={false}
                       height={45}
-                     // onChangeText={password => this.setState({ password })}
-                      //value={this.state.password}
-                    />
-
+                      onChangeText={password => this.setState({ password })}
+                      value={this.state.password}
+                />
                 <Text
                     style={styles.forgetPassword}
-                //    onPress = {() => navigate('ForgotPasswordController')}
-                >
-                Forgot your password?
+                    onPress = {() => navigate('ForgotPasswordController')} >
+                    Forgot your password?
                 </Text>
-            </View>
-
-            <View>{this.renderButton()}</View>
-
-            <View>
+              </View>
+              <View>{this.renderButton()}</View>
+              <View>
                 <Text style = {styles.signIn}> Don't have an account yet?</Text>
                 <Text onPress = {() => navigate('CreateUser')}
                     style={{color:'#fe5f55', fontSize: 18, textAlign: 'center', fontWeight: 'bold'}}>
                     Create
                 </Text>
-            </View>
-
-                </KeyboardAvoidingView>
-            </View>
+              </View>
+            </KeyboardAvoidingView>
+          </View>
+      </View>
           );
         }
     }
 
-    const styles = StyleSheet.create ({
+const styles = StyleSheet.create ({
 
       login: {
         //borderColor: '#000',
@@ -95,12 +128,17 @@ class LoginForm extends Component {
         //borderRadius: 10,
         //width: "80%",
         alignSelf: "center",
-        color: "#fe5f55"
+        color: "#fe5f55",
+        fontWeight: 'bold',
+        marginTop: 17
       },
+
         signIn: {
             textAlign: "center",
             fontSize: 14,
-            color: "#fe5f55" 
+            color: "#fe5f55",
+            alignSelf: 'center',
+            marginTop: 50
         },
 
         forgetPassword: {
@@ -124,13 +162,15 @@ class LoginForm extends Component {
 
         Content2: {
           paddingTop: 10,
-          paddingBottom: 20
+          paddingBottom: 20,
+          justifyContent: 'center'
           // fontFamily: "AmaticSC-Bold"
         },
+
         backgroundImage: {
-            resizeMode: 'cover',
             opacity: 0.5,
-            paddingTop: 580      
+            paddingTop: 580,
+            resizeMode: 'cover'
         }
     })
 

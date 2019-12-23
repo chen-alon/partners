@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { StyleSheet, ScrollView, View, TextInput, TouchableOpacity, Text, Picker, Alert } from "react-native";
 import { Button, CheckBox, Header } from "react-native-elements";
-import DatePicker from 'react-native-date-picker';
+import DatePicker from 'react-native-datepicker';
 import { IconButton, Colors } from 'react-native-paper';
+import { ModalComponent } from "react-native-picker-modal-view/dist/Components/Modal";
 
 
 
@@ -24,12 +25,18 @@ class UserInformation extends Component {
         // },
     };
     
-    state = {
-        firstName: '',
-        lastName: '',
-        gender: '',
-        dateOfBirth: new Date(),
-        address: ''
+    constructor() {
+        super();
+        //this.ref = firebase.firestore().collection("user");
+        this.state = {
+            firstName: '',
+            lastName: '',
+            gender: '',
+            dateOfBirth: new Date(),
+            maximumDate: new Date(),
+            check: false,
+            isLoading: false
+        };
     }
 
     handleDetails = () => {
@@ -57,18 +64,7 @@ class UserInformation extends Component {
 //     super();
 //  //   this.ref = firebase.firestore().collection("user");
 //     this.state = {
-//       FirstName: "",
-//       LastName: "",
-//       Gender: "",
-//       DateOfBirth: "",
-//       Address: "",
-//       Email: "",
-//       Password: "",
-//       ConfirmPassword: "",
-//       PhoneNumber: "",
 //       uid: "",
-//       check: false,
-//       isLoading: false
 //     };
 //   }
 //   updateTextInput = (text, field) => {
@@ -152,97 +148,45 @@ class UserInformation extends Component {
                 <Picker.Item label="male" value="male" />  
                 <Picker.Item label="female" value="female" />  
             </Picker>
-            
-            {/* <TextInput
-                style={styles.inputBox}
-                value={this.state.dateOfBirth}
-                onChangeText={dateOfBirth => this.setState({ dateOfBirth })}
-                placeholder={"date of birth"}
-                autoCapitalize='none'
-            /> */}
-
-{/* <DatePicker
-        style={{width: 200}}
-        date={this.state.dateOfBirth}
-        mode="date"
-        placeholder="date of birth"
-        format="DD-MM-YYYY"
-        minDate="1920-01-01"
-        //maxDate="2016-06-01"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        customStyles={{
-          dateIcon: {
-            position: 'absolute',
-            left: 0,
-            top: 4,
-            marginLeft: 0
-          },
-          dateInput: {
-            marginLeft: 36
-          }
-          // ... You can check the source to find the other keys.
-        }}
-        onDateChange={(dateOfBirth) => {this.setState({dateOfBirth: date})}}
-      /> */}
-
-{/* <View style={{ backgroundColor: '#fff', margin: 0}}>
-            <DatePicker date={this.state.dateOfBirth} placeholder="date of birth" mode="date" format="DD-MM-YYYY"
-              customStyles={{
-                dateInput: {
-                  borderWidth: 0,
-                  height: 50,
-                  width: 170,
-                  right: 30,
-                },
-                dateText: {
-                  marginTop: 5,
-                  color: 'white',
-                  fontSize: 18,
-                },
-                placeholderText: {
-                  marginTop: 5,
-                  right: 10,
-                  color: 'white',
-                  fontSize: 18,
-                }
-              }
-              }
-              onDateChange={(date) => { this.setState({ dateOfBirth: date }) }} placeholderTextColor="white" underlineColorAndroid={'rgba(0,0,0,0)'} style={{ height: 50, width: 170, paddingLeft: 15, borderRadius: 4, backgroundColor: 'rgba(0,0,0,0.4)' }}></DatePicker>
-          </View> */}
-
-            {/* <TouchableOpacity 
-                style={styles.inputBox}
-                onPress = {this.DatePicker}
-            >
-                <Text>date of birth</Text>
-            </TouchableOpacity> */}
 
             <DatePicker
-                mode={'date'}
+                style={{width: 250, marginTop: 10}}
                 date={this.state.dateOfBirth}
-                placeholder="date of birth"
-                format="DD-MM-YYYY"
+                mode="date"
+                placeholder={this.state.date}
+                format="DD/MM/YYYY"
+                minDate="01-01-1920"
+                maxDate={this.state.maximumDate}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
+                customStyles={{
+                    dateIcon: {
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0
+                },
+                dateInput: {
+                    marginLeft: 36
+                }
+          // ... You can check the source to find the other keys.
+                }}
                 onDateChange={(date) => {this.setState({dateOfBirth: date})}}
-            /> 
-
-            <TextInput
-                style={styles.inputBox}
-                value={this.state.address}
-                onChangeText={address => this.setState({ address })}
-                placeholder={"address"}
-                autoCapitalize='none'
             />
 
-            <IconButton
-                icon="camera"
-                color={Colors.red500}
-                size={25}
-                onPress={() => console.log('Pressed')}
-            />
+            <View style={styles.pic}>
+                <Text style={styles.text}>
+                    upload picture
+                </Text>
 
+                <IconButton
+                    style={{paddingTop: 13}}
+                    icon="camera"
+                    color={Colors.red500}
+                    size={25}
+                    onPress={() => console.log('Pressed')}
+                />
+            </View>
             
             <TouchableOpacity
             style={styles.button}
@@ -280,11 +224,20 @@ const styles = StyleSheet.create({
         color: "#4f6367"
     },
 
+    text: {
+        fontSize: 16,
+        color: "#4f6367",
+        paddingBottom: 5,
+        paddingTop: 20,
+        alignSelf: 'flex-start',
+    },
+
     button: {
         marginTop: 30,
         marginBottom: 30,
         paddingVertical: 5,
         alignItems: 'center',
+        alignSelf: 'center',
         backgroundColor: '#FE5F55',
         borderColor: '#fff',
         borderWidth: 1,
@@ -293,15 +246,24 @@ const styles = StyleSheet.create({
     },
 
     pickerStyle:{  
-        width: "90%",  
+        width: "80%",  
         color: '#344953',  
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignSelf: 'center'
     },
 
     buttonText: {
         fontSize: 20,
         fontWeight: 'bold',
         color: '#bbd8d8'
+    },
+
+    pic: {
+        flex: 1,
+        flexDirection: 'row',
+        paddingTop: 15,
+        // alignItems: 'flex-start',
+        // alignSelf: 'flex-start'
     }
 });
 

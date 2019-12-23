@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, ScrollView, View, TouchableHighlight, Text, Picker, Alert, Image } from "react-native";
+import { TouchableOpacity, StyleSheet, ScrollView, View, TouchableHighlight, Text, Picker, Alert, Image } from "react-native";
 import { Button, CheckBox, Header } from "react-native-elements";
 
 
@@ -16,6 +16,15 @@ class Partners extends Component {
             retuen: new Date(),
             mode: 'israel'
         };
+    }
+
+    handleDetails = () => {
+        if (this.state.area === '' || this.state.area === 'select area' ||
+        this.state.partnerGender === ''  || this.state.partnerGender === 'select gender' ||
+        this.state.partnerAge === '' || this.state.partnerAge === 'select age range' ||
+        this.state.theme === '' || this.state.theme === 'select theme') {
+            Alert.alert("Missing details")
+        }
     }
 
     render() {
@@ -108,6 +117,8 @@ class Partners extends Component {
 
                     <Text style={styles.text}>Dates</Text>
 
+                    
+
                     <Text style={styles.text}>the theme of the trip</Text>
                     <Picker
                         style={styles.pickerStyle}
@@ -126,16 +137,18 @@ class Partners extends Component {
                         <Picker.Item label="up 66" value="up 66" />  
                     </Picker>
 
+                    <TouchableOpacity
+                        style={styles.buttonSave}
+                        onPress = {this.handleDetails}
+                    >
+                        <Text style={styles.buttonText}>Save</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
 
         );
     }
 }
-
-// Partners.propTypes = {
-//     text: PropTypes.string.isRequired
-// };
 
 const styles = StyleSheet.create({
     scroll: {
@@ -148,7 +161,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 30,
         backgroundColor: '#EEF5D8',
-        //alignItems: 'center',
         justifyContent: 'center'
     },
 
@@ -183,7 +195,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         width: 130,
-        padding: 10
+        padding: 10,
     },
 
     buttonPress: {
@@ -195,6 +207,19 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width: 130,
         padding: 10
+    },
+
+    buttonSave: {
+        marginTop: 30,
+        marginBottom: 20,
+        paddingVertical: 5,
+        alignSelf: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FE5F55',
+        borderColor: '#fff',
+        borderWidth: 1,
+        borderRadius: 5,
+        width: 200
     },
 
     pickerStyle:{  

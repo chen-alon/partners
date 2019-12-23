@@ -1,14 +1,5 @@
 // import React, { Component } from "react";
-// import {
-//   AppRegistry,
-//   StyleSheet,
-//   Text,
-//   View,
-//   TouchableOpacity,
-//   TextInput,
-//   Alert,
-//   Animated
-// } from "react-native";
+// import { View, TextInput, Alert } from "react-native";
 // import * as firebase from "firebase";
 // import styles from "./styles";
 // import Images from "./Images";
@@ -20,7 +11,7 @@
 //   static defaultProps = {
 //     backgroundColor: "#fff",
 //     titleText: "שכחתי סיסמא",
-//     submitText: "שלח",
+//     submitText: "send",
 //     placeHolderText: "example@domain.com"
 //   };
 
@@ -36,15 +27,11 @@
 //     if (this.state.spinner) {
 //       return <DotIndicator color="#004577" />;
 //     }
-//     return <Button2 onPress={() =>
-//       {
+//     return <Button2 onPress={() => {
 //         this.btnSubmitPress()
-//         this.setState({ spinner: true })
-//       }
-//     } 
-//      >
-// שלח
-// </Button2>;
+//         this.setState({ spinner: true })}} >
+//     send
+//     </Button2>;
 //   }
 
 //   /**

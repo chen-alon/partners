@@ -91,10 +91,12 @@ class CreateUser extends Component {
                     placeholder='Confirm password'
                     secureTextEntry={true}
                 />
-                <View>
+                <View style={styles.container}>
                     <CheckBox
+                    containerStyle={{backgroundColor: "#eef5d8"}}
                     textStyle={{fontSize: 11, color:"#4F6367"}}
                     fontFamily= "AmaticSC-Bold"
+                    checkedColor="#4F6367"
                     center
                     title="Agree to terms and conditions"
                     checked={this.state.checked}

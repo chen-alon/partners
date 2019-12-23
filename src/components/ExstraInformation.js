@@ -7,7 +7,7 @@ import { DotIndicator } from "react-native-indicators";
 class ExstraInformation extends Component {
 
   static navigationOptions = {
-    title: "יצירת משתמש חדש",
+    title: "ספר על עצמך",
     headerStyle: {
       backgroundColor: '#F8F8F8',
     },
