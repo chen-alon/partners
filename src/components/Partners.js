@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { TouchableOpacity, StyleSheet, ScrollView, View, TouchableHighlight, Text, Picker, Alert, Image } from "react-native";
 import { Button, CheckBox, Header } from "react-native-elements";
+import DatePicker from 'react-native-datepicker';
+import Calendar from "react-native-calendario";
+
+
+
 
 
 class Partners extends Component {
@@ -13,7 +18,8 @@ class Partners extends Component {
             partnerGender: '',
             theme: '',
             depart: new Date(),
-            retuen: new Date(),
+            return: new Date(),
+            maximumDate: new Date(),
             mode: 'israel'
         };
     }
@@ -115,9 +121,45 @@ class Partners extends Component {
                         <Picker.Item label="up 66" value="up 66" />  
                     </Picker>
 
-                    <Text style={styles.text}>Dates</Text>
+                    <Text style={styles.text}>dates</Text>
 
-                    
+                    <Calendar
+  onChange={range => console.log(range)}
+  minDate="2018-04-20"
+  startDate="2018-04-30"
+  endDate="2018-05-05"
+  theme={{
+    weekColumnTextStyle: {
+      color: 'red',
+    },
+    weekColumnStyle: {
+      paddingVertical: 20,
+    },
+    weekColumnsContainerStyle: {
+      backgroundColor: 'lightgrey',
+    },
+    monthTitleStyle: {
+      color: 'blue',
+    },
+    nonTouchableDayContainerStyle: {
+      backgroundColor: 'red',
+    },
+    nonTouchableDayTextStyle: {
+      color: 'green',
+    },
+    dayTextStyle: {
+      color: 'blue',
+    },
+    activeDayContainerStyle: {
+      backgroundColor: 'lightgrey',
+    },
+    activeDayTextStyle: {
+      color: 'red',
+    },
+  }}
+/>                  
+
+
 
                     <Text style={styles.text}>the theme of the trip</Text>
                     <Picker
@@ -126,15 +168,16 @@ class Partners extends Component {
                         onValueChange={(itemValue) => this.setState({theme: itemValue})}    
                     >  
                         <Picker.Item label="select theme" value="select theme" />  
-                        <Picker.Item label="all" value="all" />  
-                        <Picker.Item label="until 20" value="until 20" />  
-                        <Picker.Item label="21-25" value="21-25" /> 
-                        <Picker.Item label="26-30" value="26-30" />  
-                        <Picker.Item label="31-40" value="31-40" />  
-                        <Picker.Item label="41-45" value="41-45" />  
-                        <Picker.Item label="46-55" value="46-55" />  
-                        <Picker.Item label="56-65" value="56-65" />  
-                        <Picker.Item label="up 66" value="up 66" />  
+                        <Picker.Item label="all the theme" value="all the theme" />  
+                        <Picker.Item label="holiday" value="holiday" />  
+                        <Picker.Item label="organized tour" value="organized tour" /> 
+                        <Picker.Item label="volunteering" value="volunteering" />  
+                        <Picker.Item label="backpackers" value="backpackers" />  
+                        <Picker.Item label="ski/winter" value="ski/winter" />  
+                        <Picker.Item label="cruise" value="cruise" />  
+                        <Picker.Item label="field trip" value="field trip" />  
+                        <Picker.Item label="couples trip" value="couples trip" />  
+                        <Picker.Item label="flight and landing only" value="flight and landing only" />
                     </Picker>
 
                     <TouchableOpacity

@@ -28,10 +28,10 @@ class AboutUser extends Component {
         return(
             <ScrollView style={styles.scroll}>
                 <Header
-            centerComponent={{ text: 'More about me', style: { color: '#bbd8d8', fontSize: 25, fontWeight: 'bold'} }}
+            centerComponent={{ text: 'More about me', style: { color: '#bbd8d8', fontSize: 25, fontWeight: 'bold', paddingBottom: 20} }}
             containerStyle={{
                 backgroundColor: '#FE5F55',
-                justifyContent: 'space-around',
+                justifyContent: 'space-around'
             }}
                 />
         <View style={styles.container}>
@@ -86,16 +86,16 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
         paddingTop: 20,
-        margin: 5
+        marginTop: 5,
+        marginBottom: 5
     },
 
     inputBox: {
         width: '85%',
         margin: 10,
         padding: 30,
-        fontSize: 16,
+        fontSize: 18,
         borderColor: '#d3d3d3',
-        borderBottomWidth: 1,
         color: "#4f6367"
     },
 

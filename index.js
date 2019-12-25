@@ -14,6 +14,7 @@ import HomePage from './src/components/HomePage.js';
 import { Card } from 'react-native-paper';
 import AboutUser from './src/components/AboutUser';
 import Partners from './src/components/Partners.js';
+import ExstraInformation from './src/components/ExstraInformation.js';
 
 
-AppRegistry.registerComponent('partners', () => CreateUser);
+AppRegistry.registerComponent('partners', () => Partners);

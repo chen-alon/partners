@@ -3,7 +3,6 @@ import { StyleSheet, ScrollView, View, TextInput, TouchableOpacity, Text, Picker
 import { Button, CheckBox, Header } from "react-native-elements";
 import DatePicker from 'react-native-datepicker';
 import { IconButton, Colors } from 'react-native-paper';
-import { ModalComponent } from "react-native-picker-modal-view/dist/Components/Modal";
 
 
 
@@ -149,6 +148,10 @@ class UserInformation extends Component {
                 <Picker.Item label="female" value="female" />  
             </Picker>
 
+            <Text style={styles.date}>
+                    date of birth
+            </Text>
+
             <DatePicker
                 style={{width: 250, marginTop: 10}}
                 date={this.state.dateOfBirth}
@@ -229,7 +232,16 @@ const styles = StyleSheet.create({
         color: "#4f6367",
         paddingBottom: 5,
         paddingTop: 20,
-        alignSelf: 'flex-start',
+        alignSelf: 'flex-start'
+    },
+
+    date: {
+        width: '85%',
+        padding: 15,
+        fontSize: 16,
+        color: "#4f6367",
+        paddingBottom: 1,
+        paddingTop: 20
     },
 
     button: {
@@ -249,7 +261,8 @@ const styles = StyleSheet.create({
         width: "80%",  
         color: '#344953',  
         justifyContent: 'center',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        paddingTop: 20
     },
 
     buttonText: {
@@ -261,7 +274,7 @@ const styles = StyleSheet.create({
     pic: {
         flex: 1,
         flexDirection: 'row',
-        paddingTop: 15,
+        paddingTop: 15
         // alignItems: 'flex-start',
         // alignSelf: 'flex-start'
     }
