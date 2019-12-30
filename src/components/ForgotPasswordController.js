@@ -96,7 +96,7 @@
 //       .catch(e =>{
 //         alert(e)
 //         this.setState({ spinner: false })
-        
+
 //       });
 //   }
 
@@ -113,7 +113,7 @@
 //         <CustomHeader
 //           title="איפוס סיסמא"
 //           drawerOpen={() => this.props.navigation.openDrawer()}
-//         />        
+//         />
 //         <View
 //           style={[
 //             styles.bottomView,

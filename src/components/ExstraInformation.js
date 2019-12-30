@@ -40,7 +40,7 @@
 //   updateTextInput = (text, field) => {
 //     this.setState({ [field]: text });
 //   };
-  
+
 //   saveBoard() {
 //     this.setState({
 //       isLoading: true
@@ -210,7 +210,6 @@
 //             onChangeText={text => this.updateTextInput(text, "PhoneNumber")}
 //           />
 //         </View>
-        
 
 //         <View>
 //           <CheckBox

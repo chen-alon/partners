@@ -1,6 +1,6 @@
 // import React, { Component } from "react";
 // import { Text } from 'react-native';
-// // import Card from 
+// // import Card from
 // // import CardSection from
 
 // const HomePage = ({user}) => {
@@ -16,7 +16,7 @@
 //                 </View>
 //             </CardSection>
 //         </Card>
-//     ) 
+//     )
 // };
 
 // const styles = {

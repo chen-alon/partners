@@ -1,10 +1,10 @@
 // import React, { Component } from "react";
 // import { Text, View } from 'react-native';
-// import Card from 
+// import Card from
 // import CardSection from
 
 // class Profile extends Component {
-    
+
 //     render() {
 //         return(
 //             <Card>
@@ -16,7 +16,7 @@
 //                     </View>
 //                 </CardSection>
 //             </Card>
-//         ) 
+//         )
 //     }
 // }
 
