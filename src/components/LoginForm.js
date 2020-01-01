@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
   ImageBackground,
+  Header,
   StyleSheet,
   View,
   TextInput,
@@ -9,7 +10,8 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-paper';
 import {DotIndicator} from 'react-native-indicators';
-// import firebase from "firebase";
+// import firebase from 'firebase';
+
 // import {
 //   Container,
 //   Content,
@@ -26,6 +28,8 @@ class LoginForm extends Component {
     email: '',
     password: '',
   };
+
+  static navigationOptions = ({navigation}) => {};
 
   onButtonPress() {
     const {email, password} = this.state;
@@ -62,13 +66,14 @@ class LoginForm extends Component {
     }
     return (
       <Button style={styles.login} onPress={this.onButtonPress.bind(this)}>
-        {' '}
         LOGIN
       </Button>
     );
   }
 
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
       <View>
         {/* <ImageBackground
@@ -78,6 +83,7 @@ class LoginForm extends Component {
 
         <View style={{paddingTop: 200}}>
           <KeyboardAvoidingView behavior="position">
+            <Text style={styles.title}>hitchhiker</Text>
             <View style={styles.Content2}>
               <TextInput
                 style={styles.inputContainer}
@@ -152,7 +158,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#fe5f55',
     alignSelf: 'center',
-    marginTop: 50,
+    marginTop: 40,
+  },
+
+  title: {
+    alignSelf: 'center',
+    fontFamily: 'LongCang-Regular',
+    fontSize: 40,
+    color: '#4f6367',
   },
 
   forgetPassword: {

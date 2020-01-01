@@ -25,11 +25,14 @@ class AboutUser extends Component {
     // },
   };
 
-  state = {
-    countrys: '',
-    languages: '',
-    more: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      countrys: '',
+      languages: '',
+      more: '',
+    };
+  }
 
   render() {
     return (

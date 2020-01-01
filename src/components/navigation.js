@@ -1,25 +1,26 @@
-import * as React from 'react';
+import React, {Component} from 'react';
 import {BottomNavigation, Text} from 'react-native-paper';
+import UserProfile from './UserProfile';
 
-const PartnersRoute = () => <Text></Text>;
+const HomeRoute = () => <Text>jfjhjh</Text>;
 const ChatRoute = () => <Text>Albums</Text>;
-const ProfileRoute = () => <Text>Recents</Text>;
+const ProfileRoute = () => <UserProfile></UserProfile>;
 
 export default class Navigation extends Component {
   state = {
     index: 0,
     routes: [
-      {key: 'partners', title: 'Partners', icon: 'gtg'},
-      {key: 'chat', title: 'Chat', icon: 'history'},
-      {key: 'profile', title: 'Profile', icon: 'dcf'},
+      {key: 'home', title: 'Home', icon: 'cards'},
+      {key: 'chat', title: 'Chat', icon: 'chat'},
+      {key: 'profile', title: 'Profile', icon: 'face'},
     ],
   };
 
   _handleIndexChange = index => this.setState({index});
 
   _renderScene = BottomNavigation.SceneMap({
-    partners: PartnersRoute,
-    conversations: ChatRoute,
+    home: HomeRoute,
+    chat: ChatRoute,
     profile: ProfileRoute,
   });
 
@@ -29,6 +30,7 @@ export default class Navigation extends Component {
         navigationState={this.state}
         onIndexChange={this._handleIndexChange}
         renderScene={this._renderScene}
+        barStyle={{backgroundColor: '#4f6367'}}
       />
     );
   }

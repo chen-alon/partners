@@ -14,6 +14,7 @@ import {Button, CheckBox, Header} from 'react-native-elements';
 //import Icon from 'react-native-vector-icons/FontAwesome'
 
 class CreateUser extends Component {
+  static navigationOptions = ({navigation}) => {};
   static navigationOptions = {
     title: 'register',
     // headerStyle: {
@@ -57,6 +58,8 @@ class CreateUser extends Component {
   };
 
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
       <ScrollView style={styles.scroll}>
         <Header
@@ -68,6 +71,7 @@ class CreateUser extends Component {
             backgroundColor: '#FE5F55',
             justifyContent: 'space-around',
           }}
+          onPress={() => navigate('LoginForm')}
         />
 
         <View style={styles.container}>

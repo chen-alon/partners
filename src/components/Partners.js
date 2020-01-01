@@ -213,7 +213,12 @@ class Partners extends Component {
         <Header
           centerComponent={{
             text: 'Lets find your partner',
-            style: {color: '#bbd8d8', fontSize: 17, fontWeight: 'bold'},
+            style: {
+              color: '#bbd8d8',
+              fontSize: 17,
+              fontWeight: 'bold',
+              fontFamily: 'LongCang-Regular',
+            },
           }}
           containerStyle={{
             backgroundColor: '#FE5F55',

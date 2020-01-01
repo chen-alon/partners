@@ -1,37 +1,40 @@
-// import React, { Component } from "react";
-// import { View, TextInput, Alert } from "react-native";
-// import * as firebase from "firebase";
-// import styles from "./styles";
-// import Images from "./Images";
-// import CustomHeader from "./manager/CustomHeader";
+// import React, {Component} from 'react';
+// import {View, TextInput, Alert} from 'react-native';
+// import * as firebase from 'firebase';
+// import styles from './styles';
+// import CustomHeader from './manager/CustomHeader';
 // import Button2 from './common/Button2';
-// import { DotIndicator } from "react-native-indicators";
+// import {DotIndicator} from 'react-native-indicators';
 
 // export default class ForgotPasswordController2 extends Component {
 //   static defaultProps = {
-//     backgroundColor: "#fff",
-//     titleText: "שכחתי סיסמא",
-//     submitText: "send",
-//     placeHolderText: "example@domain.com"
+//     backgroundColor: '#fff',
+//     titleText: 'שכחתי סיסמא',
+//     submitText: 'send',
+//     placeHolderText: 'example@domain.com',
 //   };
 
 //   constructor(props) {
 //     super(props);
 //     this.state = {
-//       email: "",
-//       Password: "",
-//       spinner: false
+//       email: '',
+//       Password: '',
+//       spinner: false,
 //     };
 //   }
 //   renderButton() {
 //     if (this.state.spinner) {
 //       return <DotIndicator color="#004577" />;
 //     }
-//     return <Button2 onPress={() => {
-//         this.btnSubmitPress()
-//         this.setState({ spinner: true })}} >
-//     send
-//     </Button2>;
+//     return (
+//       <Button2
+//         onPress={() => {
+//           this.btnSubmitPress();
+//           this.setState({spinner: true});
+//         }}>
+//         send
+//       </Button2>
+//     );
 //   }
 
 //   /**
@@ -50,20 +53,14 @@
 //       Alert.alert(
 //         'איפוס סיסמא',
 //         'יש להזין את הכתובת מייל',
-//         [
-//           {text: 'OK', onPress: () => this.setState({ spinner: false })
-//         }
-//         ],
+//         [{text: 'OK', onPress: () => this.setState({spinner: false})}],
 //         {cancelable: false},
 //       );
 //     } else if (this.validateEmail(this.state.email) == false) {
 //       Alert.alert(
 //         'איפוס סיסמא',
 //         'כתובת המייל לא קיימת במערכת',
-//         [
-//           {text: 'OK', onPress: () => this.setState({ spinner: false })
-//         }
-//         ],
+//         [{text: 'OK', onPress: () => this.setState({spinner: false})}],
 //         {cancelable: false},
 //       );
 //     } else {
@@ -71,9 +68,7 @@
 //     }
 //   }
 
-// setSpinnerState() {
-
-// }
+//   setSpinnerState() {}
 
 //   /**
 //    * forgot pasword function
@@ -86,17 +81,14 @@
 //         Alert.alert(
 //           'איפוס סיסמא',
 //           'הודעת חידוש סיסמה נשלחה לכתובת המייל שהזנת',
-//           [
-//             {text: 'OK', onPress: () => this.setState({ spinner: false })},
-//           ],
+//           [{text: 'OK', onPress: () => this.setState({spinner: false})}],
 //           {cancelable: false},
 //         );
 //         username.sendEmailVerification();
 //       })
-//       .catch(e =>{
-//         alert(e)
-//         this.setState({ spinner: false })
-
+//       .catch(e => {
+//         alert(e);
+//         this.setState({spinner: false});
 //       });
 //   }
 
@@ -117,38 +109,36 @@
 //         <View
 //           style={[
 //             styles.bottomView,
-//             { backgroundColor: this.props.backgroundColor }
-//           ]}
-//         >
+//             {backgroundColor: this.props.backgroundColor},
+//           ]}>
 //           <View>
-//             <View style={{paddingTop:150}}>
+//             <View style={{paddingTop: 150}}>
 //               <TextInput
 //                 style={{
-//                   borderColor: "#004577",
+//                   borderColor: '#004577',
 //                   borderRadius: 25,
 //                   borderWidth: 2,
 //                   fontSize: 22,
-//                   width: "80%",
-//                   alignSelf: "center",
-//                   backgroundColor: "transparent",
-//                   fontFamily: "AmaticSC-Bold",
+//                   width: '80%',
+//                   alignSelf: 'center',
+//                   backgroundColor: 'transparent',
+//                   fontFamily: 'AmaticSC-Bold',
 //                 }}
-
 //                 autoCorrect={false}
-//                 keyboardType={"email-address"}
+//                 keyboardType={'email-address'}
 //                 textAlign="center"
 //                 placeholder={this.props.placeHolderText}
 //                 placeholderStyle={{
-//                   fontFamily: "AmaticSC-Bold"
+//                   fontFamily: 'AmaticSC-Bold',
 //                 }}
 //                 placeholderTextColor="#5FA9DD"
 //                 height={45}
 //                 autoCorrect={false}
-//                 onChangeText={email => this.setState({ email })}
+//                 onChangeText={email => this.setState({email})}
 //                 value={this.state.email}
 //               />
 //             </View>
-//                 <View style={{paddingTop: 30}}>{this.renderButton()}</View>
+//             <View style={{paddingTop: 30}}>{this.renderButton()}</View>
 //           </View>
 //         </View>
 //       </View>
