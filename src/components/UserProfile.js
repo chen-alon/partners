@@ -6,7 +6,9 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Button,
 } from 'react-native';
+import firebase from 'firebase';
 
 export default class UserProfile extends Component {
   render() {
@@ -32,6 +34,18 @@ export default class UserProfile extends Component {
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonContainer}>
                 <Text style={{color: '#eef5d8'}}>Account settings</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                {/* <Button
+                  title="Sign out"
+                  color="#fe5f55"
+                  onPress={() => firebase.auth().signOut()}
+                /> */}
+                <Text
+                  style={{color: '#eef5d8', fontSize: 20, fontWeight: 'bold'}}
+                  onPress={() => firebase.auth().signOut()}>
+                  Sign Out
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

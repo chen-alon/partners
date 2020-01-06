@@ -7,14 +7,14 @@
 
 // const styles = {
 //   containerStyle: {
-//     // borderBottomWidth: 1,
+//     borderBottomWidth: 1,
 //     padding: 5,
-//     // backgroundColor: '#dfe6e9',
-//     //justifyContent: 'flex-start',
+//     backgroundColor: '#dfe6e9',
+//     justifyContent: 'flex-start',
 //     flexDirection: 'row',
-//     // borderColor: '#2d3436',
-//     // borderRadius: 30,
-//     // borderWidth: 1,
+//     borderColor: '#2d3436',
+//     borderRadius: 30,
+//     borderWidth: 1,
 //     position: 'relative',
 //     marginTop: 5,
 //     marginBottom: 5,

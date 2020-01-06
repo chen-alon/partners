@@ -19,5 +19,6 @@ import UserProfile from './src/components/UserProfile.js';
 import Chat from './src/components/Chat';
 import LoginFormNavigation from './src/components/LoginFormNavigation';
 import PartnerProfile from './src/components/PartnerProfile.js';
+import UserDetail from './src/components/UserDetail.js';
 
-AppRegistry.registerComponent('partners', () => Questions);
+AppRegistry.registerComponent('partners', () => App);

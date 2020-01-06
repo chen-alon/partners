@@ -11,6 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import {Button, CheckBox, Header} from 'react-native-elements';
+import firebase from 'firebase';
 //import Icon from 'react-native-vector-icons/FontAwesome'
 
 class CreateUser extends Component {
@@ -28,12 +29,15 @@ class CreateUser extends Component {
     // },
   };
 
-  state = {
-    email: '',
-    password: '',
-    confirmPassword: '',
-    checked: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      checked: false,
+    };
+  }
 
   checkBoxPressed = () =>
     this.setState({
@@ -54,8 +58,35 @@ class CreateUser extends Component {
       Alert.alert('The password needs to be more than 6 chars');
     } else if (this.state.checked === false) {
       Alert.alert('Please agree the terms and conditions');
+    } else {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(this.onLoginSuccess.bind(this))
+        .catch(error => {
+          let errorCode = error.code;
+          let errorMessage = error.message;
+          if (errorCode == 'auth/weak-password') {
+            this.onLoginFailure.bind(this)('Weak password!');
+          } else {
+            this.onLoginFailure.bind(this)(errorMessage);
+          }
+        });
     }
   };
+
+  onLoginSuccess() {
+    this.setState({
+      email: '',
+      password: '',
+      error: '',
+      loading: false,
+    });
+  }
+
+  onLoginFailure(errorMessage) {
+    this.setState({error: errorMessage, loading: false});
+  }
 
   render() {
     const {navigate} = this.props.navigation;

@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 import {BottomNavigation, Text} from 'react-native-paper';
 import UserProfile from './UserProfile';
+import UserDetail from './UserDetail';
+import {View} from 'react-native';
 
-const HomeRoute = () => <Text>jfjhjh</Text>;
+const HomeRoute = () => <UserDetail></UserDetail>;
 const ChatRoute = () => <Text>Albums</Text>;
 const ProfileRoute = () => <UserProfile></UserProfile>;
 
-export default class Navigation extends Component {
+class Navigation extends Component {
   state = {
     index: 0,
     routes: [
-      {key: 'home', title: 'Home', icon: 'cards'},
+      {key: 'matches', title: 'Matches', icon: 'cards'},
       {key: 'chat', title: 'Chat', icon: 'chat'},
       {key: 'profile', title: 'Profile', icon: 'face'},
     ],
@@ -19,7 +21,7 @@ export default class Navigation extends Component {
   _handleIndexChange = index => this.setState({index});
 
   _renderScene = BottomNavigation.SceneMap({
-    home: HomeRoute,
+    matches: HomeRoute,
     chat: ChatRoute,
     profile: ProfileRoute,
   });
@@ -35,3 +37,5 @@ export default class Navigation extends Component {
     );
   }
 }
+
+export default Navigation;

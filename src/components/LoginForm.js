@@ -7,10 +7,11 @@ import {
   TextInput,
   Text,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
-import {Button} from 'react-native-paper';
 import {DotIndicator} from 'react-native-indicators';
-// import firebase from 'firebase';
+import firebase from 'firebase';
+import {Button} from 'react-native-elements';
 
 // import {
 //   Container,
@@ -23,11 +24,15 @@ import {DotIndicator} from 'react-native-indicators';
 // } from "native-base";
 
 class LoginForm extends Component {
-  state = {
-    loading: false,
-    email: '',
-    password: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      email: '',
+      password: '',
+      error: '',
+    };
+  }
 
   static navigationOptions = ({navigation}) => {};
 
@@ -62,12 +67,13 @@ class LoginForm extends Component {
 
   renderButton() {
     if (this.state.loading) {
-      return <DotIndicator color="#4f6367" />;
+      return <DotIndicator />;
     }
     return (
-      <Button style={styles.login} onPress={this.onButtonPress.bind(this)}>
-        LOGIN
-      </Button>
+      <Button
+        buttonStyle={styles.login}
+        title="Sign Up"
+        onPress={this.onButtonPress.bind(this)}></Button>
     );
   }
 
@@ -143,14 +149,14 @@ class LoginForm extends Component {
 
 const styles = StyleSheet.create({
   login: {
-    //borderColor: '#000',
-    //borderWidth: 0.2,
-    //borderRadius: 10,
-    //width: "80%",
+    // borderWidth: 0.2,
+    borderRadius: 10,
+    width: '30%',
     alignSelf: 'center',
-    color: '#fe5f55',
+    color: '#eef5d8',
     fontWeight: 'bold',
-    marginTop: 17,
+    backgroundColor: '#fe5f55',
+    //marginTop: 17,
   },
 
   signIn: {

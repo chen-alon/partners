@@ -9,9 +9,9 @@
 
 // const styles = {
 //   containerStyle: {
-//     // borderWidth: 1,
-//     // borderRadius: 5,
-//     // borderColor: '#000',
+//     borderWidth: 1,
+//     borderRadius: 5,
+//     borderColor: '#000',
 //     borderBottomWidth: 0,
 //     shadowColor: '#000',
 //     shadowOffset: {width: 0, height: 2},
@@ -20,7 +20,7 @@
 //     elevation: 1,
 //     marginLeft: 5,
 //     marginRight: 5,
-//     //marginTop: 320
+//     marginTop: 320,
 //     backgroundColor: '#4b6584',
 //   },
 // };
