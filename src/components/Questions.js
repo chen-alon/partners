@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, Alert} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {Button} from 'react-native-elements';
-
 import {ListOfQandA} from './ListOfQandA';
 
 class Questions extends Component {
@@ -45,17 +44,6 @@ class Questions extends Component {
       <View>
         <Text style={styles.question}>{q}</Text>
         <RadioButton.Group
-          //   style={styles.RadioButtonStyle}
-          RadioButtonStyle={{
-            //flexDirection: 'row',
-            //justifyContent: 'flex-start',
-            alignSelf: 'center',
-            color: '#FE5F55',
-            fontSize: 30,
-            marginBottom: 20,
-            marginTop: 40,
-            backgroundColor: '#fff',
-          }}
           onValueChange={value => {
             this.setState(prev => {
               const ListOfQandA = [...prev.ListOfQandA];
@@ -65,9 +53,15 @@ class Questions extends Component {
           }}
           value={this.state.ListOfQandA[i].a}>
           {aOptions.map(option => (
-            <View key={q + option}>
-              <Text>{option}</Text>
-              <RadioButton value={option} />
+            <View
+              style={{flexDirection: 'row', marginBottom: 12}}
+              key={q + option}>
+              <RadioButton
+                value={option}
+                uncheckedColor="#4f6367"
+                color="#ef5f55"
+              />
+              <Text style={styles.textAnswers}>{option}</Text>
             </View>
           ))}
         </RadioButton.Group>
@@ -78,10 +72,8 @@ class Questions extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>
-          You have to answer 20 questions in total
-        </Text>
-        <Text style={styles.text}>
+        <Text style={styles.note}>Questions:</Text>
+        <Text style={styles.counter}>
           {this.getAnswersCount()} / {ListOfQandA.length}
         </Text>
         <View style={styles.RadioButtonStyle}>
@@ -91,10 +83,10 @@ class Questions extends Component {
           )}
         </View>
         <Button
-          buttonStyle={styles.buttonAnswer}
-          //   buttonStyle={{backgroundColor: 'eef5d8'}}
-          title="Next"
+          titleStyle={styles.buttonAnswer}
+          title="Next Question"
           type="clear"
+          color="#ef5f55"
           onPress={() => {
             this.setState(prev => ({
               currentQ: this.getNext(prev),
@@ -113,52 +105,56 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 25,
     borderColor: '#bbd8d8',
+    position: 'relative',
+    alignItems: 'center',
   },
 
   RadioButtonStyle: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignSelf: 'center',
-    color: '#FE5F55',
     fontSize: 30,
-    marginBottom: 20,
+    marginBottom: 60,
     marginTop: 40,
   },
 
   question: {
+    fontSize: 20,
+    marginBottom: 30,
+    color: '#4f6367',
+    // fontWeight: 'bold',
+  },
+
+  textAnswers: {
+    color: '#7a9e9f',
+    fontSize: 20,
+    alignSelf: 'center',
+    marginLeft: 10,
+    fontWeight: 'bold',
+  },
+
+  note: {
     fontSize: 22,
-    marginBottom: 30,
-    color: '#4f6367',
-  },
-
-  nextQstyle: {
-    marginTop: 30,
-    marginBottom: 30,
+    color: '#ef5f55',
+    // paddingBottom: 15,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    justifyContent: 'center',
     flexDirection: 'row',
-    paddingVertical: 5,
-    paddingTop: 50,
-    alignItems: 'center',
-    backgroundColor: '#FE5F55',
-    borderColor: '#fff',
-    borderWidth: 1,
-    borderRadius: 8,
-    width: 200,
-    color: '#FE5F55',
   },
 
-  text: {
-    fontSize: 26,
+  counter: {
+    fontSize: 30,
     color: '#4f6367',
-    paddingBottom: 20,
+    paddingBottom: 50,
     fontWeight: 'bold',
     // paddingTop: 10,
     alignSelf: 'center',
   },
 
   buttonAnswer: {
-    paddingTop: 60,
     flexDirection: 'row',
-    backgroundColor: '#eef5d8',
+    color: '#ef5f55',
+    fontSize: 23,
+    fontWeight: 'bold',
+    //backgroundColor: '#eef5d8',
   },
 });
 

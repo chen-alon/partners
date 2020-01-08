@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import {BottomNavigation, Text} from 'react-native-paper';
 import UserProfile from './UserProfile';
 import UserDetail from './UserDetail';
-import {View} from 'react-native';
 
 const HomeRoute = () => <UserDetail></UserDetail>;
-const ChatRoute = () => <Text>Albums</Text>;
+const ChatRoute = () => <Text>chats:</Text>;
 const ProfileRoute = () => <UserProfile></UserProfile>;
 
 class Navigation extends Component {

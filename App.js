@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {View, Button, Text, StyleSheet} from 'react-native';
 import firebase from 'firebase';
-import LoginForm from './src/components/LoginForm';
 import Navigation from './src/components/Navigation';
 import LoginFormNavigation from './src/components/LoginFormNavigation';
 
 console.disableYellowBox = true;
 
 class App extends Component {
-  state = {loggedIn: null};
+  state = {loggedIn: null, flag: false};
 
   componentDidMount() {
     let config = {

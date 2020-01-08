@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   ImageBackground,
-  Header,
   StyleSheet,
   View,
   TextInput,
@@ -12,16 +11,6 @@ import {
 import {DotIndicator} from 'react-native-indicators';
 import firebase from 'firebase';
 import {Button} from 'react-native-elements';
-
-// import {
-//   Container,
-//   Content,
-//   Header,
-//   Body,
-//   Left,
-//   Input,
-//   View
-// } from "native-base";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -67,7 +56,7 @@ class LoginForm extends Component {
 
   renderButton() {
     if (this.state.loading) {
-      return <DotIndicator />;
+      return <DotIndicator color="#fe5f55" />;
     }
     return (
       <Button
@@ -81,67 +70,71 @@ class LoginForm extends Component {
     const {navigate} = this.props.navigation;
 
     return (
-      <View>
-        {/* <ImageBackground
-                source={require("./images/start.jpg")}
-                style={styles.backgroundImage}       
-            /> */}
-
-        <View style={{paddingTop: 200}}>
-          <KeyboardAvoidingView behavior="position">
-            <Text style={styles.title}>hitchhiker</Text>
-            <View style={styles.Content2}>
-              <TextInput
-                style={styles.inputContainer}
-                textAlign="center"
-                placeholder={'Email'}
-                placeholderStyle={{
-                  fontFamily: 'AmaticSC-Bold',
-                }}
-                placeholderTextColor="#4f6367"
-                height={45}
-                autoCorrect={false}
-                onChangeText={email => this.setState({email})}
-                value={this.state.email}
-              />
-            </View>
-            <View style={styles.Content2}>
-              <TextInput
-                style={styles.inputContainer}
-                textAlign="center"
-                placeholder={'Password'}
-                placeholderStyle={{
-                  fontFamily: 'AmaticSC-Bold',
-                }}
-                placeholderTextColor="#4f6367"
-                secureTextEntry={true}
-                autoCorrect={false}
-                height={45}
-                onChangeText={password => this.setState({password})}
-                value={this.state.password}
-              />
-              <Text
-                style={styles.forgetPassword}
-                onPress={() => navigate('ForgotPasswordController')}>
-                Forgot your password?
-              </Text>
-            </View>
-            <View>{this.renderButton()}</View>
-            <View>
-              <Text style={styles.signIn}> Don't have an account yet?</Text>
-              <Text
-                onPress={() => navigate('CreateUser')}
-                style={{
-                  color: '#fe5f55',
-                  fontSize: 18,
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                }}>
-                Create
-              </Text>
-            </View>
-          </KeyboardAvoidingView>
-        </View>
+      <View style={styles.background}>
+        <ImageBackground
+          source={require('./images/vanishing_hitchhiker2.jpg')}
+          imageStyle={{opacity: 0.3}}
+          style={styles.backgroundImage}>
+          <View
+            style={{
+              justifyContent: 'center',
+              paddingTop: 180,
+            }}>
+            <KeyboardAvoidingView behavior="padding">
+              <Text style={styles.title}>hitchhiker</Text>
+              <View style={styles.Content2}>
+                <TextInput
+                  style={styles.inputContainer}
+                  textAlign="center"
+                  placeholder={'Email'}
+                  placeholderStyle={{
+                    fontFamily: 'AmaticSC-Bold',
+                  }}
+                  placeholderTextColor="#4f6367"
+                  height={45}
+                  autoCorrect={false}
+                  onChangeText={email => this.setState({email})}
+                  value={this.state.email}
+                />
+              </View>
+              <View style={styles.Content2}>
+                <TextInput
+                  style={styles.inputContainer}
+                  textAlign="center"
+                  placeholder={'Password'}
+                  placeholderStyle={{
+                    fontFamily: 'AmaticSC-Bold',
+                  }}
+                  placeholderTextColor="#4f6367"
+                  secureTextEntry={true}
+                  autoCorrect={false}
+                  height={45}
+                  onChangeText={password => this.setState({password})}
+                  value={this.state.password}
+                />
+                <Text
+                  style={styles.forgetPassword}
+                  onPress={() => navigate('ForgotPasswordController')}>
+                  Forgot your password?
+                </Text>
+              </View>
+              <View>{this.renderButton()}</View>
+              <View>
+                <Text style={styles.signIn}> Don't have an account yet?</Text>
+                <Text
+                  onPress={() => navigate('CreateUser')}
+                  style={{
+                    color: '#fe5f55',
+                    fontSize: 18,
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                  }}>
+                  Create
+                </Text>
+              </View>
+            </KeyboardAvoidingView>
+          </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -149,14 +142,18 @@ class LoginForm extends Component {
 
 const styles = StyleSheet.create({
   login: {
-    // borderWidth: 0.2,
+    //borderWidth: 0.2,
     borderRadius: 10,
     width: '30%',
     alignSelf: 'center',
     color: '#eef5d8',
     fontWeight: 'bold',
     backgroundColor: '#fe5f55',
-    //marginTop: 17,
+    marginBottom: 15,
+  },
+
+  background: {
+    flex: 1,
   },
 
   signIn: {
@@ -172,6 +169,8 @@ const styles = StyleSheet.create({
     fontFamily: 'LongCang-Regular',
     fontSize: 40,
     color: '#4f6367',
+    marginBottom: 15,
+    backgroundColor: 'transparent',
   },
 
   forgetPassword: {
@@ -201,9 +200,9 @@ const styles = StyleSheet.create({
   },
 
   backgroundImage: {
-    opacity: 0.5,
-    paddingTop: 580,
     resizeMode: 'cover',
+    flex: 1,
+    //justifyContent: 'center',
   },
 });
 

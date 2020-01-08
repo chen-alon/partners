@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {Button, CheckBox, Header} from 'react-native-elements';
 import firebase from 'firebase';
+import Partners from './Partners';
 //import Icon from 'react-native-vector-icons/FontAwesome'
 
 class CreateUser extends Component {
@@ -44,7 +45,7 @@ class CreateUser extends Component {
       checked: !this.state.checked,
     });
 
-  checkPassword = () => {
+  checkDetails = () => {
     if (this.state.email === '') {
       Alert.alert('Please enter email');
     } else if (
@@ -93,6 +94,20 @@ class CreateUser extends Component {
 
     return (
       <ScrollView style={styles.scroll}>
+        <Text
+          style={{
+            textAlign: 'left',
+            color: '#fe5f55',
+            fontSize: 20,
+            fontWeight: 'bold',
+            fontFamily: 'AmaticSC-Bold',
+            marginTop: 10,
+            marginBottom: 20,
+            marginLeft: 10,
+          }}
+          onPress={() => navigate('LoginForm')}>
+          {'<<'} Back
+        </Text>
         <Header
           centerComponent={{
             text: 'Register',
@@ -140,7 +155,7 @@ class CreateUser extends Component {
             />
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={this.checkPassword}>
+          <TouchableOpacity style={styles.button} onPress={this.checkDetails}>
             <Text style={styles.buttonText}>Sign up</Text>
           </TouchableOpacity>
         </View>

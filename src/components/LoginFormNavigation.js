@@ -3,11 +3,11 @@ import {createStackNavigator} from 'react-navigation-stack';
 import LoginForm from './LoginForm';
 import CreateUser from './CreateUser';
 import UserProfile from './UserProfile';
+import ForgotPasswordController from './ForgotPasswordController';
+
 // import Navigation from './Navigation';
 // import UserInformation from './UserInformation';
 // import Questions from './Questions';
-
-// import ForgotPasswordController from './ForgotPasswordController';
 
 const MainNavigator = createStackNavigator(
   {
@@ -17,8 +17,11 @@ const MainNavigator = createStackNavigator(
     CreateUser: {
       screen: CreateUser,
     },
-    Profile: {
+    Home: {
       screen: UserProfile,
+    },
+    ForgotPasswordController: {
+      screen: ForgotPasswordController,
     },
 
     // UserInformation: {
@@ -31,10 +34,6 @@ const MainNavigator = createStackNavigator(
 
     // Navigation: {
     //   screen: Navigation,
-    // },
-
-    // ForgotPasswordController: {
-    //   screen: ForgotPasswordController,
     // },
   },
 
