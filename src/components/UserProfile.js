@@ -16,7 +16,10 @@ export default class UserProfile extends Component {
       <ScrollView style={styles.scroll}>
         <View style={styles.container}>
           <View style={styles.header}></View>
-          <Image style={styles.avatar} source={require('./images/start.jpg')} />
+          <Image
+            style={styles.avatar}
+            source={require('./images/profile.jpg')}
+          />
           <View style={styles.body}>
             <View style={styles.bodyContent}>
               <Text style={styles.name}>user name</Text>
@@ -66,15 +69,15 @@ const styles = StyleSheet.create({
     height: 170,
   },
   avatar: {
-    width: 160,
-    height: 160,
-    borderRadius: 70,
+    width: 190,
+    height: 190,
+    borderRadius: 100,
     borderWidth: 2,
     borderColor: '#fe5f55',
     marginBottom: 10,
     alignSelf: 'center',
     position: 'absolute',
-    marginTop: 70,
+    marginTop: 50,
   },
   name: {
     fontSize: 22,

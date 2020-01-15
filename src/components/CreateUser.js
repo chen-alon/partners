@@ -12,30 +12,18 @@ import {
 } from 'react-native';
 import {Button, CheckBox, Header} from 'react-native-elements';
 import firebase from 'firebase';
-import Partners from './Partners';
+import AuthLoadingScreen from './AuthLoadingScreen';
+
 //import Icon from 'react-native-vector-icons/FontAwesome'
 
 class CreateUser extends Component {
-  static navigationOptions = ({navigation}) => {};
-  static navigationOptions = {
-    title: 'register',
-    // headerStyle: {
-    //     backgroundColor: '#F8F8F8'
-    // },
-    // headerTintColor: '#005D93',
-    // headerTitleStyle: {
-    //     fontSize: 26,
-    //     color: "#005D93",
-    //     fontFamily: "AmaticSC-Bold"
-    // },
-  };
-
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
       confirmPassword: '',
+      error: '',
       checked: false,
     };
   }
@@ -81,7 +69,7 @@ class CreateUser extends Component {
       email: '',
       password: '',
       error: '',
-      loading: false,
+      loading: true,
     });
   }
 
@@ -117,7 +105,6 @@ class CreateUser extends Component {
             backgroundColor: '#FE5F55',
             justifyContent: 'space-around',
           }}
-          onPress={() => navigate('LoginForm')}
         />
 
         <View style={styles.container}>

@@ -2,49 +2,44 @@ import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import LoginForm from './LoginForm';
 import CreateUser from './CreateUser';
-import UserProfile from './UserProfile';
 import ForgotPasswordController from './ForgotPasswordController';
-
-// import Navigation from './Navigation';
+import Questions from './Questions';
+import Navigation from './Navigation';
+import AuthLoadingScreen from './AuthLoadingScreen';
 // import UserInformation from './UserInformation';
-// import Questions from './Questions';
 
 const MainNavigator = createStackNavigator(
   {
+    AuthLoadingScreen: {
+      screen: AuthLoadingScreen,
+    },
     LoginForm: {
       screen: LoginForm,
     },
     CreateUser: {
       screen: CreateUser,
     },
-    Home: {
-      screen: UserProfile,
-    },
     ForgotPasswordController: {
       screen: ForgotPasswordController,
     },
-
+    Questions: {
+      screen: Questions,
+    },
+    Navigation: {
+      screen: Navigation,
+    },
     // UserInformation: {
     //   screen: UserInformation,
-    // },
-
-    // Questions: {
-    //   screen: Questions,
-    // },
-
-    // Navigation: {
-    //   screen: Navigation,
     // },
   },
 
   {
     headerMode: 'none',
+    initialRouteName: 'AuthLoadingScreen',
     navigationOptions: {
       headerVisible: false,
     },
   },
 );
 
-const LoginFormNavigation = createAppContainer(MainNavigator);
-
-export default LoginFormNavigation;
+export default createAppContainer(MainNavigator);

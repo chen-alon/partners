@@ -8,7 +8,6 @@ import {
   Text,
   Picker,
   Alert,
-  Image,
 } from 'react-native';
 import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';

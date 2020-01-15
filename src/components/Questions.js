@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, Alert} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {Button} from 'react-native-elements';
 import {ListOfQandA} from './ListOfQandA';
+import firebase from 'firebase';
 
 class Questions extends Component {
   constructor(props) {
@@ -10,7 +11,6 @@ class Questions extends Component {
     this.state = {
       ListOfQandA,
       currentQ: 0,
-      textButton: 'Next',
     };
   }
 
@@ -31,12 +31,6 @@ class Questions extends Component {
       if (!ListOfQandA[next].a) return next;
       next = (next + 1) % ListOfQandA.length;
     }
-  }
-
-  done() {
-    // if (this.state.numOfAnswer === 4) {
-    //     this.setState({textButton: "let's start"});
-    // }
   }
 
   renderQ(i, {q, aOptions}) {
@@ -70,12 +64,12 @@ class Questions extends Component {
   }
 
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
       <View style={styles.container}>
-        <Text style={styles.note}>Questions:</Text>
-        <Text style={styles.counter}>
-          {this.getAnswersCount()} / {ListOfQandA.length}
-        </Text>
+        <Text style={styles.note}>Answered:</Text>
+        <Text style={styles.counter}>{this.getAnswersCount()} / 15</Text>
         <View style={styles.RadioButtonStyle}>
           {this.renderQ(
             this.state.currentQ,
@@ -88,6 +82,9 @@ class Questions extends Component {
           type="clear"
           color="#ef5f55"
           onPress={() => {
+            if (this.getAnswersCount() === 15) {
+              navigate('Navigation');
+            }
             this.setState(prev => ({
               currentQ: this.getNext(prev),
             }));
