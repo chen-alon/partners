@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
+import firebase from 'firebase';
+import 'firebase/firestore';
 
 class Partners extends Component {
   constructor(props) {
@@ -51,6 +53,28 @@ class Partners extends Component {
             this.state.country === 'select country')))
     ) {
       Alert.alert('Missing details');
+    } else {
+      firebase
+        .firestore()
+        .collection('user')
+        .doc(firebase.auth().currentUser.uid)
+        .update({
+          area: this.state.area,
+          mainland: this.state.mainland,
+          country: this.state.country,
+          partnerAge: this.state.partnerAge,
+          partnerGender: this.state.partnerGender,
+          theme: this.state.theme,
+        })
+        .then(
+          this.props.navigation.navigate('Questions'),
+          this.setState({
+            isLoading: false,
+          }),
+        )
+        .catch(error => {
+          console.error('Error adding document: ', error);
+        });
     }
   };
 

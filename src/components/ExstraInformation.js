@@ -1,265 +1,160 @@
-// import React, { Component } from "react";
-// import { StyleSheet, ScrollView, View, TextInput } from "react-native";
-// import { Button, CheckBox } from "react-native-elements";
-// import firebase, { secondFirebaseInstance } from "./Firebase";
-// import { DotIndicator } from "react-native-indicators";
+import React, {Component} from 'react';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
+import {Header} from 'react-native-elements';
+import firebase from 'firebase';
+import 'firebase/firestore';
 
-// class ExstraInformation extends Component {
+class ExstraInformation extends Component {
+  static navigationOptions = {
+    title: 'Exstra Details',
+    headerStyle: {
+      backgroundColor: '#F8F8F8',
+    },
+  };
 
-//   static navigationOptions = {
-//     title: "ספר על עצמך",
-//     headerStyle: {
-//       backgroundColor: '#F8F8F8',
-//     },
-//     headerTintColor: '#005D93',
-//     headerTitleStyle: {
-//       fontSize: 26,
-//       color: "#005D93",
-//       fontFamily: "AmaticSC-Bold"
-//     },
-//   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      countries: '',
+      languages: '',
+      more: '',
+    };
+  }
 
-//   constructor() {
-//     super();
-//     this.ref = firebase.firestore().collection("user");
-//     this.state = {
-//       FirstName: "",
-//       LastName: "",
-//       Gender: "",
-//       DateOfBirth: "",
-//       Address: "",
-//       Email: "",
-//       Password: "",
-//       ConfirmPassword: "",
-//       PhoneNumber: "",
-//       uid: "",
-//       check: false,
-//       isLoading: false
-//     };
-//   }
-//   updateTextInput = (text, field) => {
-//     this.setState({ [field]: text });
-//   };
+  ExDetailsCheck = () => {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .update({
+        countries: this.state.countries,
+        languages: this.state.languages,
+        more: this.state.more,
+      })
+      .then(
+        this.props.navigation.navigate('Partners'),
+        this.setState({
+          isLoading: false,
+        }),
+      )
+      .catch(error => {
+        console.error('Error adding document: ', error);
+      });
+  };
 
-//   saveBoard() {
-//     this.setState({
-//       isLoading: true
-//     });
-//     if (Password === ConfirmPassword)
+  render() {
+    return (
+      <ScrollView style={styles.scroll}>
+        <Header
+          centerComponent={{
+            text: 'More about me',
+            style: {
+              color: '#bbd8d8',
+              fontSize: 25,
+              fontWeight: 'bold',
+              paddingBottom: 20,
+            },
+          }}
+          containerStyle={{
+            backgroundColor: '#FE5F55',
+            justifyContent: 'space-around',
+          }}
+        />
+        <View style={styles.container}>
+          <TextInput
+            style={styles.inputBox}
+            value={this.state.countries}
+            onChangeText={countries => this.setState({countries})}
+            placeholder={'countries'}
+            autoCapitalize="none"
+          />
+        </View>
 
-//     secondFirebaseInstance
-//       .auth()
-//       .createUserWithEmailAndPassword(this.state.Email, this.state.Password)
-//       .then(() => {
-//         this.setState({
-//           uid: secondFirebaseInstance.auth().currentUser.uid
-//         });
-//         this.ref.add({
-//           FirstName: this.state.FirstName,
-//           LastName: this.state.LastName,
-//           Gender: this.state.Gender,
-//           DateOfBirth: this.state.DateOfBirth,
-//           Address: this.state.Address,
-//           Email: this.state.Email,
-//           Password: this.state.Password,
-//           uid: this.state.uid
-//         });
-//         secondFirebaseInstance.auth().signOut();
-//         this.props.navigation.goBack();
-//       })
-//       .catch(error => {
-//         console.error("Error adding document: ", error);
-//         this.setState({
-//           isLoading: false
-//         });
-//       });
-//     // this.createNewUserRev2(this.state.Email, this.state.Password)
-//     // this.updateTextInput(id, "uid");
-//   }
+        <View style={styles.container}>
+          <TextInput
+            style={styles.inputBox}
+            value={this.state.languages}
+            onChangeText={languages => this.setState({languages})}
+            placeholder={'languages'}
+            autoCapitalize="none"
+          />
+        </View>
 
-//   checkBoxPressed = () =>
-//     this.setState({
-//       checked: !this.state.checked
-//     });
+        <View style={styles.container}>
+          <TextInput
+            style={styles.inputBox}
+            value={this.state.more}
+            onChangeText={more => this.setState({more})}
+            placeholder={'more'}
+            autoCapitalize="none"
+          />
+        </View>
 
-//   setAdmin = checked => {
-//     if (checked === true) {
-//       this.updateTextInput("Admin", "manager");
-//     }
-//   };
+        <TouchableOpacity style={styles.button}>
+          <Text onPress={this.ExDetailsCheck} style={styles.buttonText}>
+            Continue
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    );
+  }
+}
 
-//   render() {
-//     if (this.state.isLoading) {
-//       return (
-//         <View style={styles.activity}>
-//           <DotIndicator color="#004577" />
-//         </View>
-//       );
-//     }
-//     return (
-//       <ScrollView style={styles.container}>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"first name"}
-//             value={this.state.FirstName}
-//             onChangeText={text => this.updateTextInput(text, "FirstName")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"last name"}
-//             value={this.state.LastName}
-//             onChangeText={text => this.updateTextInput(text, "LastName")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"gender"}
-//             value={this.state.Gender}
-//             onChangeText={text => this.updateTextInput(text, "Gender")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"date of birth"}
-//             value={this.state.DateOfBirth}
-//             onChangeText={text => this.updateTextInput(text, "DateOfBirth")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"address"}
-//             value={this.state.Address}
-//             onChangeText={text => this.updateTextInput(text, "Address")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"email"}
-//             value={this.state.Email}
-//             onChangeText={text => this.updateTextInput(text, "Email")}
-//           />
-//         </View>
-//         <View style={styles.subContainer}>
-//           <TextInput
-//           style={{
-//             fontSize: 26,
-//             backgroundColor: "transparent",
-//             fontFamily: "AmaticSC-Bold",
-//             color: "#005D93"
-//           }}
-//           placeholderStyle={{
-//             fontFamily: "AmaticSC-Bold"
-//           }}
-//             placeholder={"phone number"}
-//             value={this.state.PhoneNumber}
-//             onChangeText={text => this.updateTextInput(text, "PhoneNumber")}
-//           />
-//         </View>
+const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#7a9e9f',
+  },
 
-//         <View>
-//           <CheckBox
-//             textStyle={{fontSize: 26, color:"#005D93"}}
-//             fontFamily= "AmaticSC-Bold"
-//             center
-//             title="מנהל"
-//             checked={this.state.checked}
-//             onPress={() => this.checkBoxPressed()}
-//           />
-//         </View>
+  container: {
+    flex: 1,
+    backgroundColor: '#EEF5D8',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingTop: 20,
+    marginTop: 5,
+    marginBottom: 5,
+  },
 
-//         <View style={{paddingTop: 20}}>
-//         <Button
-//           onPress={() => {
-//           this.setAdmin(this.state.checked);
-//           this.saveBoard();
-//       // this.createNewAcount(this.state.Email, this.state.PhoneNumber);
-// }}        >
-//           שמירת פרטים
-//         </Button>
+  inputBox: {
+    width: '85%',
+    margin: 10,
+    padding: 30,
+    fontSize: 18,
+    borderColor: '#d3d3d3',
+    color: '#4f6367',
+  },
 
-//         </View>
-//       </ScrollView>
-//     );
-//   }
-// }
+  button: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    marginBottom: 30,
+    paddingVertical: 5,
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FE5F55',
+    borderColor: '#fff',
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 200,
+  },
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 20
-//   },
-//   subContainer: {
-//     alignItems:'flex-end',
-//     flex: 1,
-//     marginBottom: 20,
-//     padding: 5,
-//     borderBottomWidth: 2,
-//     borderBottomColor: "#CCCCCC"
-//   },
-//   activity: {
-//     position: "absolute",
-//     left: 0,
-//     right: 0,
-//     top: 0,
-//     bottom: 0,
-//     alignItems: "center",
-//     justifyContent: "center"
-//   }
-// });
+  buttonText: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#bbd8d8',
+  },
+});
 
-// export default ExstraInformation;
+export default ExstraInformation;

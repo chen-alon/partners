@@ -20,10 +20,9 @@ class AuthLoadingScreen extends Component {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        user.uid;
         if (true) {
           // if answered all questions
-          props.navigation.navigate('Questions');
+          props.navigation.navigate('UserInformation');
         }
       } else {
         props.navigation.navigate('LoginForm');

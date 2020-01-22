@@ -7,10 +7,43 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
+  Alert,
 } from 'react-native';
 import firebase from 'firebase';
 
 export default class UserProfile extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isLoading: true,
+      tableData: [],
+      key: '',
+      uid: firebase.auth().currentUser.uid,
+    };
+  }
+
+  getName = () => {
+    const name = this.state.firstName;
+    if (name == null || name.length <= 0) return 'User';
+    return name;
+    // firebase
+    //   .firestore()
+    //   .collection('users')
+    //   .doc(this.state.uid)
+    //   .get()
+    //   .then(doc => {
+    //     if (doc.exists) {
+    //       return 'xxx';
+    //     } else {
+    //       // doc.data() will be undefined in this case
+    //       return 'user';
+    //     }
+    //   })
+    //   .catch(function(error) {
+    //     console.log('Error getting document:', error);
+    //   });
+  };
+
   render() {
     return (
       <ScrollView style={styles.scroll}>
@@ -22,11 +55,10 @@ export default class UserProfile extends Component {
           />
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>user name</Text>
-              <Text style={styles.info}>UX Designer / Mobile developer</Text>
+              <Text style={styles.name}>{this.getName}</Text>
+              <Text style={styles.info}>hitchhiker / 2020</Text>
               <Text style={styles.description}>
-                Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum
-                electram expetendis, omittam deseruisse consequuntur ius an,
+                Let's find your partner for your next vication
               </Text>
 
               <TouchableOpacity style={styles.buttonContainer}>

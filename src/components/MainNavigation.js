@@ -5,8 +5,10 @@ import CreateUser from './CreateUser';
 import ForgotPasswordController from './ForgotPasswordController';
 import Questions from './Questions';
 import Navigation from './Navigation';
+import UserInformation from './UserInformation';
 import AuthLoadingScreen from './AuthLoadingScreen';
-// import UserInformation from './UserInformation';
+import ExstraInformation from './ExstraInformation';
+import Partners from './Partners';
 
 const MainNavigator = createStackNavigator(
   {
@@ -28,9 +30,15 @@ const MainNavigator = createStackNavigator(
     Navigation: {
       screen: Navigation,
     },
-    // UserInformation: {
-    //   screen: UserInformation,
-    // },
+    UserInformation: {
+      screen: UserInformation,
+    },
+    ExstraInformation: {
+      screen: ExstraInformation,
+    },
+    Partners: {
+      screen: Partners,
+    },
   },
 
   {

@@ -10,7 +10,6 @@ import Navigation from './src/components/Navigation';
 import UserInformation from './src/components/UserInformation';
 import ForgotPasswordController from './src/components/ForgotPasswordController.js';
 import HomePage from './src/components/HomePage.js';
-import AboutUser from './src/components/AboutUser';
 import Partners from './src/components/Partners.js';
 import ExstraInformation from './src/components/ExstraInformation.js';
 import Questions from './src/components/Questions.js';

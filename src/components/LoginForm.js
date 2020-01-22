@@ -23,8 +23,6 @@ class LoginForm extends Component {
     };
   }
 
-  static navigationOptions = ({navigation}) => {};
-
   onButtonPress() {
     const {email, password} = this.state;
     this.setState({error: '', loading: true});

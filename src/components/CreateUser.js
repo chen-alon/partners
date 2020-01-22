@@ -2,17 +2,14 @@ import React, {Component} from 'react';
 import {
   StyleSheet,
   ScrollView,
-  ActivityIndicator,
   View,
   TextInput,
   TouchableOpacity,
   Text,
-  Image,
   Alert,
 } from 'react-native';
-import {Button, CheckBox, Header} from 'react-native-elements';
+import {CheckBox, Header} from 'react-native-elements';
 import firebase from 'firebase';
-import AuthLoadingScreen from './AuthLoadingScreen';
 
 //import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -69,7 +66,7 @@ class CreateUser extends Component {
       email: '',
       password: '',
       error: '',
-      loading: true,
+      loading: false,
     });
   }
 

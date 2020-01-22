@@ -12,6 +12,8 @@ import {
 import {Button, CheckBox, Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import {IconButton, Colors} from 'react-native-paper';
+import firebase from 'firebase';
+import 'firebase/firestore';
 
 //import firebase, { secondFirebaseInstance } from "./Firebase";
 //import { DotIndicator } from "react-native-indicators";
@@ -32,7 +34,6 @@ class UserInformation extends Component {
 
   constructor() {
     super();
-    //this.ref = firebase.firestore().collection("user");
     this.state = {
       firstName: '',
       lastName: '',
@@ -50,73 +51,35 @@ class UserInformation extends Component {
       this.state.lastName === '' ||
       this.state.gender === '' ||
       this.state.gender === 'gender' ||
-      this.state.dateOfBirth === '' ||
-      this.state.address === '' ||
-      this.state.phoneNumber === ''
+      this.state.dateOfBirth === ''
     ) {
       Alert.alert('Missing details');
+    } else {
+      this.setState({
+        isLoading: true,
+      });
+
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .set({
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          gender: this.state.gender,
+          dateOfBirth: this.state.dateOfBirth,
+        })
+        .then(
+          this.props.navigation.navigate('ExstraInformation'),
+          this.setState({
+            isLoading: false,
+          }),
+        )
+        .catch(error => {
+          console.error('Error adding document: ', error);
+        });
     }
   };
-
-  //   static navigationOptions = {
-  //     title: "יצירת משתמש חדש",
-  //     headerStyle: {
-  //       backgroundColor: '#F8F8F8',
-  //     },
-  //     headerTintColor: '#005D93',
-  //     headerTitleStyle: {
-  //       fontSize: 26,
-  //       color: "#005D93",
-  //       fontFamily: "AmaticSC-Bold"
-  //     },
-  //   };
-
-  //   constructor() {
-  //     super();
-  //  //   this.ref = firebase.firestore().collection("user");
-  //     this.state = {
-  //       uid: "",
-  //     };
-  //   }
-  //   updateTextInput = (text, field) => {
-  //     this.setState({ [field]: text });
-  //   };
-
-  //   saveBoard() {
-  //     this.setState({
-  //       isLoading: true
-  //     });
-  //     if (Password === ConfirmPassword)
-
-  //     secondFirebaseInstance
-  //       .auth()
-  //       .createUserWithEmailAndPassword(this.state.Email, this.state.Password)
-  //       .then(() => {
-  //         this.setState({
-  //           uid: secondFirebaseInstance.auth().currentUser.uid
-  //         });
-  //         this.ref.add({
-  //           FirstName: this.state.FirstName,
-  //           LastName: this.state.LastName,
-  //           Gender: this.state.Gender,
-  //           DateOfBirth: this.state.DateOfBirth,
-  //           Address: this.state.Address,
-  //           Email: this.state.Email,
-  //           Password: this.state.Password,
-  //           uid: this.state.uid
-  //         });
-  //         secondFirebaseInstance.auth().signOut();
-  //         this.props.navigation.goBack();
-  //       })
-  //       .catch(error => {
-  //         console.error("Error adding document: ", error);
-  //         this.setState({
-  //           isLoading: false
-  //         });
-  //       });
-  //     // this.createNewUserRev2(this.state.Email, this.state.Password)
-  //     // this.updateTextInput(id, "uid");
-  //   }
 
   render() {
     // if (this.state.isLoading) {
