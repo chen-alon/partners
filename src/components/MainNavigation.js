@@ -8,7 +8,7 @@ import Navigation from './Navigation';
 import UserInformation from './UserInformation';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import ExstraInformation from './ExstraInformation';
-import Partners from './Partners';
+import TravelingDetails from './TravelingDetails';
 
 const MainNavigator = createStackNavigator(
   {
@@ -36,8 +36,8 @@ const MainNavigator = createStackNavigator(
     ExstraInformation: {
       screen: ExstraInformation,
     },
-    Partners: {
-      screen: Partners,
+    TravelingDetails: {
+      screen: TravelingDetails,
     },
   },
 

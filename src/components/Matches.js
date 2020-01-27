@@ -14,9 +14,8 @@ import {
   FlatList,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
-// const UserDetail = props => {
 //const {userName, age, pic, percentage} = partner;
-class UserDetail extends Component {
+class Matches extends Component {
   //   render() {
   //     return (
   //       //   <Card>
@@ -228,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserDetail;
+export default Matches;

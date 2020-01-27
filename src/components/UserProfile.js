@@ -55,7 +55,7 @@ export default class UserProfile extends Component {
           />
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>{this.getName}</Text>
+              <Text style={styles.name}>Chen Alon</Text>
               <Text style={styles.info}>hitchhiker / 2020</Text>
               <Text style={styles.description}>
                 Let's find your partner for your next vication
@@ -71,11 +71,6 @@ export default class UserProfile extends Component {
                 <Text style={{color: '#eef5d8'}}>Account settings</Text>
               </TouchableOpacity>
               <TouchableOpacity>
-                {/* <Button
-                  title="Sign out"
-                  color="#fe5f55"
-                  onPress={() => firebase.auth().signOut()}
-                /> */}
                 <Text
                   style={{color: '#eef5d8', fontSize: 20, fontWeight: 'bold'}}
                   onPress={() => firebase.auth().signOut()}>

@@ -26,6 +26,22 @@ class AuthLoadingScreen extends Component {
         }
       } else {
         props.navigation.navigate('LoginForm');
+        // const ref = firebase
+        //   .firestore()
+        //   .collection('users')
+        //   .doc(JSON.parse(navigation.getParam('LastName')));
+        // ref.get().then(doc => {
+        //   if (doc.exists) {
+        //     props.navigation.navigate('LoginForm');
+        //     this.setState({
+        //       key: doc.id,
+        //       isLoading: false,
+        //     });
+        //   } else {
+        //     //console.log("No such document!");
+        //     props.navigation.navigate('UserInformation');
+        //   }
+        // });
       }
     });
   }

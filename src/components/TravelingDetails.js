@@ -8,13 +8,79 @@ import {
   Text,
   Picker,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import {Header} from 'react-native-elements';
-import DatePicker from 'react-native-datepicker';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
-class Partners extends Component {
+const months = [
+  {
+    itemKey: 1,
+    itemDescription: 'January',
+  },
+  {
+    itemKey: 2,
+    itemDescription: 'February',
+  },
+  {
+    itemKey: 3,
+    itemDescription: 'March',
+  },
+  {
+    itemKey: 4,
+    itemDescription: 'April',
+  },
+  {
+    itemKey: 5,
+    itemDescription: 'May',
+  },
+  {
+    itemKey: 6,
+    itemDescription: 'June',
+  },
+  {
+    itemKey: 7,
+    itemDescription: 'July',
+  },
+  {
+    itemKey: 8,
+    itemDescription: 'August',
+  },
+  {
+    itemKey: 9,
+    itemDescription: 'September',
+  },
+  {
+    itemKey: 10,
+    itemDescription: 'October',
+  },
+  {
+    itemKey: 11,
+    itemDescription: 'November',
+  },
+  {
+    itemKey: 12,
+    itemDescription: 'December',
+  },
+];
+
+// const months = [
+//   'January',
+//   'February',
+//   'March',
+//   'April',
+//   'May',
+//   'June',
+//   'July',
+//   'August',
+//   'September',
+//   'October',
+//   'November',
+//   'December',
+// ];
+
+class TravelingDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,10 +90,8 @@ class Partners extends Component {
       partnerAge: '',
       partnerGender: '',
       theme: '',
-      depart: new Date(),
-      return: new Date(),
-      maximumDate: new Date(),
       mode: 'israel',
+      selectedMonths: [],
     };
   }
 
@@ -56,7 +120,7 @@ class Partners extends Component {
     } else {
       firebase
         .firestore()
-        .collection('user')
+        .collection('users')
         .doc(firebase.auth().currentUser.uid)
         .update({
           area: this.state.area,
@@ -65,6 +129,7 @@ class Partners extends Component {
           partnerAge: this.state.partnerAge,
           partnerGender: this.state.partnerGender,
           theme: this.state.theme,
+          mode: this.state.mode,
         })
         .then(
           this.props.navigation.navigate('Questions'),
@@ -232,190 +297,193 @@ class Partners extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.scroll}>
-        <Header
-          centerComponent={{
-            text: 'Lets find your partner',
-            style: {
-              color: '#bbd8d8',
-              fontSize: 17,
-              fontWeight: 'bold',
-              fontFamily: 'LongCang-Regular',
-            },
-          }}
-          containerStyle={{
-            backgroundColor: '#FE5F55',
-            justifyContent: 'center',
-          }}
-        />
-        <View style={styles.container}>
-          <View style={styles.card}>
-            <View>
-              <TouchableHighlight
-                style={
-                  this.state.mode === 'israel'
-                    ? styles.buttonPress
-                    : styles.button
-                }
-                onPress={() => this.setState({mode: 'israel'})}>
-                <Text>ISRAEL</Text>
-              </TouchableHighlight>
-            </View>
+      <View style={{flex: 1}}>
+        <ImageBackground
+          source={require('./images/vanishing_hitchhiker2.jpg')}
+          imageStyle={{opacity: 0.3}}
+          style={{resizeMode: 'cover', flex: 1}}>
+          <ScrollView style={styles.scroll}>
+            <Header
+              centerComponent={{
+                text: 'Lets find your partner',
+                style: {
+                  color: '#bbd8d8',
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                  paddingBottom: 20,
+                },
+              }}
+              containerStyle={{
+                backgroundColor: '#FE5F55',
+                justifyContent: 'space-around',
+                marginBottom: 10,
+                borderRadius: 10,
+                borderWidth: 4,
+                borderColor: '#eef5d8',
+              }}
+            />
+            <View style={styles.container}>
+              <View style={styles.card}>
+                <View>
+                  <TouchableHighlight
+                    style={
+                      this.state.mode === 'israel'
+                        ? styles.buttonPress
+                        : styles.button
+                    }
+                    onPress={() => this.setState({mode: 'israel'})}>
+                    <Text>ISRAEL</Text>
+                  </TouchableHighlight>
+                </View>
 
-            <View>
-              <TouchableHighlight
-                style={
-                  this.state.mode === 'worldwide'
-                    ? styles.buttonPress
-                    : styles.button
-                }
-                onPress={() => this.setState({mode: 'worldwide'})}>
-                <Text>WORLDWIDE</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
+                <View>
+                  <TouchableHighlight
+                    style={
+                      this.state.mode === 'worldwide'
+                        ? styles.buttonPress
+                        : styles.button
+                    }
+                    onPress={() => this.setState({mode: 'worldwide'})}>
+                    <Text>WORLDWIDE</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
 
-          {this.state.mode === 'israel' ? (
-            <View>
-              <Text style={styles.text}>area</Text>
-              <Picker
-                style={styles.pickerStyle}
-                selectedValue={this.state.area}
-                onValueChange={itemValue => this.setState({area: itemValue})}>
-                <Picker.Item label="select area" value="select area" />
-                <Picker.Item label="no matter" value="no matter" />
-                <Picker.Item label="north" value="north" />
-                <Picker.Item label="south" value="south" />
-                <Picker.Item label="center" value="center" />
-                <Picker.Item label="sharon" value="sharon" />
-                <Picker.Item label="shomron" value="shomron" />
-                <Picker.Item label="shfela" value="shfela" />
-                <Picker.Item label="eilat" value="eilat" />
-                <Picker.Item label="tel aviv area" value="tlv" />
-                <Picker.Item label="jerusalem area" value="jeru" />
-              </Picker>
-            </View>
-          ) : (
-            <View>
-              <Text style={styles.text}>destination</Text>
-              <Picker
-                style={styles.pickerStyle}
-                selectedValue={this.state.mainland}
-                onValueChange={itemValue =>
-                  this.setState({mainland: itemValue})
-                }>
-                <Picker.Item label="select mainland" value="select mainland" />
-                <Picker.Item label="africa" value="africa" />
-                <Picker.Item label="antarctica" value="antarctica" />
-                <Picker.Item label="asia" value="asia" />
-                <Picker.Item
-                  label="australia and oceania"
-                  value="australia and oceania"
-                />
-                <Picker.Item label="central America" value="central America" />
-                <Picker.Item label="europe" value="europe" />
-                <Picker.Item label="north America" value="north America" />
-                <Picker.Item label="south America" value="south America" />
-              </Picker>
-              {this.state.mainland === 'select mainland' ||
-              this.state.mainland === '' ? (
-                <View></View>
+              {this.state.mode === 'israel' ? (
+                <View>
+                  <Text style={styles.text}>area</Text>
+                  <Picker
+                    style={styles.pickerStyle}
+                    selectedValue={this.state.area}
+                    onValueChange={itemValue =>
+                      this.setState({area: itemValue})
+                    }>
+                    <Picker.Item label="select area" value="select area" />
+                    <Picker.Item label="no matter" value="no matter" />
+                    <Picker.Item label="north" value="north" />
+                    <Picker.Item label="south" value="south" />
+                    <Picker.Item label="center" value="center" />
+                    <Picker.Item label="sharon" value="sharon" />
+                    <Picker.Item label="shomron" value="shomron" />
+                    <Picker.Item label="shfela" value="shfela" />
+                    <Picker.Item label="eilat" value="eilat" />
+                    <Picker.Item label="tel aviv area" value="tlv" />
+                    <Picker.Item label="jerusalem area" value="jeru" />
+                  </Picker>
+                </View>
               ) : (
-                this.listOfCountry()
+                <View>
+                  <Text style={styles.text}>destination</Text>
+                  <Picker
+                    style={styles.pickerStyle}
+                    selectedValue={this.state.mainland}
+                    onValueChange={itemValue =>
+                      this.setState({mainland: itemValue})
+                    }>
+                    <Picker.Item
+                      label="select mainland"
+                      value="select mainland"
+                    />
+                    <Picker.Item label="africa" value="africa" />
+                    <Picker.Item label="antarctica" value="antarctica" />
+                    <Picker.Item label="asia" value="asia" />
+                    <Picker.Item
+                      label="australia and oceania"
+                      value="australia and oceania"
+                    />
+                    <Picker.Item
+                      label="central America"
+                      value="central America"
+                    />
+                    <Picker.Item label="europe" value="europe" />
+                    <Picker.Item label="north America" value="north America" />
+                    <Picker.Item label="south America" value="south America" />
+                  </Picker>
+                  {this.state.mainland === 'select mainland' ||
+                  this.state.mainland === '' ? (
+                    <View></View>
+                  ) : (
+                    this.listOfCountry()
+                  )}
+                </View>
+              )}
+
+              <Text style={styles.text}>gender and age</Text>
+              <Picker
+                style={styles.pickerStyle}
+                selectedValue={this.state.partnerGender}
+                onValueChange={itemValue =>
+                  this.setState({partnerGender: itemValue})
+                }>
+                <Picker.Item label="select gender" value="select gender" />
+                <Picker.Item label="all" value="all" />
+                <Picker.Item label="man" value="man" />
+                <Picker.Item label="female" value="female" />
+              </Picker>
+
+              <Picker
+                style={styles.pickerStyle}
+                selectedValue={this.state.partnerAge}
+                onValueChange={itemValue =>
+                  this.setState({partnerAge: itemValue})
+                }>
+                <Picker.Item
+                  label="select age range"
+                  value="select age range"
+                />
+                <Picker.Item label="all" value="all" />
+                <Picker.Item label="until 20" value="until 20" />
+                <Picker.Item label="21-25" value="21-25" />
+                <Picker.Item label="26-30" value="26-30" />
+                <Picker.Item label="31-40" value="31-40" />
+                <Picker.Item label="41-45" value="41-45" />
+                <Picker.Item label="46-55" value="46-55" />
+                <Picker.Item label="56-65" value="56-65" />
+                <Picker.Item label="up 66" value="up 66" />
+              </Picker>
+
+              <Text style={styles.text}>dates</Text>
+
+              {this.state.mode === 'worldwide' ? (
+                <View>
+                  <Text style={styles.text}>the theme of the trip</Text>
+                  <Picker
+                    style={styles.pickerStyle}
+                    selectedValue={this.state.theme}
+                    onValueChange={itemValue =>
+                      this.setState({theme: itemValue})
+                    }>
+                    <Picker.Item label="select theme" value="select theme" />
+                    <Picker.Item label="all the theme" value="all the theme" />
+                    <Picker.Item label="holiday" value="holiday" />
+                    <Picker.Item
+                      label="organized tour"
+                      value="organized tour"
+                    />
+                    <Picker.Item label="volunteering" value="volunteering" />
+                    <Picker.Item label="backpackers" value="backpackers" />
+                    <Picker.Item label="ski/winter" value="ski/winter" />
+                    <Picker.Item label="cruise" value="cruise" />
+                    <Picker.Item label="field trip" value="field trip" />
+                    <Picker.Item label="couples trip" value="couples trip" />
+                    <Picker.Item
+                      label="flight and landing only"
+                      value="flight and landing only"
+                    />
+                  </Picker>
+                </View>
+              ) : (
+                <View></View>
               )}
             </View>
-          )}
-
-          <Text style={styles.text}>gender and age</Text>
-          <Picker
-            style={styles.pickerStyle}
-            selectedValue={this.state.partnerGender}
-            onValueChange={itemValue =>
-              this.setState({partnerGender: itemValue})
-            }>
-            <Picker.Item label="select gender" value="select gender" />
-            <Picker.Item label="all" value="all" />
-            <Picker.Item label="man" value="man" />
-            <Picker.Item label="female" value="female" />
-          </Picker>
-
-          <Picker
-            style={styles.pickerStyle}
-            selectedValue={this.state.partnerAge}
-            onValueChange={itemValue => this.setState({partnerAge: itemValue})}>
-            <Picker.Item label="select age range" value="select age range" />
-            <Picker.Item label="all" value="all" />
-            <Picker.Item label="until 20" value="until 20" />
-            <Picker.Item label="21-25" value="21-25" />
-            <Picker.Item label="26-30" value="26-30" />
-            <Picker.Item label="31-40" value="31-40" />
-            <Picker.Item label="41-45" value="41-45" />
-            <Picker.Item label="46-55" value="46-55" />
-            <Picker.Item label="56-65" value="56-65" />
-            <Picker.Item label="up 66" value="up 66" />
-          </Picker>
-
-          <Text style={styles.text}>dates</Text>
-
-          <DatePicker
-            style={{width: 250, marginTop: 10}}
-            date={this.state.depart}
-            mode="date"
-            placeholder={this.state.date}
-            format="DD/MM/YYYY"
-            minDate={this.state.maximumDate}
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-              },
-            }}
-            onDateChange={date => {
-              this.setState({depart: date});
-            }}
-          />
-
-          {this.state.mode === 'worldwide' ? (
-            <View>
-              <Text style={styles.text}>the theme of the trip</Text>
-              <Picker
-                style={styles.pickerStyle}
-                selectedValue={this.state.theme}
-                onValueChange={itemValue => this.setState({theme: itemValue})}>
-                <Picker.Item label="select theme" value="select theme" />
-                <Picker.Item label="all the theme" value="all the theme" />
-                <Picker.Item label="holiday" value="holiday" />
-                <Picker.Item label="organized tour" value="organized tour" />
-                <Picker.Item label="volunteering" value="volunteering" />
-                <Picker.Item label="backpackers" value="backpackers" />
-                <Picker.Item label="ski/winter" value="ski/winter" />
-                <Picker.Item label="cruise" value="cruise" />
-                <Picker.Item label="field trip" value="field trip" />
-                <Picker.Item label="couples trip" value="couples trip" />
-                <Picker.Item
-                  label="flight and landing only"
-                  value="flight and landing only"
-                />
-              </Picker>
-            </View>
-          ) : (
-            <View></View>
-          )}
-
-          <TouchableOpacity
-            style={styles.buttonSave}
-            onPress={this.handleDetails}>
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            <TouchableOpacity
+              style={styles.buttonSave}
+              onPress={this.handleDetails}>
+              <Text style={styles.buttonText}>Save</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </ImageBackground>
+      </View>
     );
   }
 }
@@ -424,7 +492,7 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#7a9e9f',
+    //backgroundColor: '#7a9e9f',
   },
 
   container: {
@@ -481,11 +549,11 @@ const styles = StyleSheet.create({
   },
 
   buttonSave: {
-    marginTop: 30,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 30,
     paddingVertical: 5,
-    alignSelf: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
     backgroundColor: '#FE5F55',
     borderColor: '#fff',
     borderWidth: 1,
@@ -506,4 +574,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Partners;
+export default TravelingDetails;

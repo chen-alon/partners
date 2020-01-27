@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import {CheckBox, Header} from 'react-native-elements';
 import firebase from 'firebase';
@@ -65,6 +66,7 @@ class CreateUser extends Component {
     this.setState({
       email: '',
       password: '',
+      confirmPassword: '',
       error: '',
       loading: false,
     });
@@ -72,63 +74,80 @@ class CreateUser extends Component {
 
   onLoginFailure(errorMessage) {
     this.setState({error: errorMessage, loading: false});
+    Alert.alert('Error: ' + errorMessage);
   }
 
   render() {
     const {navigate} = this.props.navigation;
 
     return (
-      <ScrollView style={styles.scroll}>
-        <Text
-          style={{
-            textAlign: 'left',
-            color: '#fe5f55',
-            fontSize: 20,
-            fontWeight: 'bold',
-            fontFamily: 'AmaticSC-Bold',
-            marginTop: 10,
-            marginBottom: 20,
-            marginLeft: 10,
-          }}
-          onPress={() => navigate('LoginForm')}>
-          {'<<'} Back
-        </Text>
-        <Header
-          centerComponent={{
-            text: 'Register',
-            style: {color: '#bbd8d8', fontSize: 30, fontWeight: 'bold'},
-          }}
-          containerStyle={{
-            backgroundColor: '#FE5F55',
-            justifyContent: 'space-around',
-          }}
-        />
+      <View style={{flex: 1}}>
+        <ImageBackground
+          source={require('./images/start.jpg')}
+          imageStyle={{opacity: 0.15}}
+          style={{resizeMode: 'cover', flex: 1}}>
+          <ScrollView style={styles.scroll}>
+            <Text
+              style={{
+                textAlign: 'left',
+                color: '#fe5f55',
+                fontSize: 20,
+                fontWeight: 'bold',
+                fontFamily: 'AmaticSC-Bold',
+                marginTop: 10,
+                marginBottom: 20,
+                marginLeft: 10,
+              }}
+              onPress={() => navigate('LoginForm')}>
+              {'<<'} Back
+            </Text>
+            <Header
+              centerComponent={{
+                text: 'Register',
+                style: {
+                  color: '#bbd8d8',
+                  fontSize: 25,
+                  fontWeight: 'bold',
+                  paddingBottom: 20,
+                },
+              }}
+              containerStyle={{
+                backgroundColor: '#FE5F55',
+                justifyContent: 'space-around',
+                marginBottom: 10,
+                borderRadius: 10,
+                borderWidth: 4,
+                borderColor: '#eef5d8',
+              }}
+            />
 
-        <View style={styles.container}>
-          <TextInput
-            style={styles.inputBox}
-            value={this.state.email}
-            onChangeText={email => this.setState({email})}
-            placeholder="Email"
-            autoCapitalize="none"
-          />
-          <TextInput
-            style={styles.inputBox}
-            value={this.state.password}
-            onChangeText={password => this.setState({password})}
-            placeholder="Password"
-            secureTextEntry={true}
-          />
-          <TextInput
-            style={styles.inputBox}
-            value={this.state.confirmPassword}
-            onChangeText={confirmPassword => this.setState({confirmPassword})}
-            placeholder="Confirm password"
-            secureTextEntry={true}
-          />
-          <View style={styles.container}>
+            <View style={styles.container}>
+              <TextInput
+                style={styles.inputBox}
+                value={this.state.email}
+                onChangeText={email => this.setState({email})}
+                placeholder="Email"
+                autoCapitalize="none"
+              />
+              <TextInput
+                style={styles.inputBox}
+                value={this.state.password}
+                onChangeText={password => this.setState({password})}
+                placeholder="Password"
+                secureTextEntry={true}
+              />
+              <TextInput
+                style={styles.inputBox}
+                value={this.state.confirmPassword}
+                onChangeText={confirmPassword =>
+                  this.setState({confirmPassword})
+                }
+                placeholder="Confirm password"
+                secureTextEntry={true}
+              />
+            </View>
             <CheckBox
-              containerStyle={{backgroundColor: '#eef5d8'}}
+              containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
               textStyle={{fontSize: 11, color: '#4F6367'}}
               fontFamily="AmaticSC-Bold"
               checkedColor="#4F6367"
@@ -137,13 +156,12 @@ class CreateUser extends Component {
               checked={this.state.checked}
               onPress={() => this.checkBoxPressed()}
             />
-          </View>
-
-          <TouchableOpacity style={styles.button} onPress={this.checkDetails}>
-            <Text style={styles.buttonText}>Sign up</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            <TouchableOpacity style={styles.button} onPress={this.checkDetails}>
+              <Text style={styles.buttonText}>Sign up</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </ImageBackground>
+      </View>
     );
   }
 }
@@ -152,7 +170,7 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#7a9e9f',
+    //backgroundColor: '#7a9e9f',
   },
 
   checkBoxContainer: {
@@ -162,10 +180,14 @@ const styles = StyleSheet.create({
   },
 
   container: {
+    marginTop: 10,
     flex: 1,
     backgroundColor: '#eef5d8',
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 4,
+    borderRadius: 5,
+    borderColor: '#fff',
   },
 
   inputBox: {
@@ -178,10 +200,11 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 30,
     paddingVertical: 5,
     alignItems: 'center',
+    alignSelf: 'center',
     backgroundColor: '#FE5F55',
     borderColor: '#fff',
     borderWidth: 1,

@@ -6,19 +6,13 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  ImageBackground,
 } from 'react-native';
 import {Header} from 'react-native-elements';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
 class ExstraInformation extends Component {
-  static navigationOptions = {
-    title: 'Exstra Details',
-    headerStyle: {
-      backgroundColor: '#F8F8F8',
-    },
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -39,8 +33,11 @@ class ExstraInformation extends Component {
         more: this.state.more,
       })
       .then(
-        this.props.navigation.navigate('Partners'),
+        this.props.navigation.navigate('TravelingDetails'),
         this.setState({
+          countries: '',
+          languages: '',
+          more: '',
           isLoading: false,
         }),
       )
@@ -51,58 +48,69 @@ class ExstraInformation extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.scroll}>
-        <Header
-          centerComponent={{
-            text: 'More about me',
-            style: {
-              color: '#bbd8d8',
-              fontSize: 25,
-              fontWeight: 'bold',
-              paddingBottom: 20,
-            },
-          }}
-          containerStyle={{
-            backgroundColor: '#FE5F55',
-            justifyContent: 'space-around',
-          }}
-        />
-        <View style={styles.container}>
-          <TextInput
-            style={styles.inputBox}
-            value={this.state.countries}
-            onChangeText={countries => this.setState({countries})}
-            placeholder={'countries'}
-            autoCapitalize="none"
-          />
-        </View>
+      <View style={{flex: 1}}>
+        <ImageBackground
+          source={require('./images/vanishing_hitchhiker2.jpg')}
+          imageStyle={{opacity: 0.3}}
+          style={{resizeMode: 'cover', flex: 1}}>
+          <ScrollView style={styles.scroll}>
+            <Header
+              centerComponent={{
+                text: 'More about me',
+                style: {
+                  color: '#bbd8d8',
+                  fontSize: 25,
+                  fontWeight: 'bold',
+                  paddingBottom: 20,
+                },
+              }}
+              containerStyle={{
+                backgroundColor: '#FE5F55',
+                justifyContent: 'space-around',
+                marginBottom: 10,
+                borderRadius: 10,
+                borderWidth: 4,
+                borderColor: '#eef5d8',
+              }}
+            />
+            <View style={styles.container}>
+              <TextInput
+                style={styles.inputBox}
+                value={this.state.countries}
+                onChangeText={countries => this.setState({countries})}
+                placeholder={'countries'}
+                autoCapitalize="none"
+              />
+            </View>
 
-        <View style={styles.container}>
-          <TextInput
-            style={styles.inputBox}
-            value={this.state.languages}
-            onChangeText={languages => this.setState({languages})}
-            placeholder={'languages'}
-            autoCapitalize="none"
-          />
-        </View>
+            <View style={styles.container}>
+              <TextInput
+                style={styles.inputBox}
+                value={this.state.languages}
+                onChangeText={languages => this.setState({languages})}
+                placeholder={'languages'}
+                autoCapitalize="none"
+              />
+            </View>
 
-        <View style={styles.container}>
-          <TextInput
-            style={styles.inputBox}
-            value={this.state.more}
-            onChangeText={more => this.setState({more})}
-            placeholder={'more'}
-            autoCapitalize="none"
-          />
-        </View>
+            <View style={styles.container}>
+              <TextInput
+                style={styles.inputBox}
+                value={this.state.more}
+                onChangeText={more => this.setState({more})}
+                placeholder={'more'}
+                autoCapitalize="none"
+              />
+            </View>
 
-        <TouchableOpacity style={styles.button}>
-          <Text onPress={this.ExDetailsCheck} style={styles.buttonText}>
-            Continue
-          </Text>
-        </TouchableOpacity>
-      </ScrollView>
+            <TouchableOpacity style={styles.button}>
+              <Text onPress={this.ExDetailsCheck} style={styles.buttonText}>
+                Continue
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </ImageBackground>
+      </View>
     );
   }
 }
@@ -111,35 +119,38 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#7a9e9f',
+    backgroundColor: 'transparent',
   },
 
   container: {
     flex: 1,
-    backgroundColor: '#EEF5D8',
+    backgroundColor: 'transparent',
     alignItems: 'flex-start',
     justifyContent: 'center',
     paddingTop: 20,
     marginTop: 5,
     marginBottom: 5,
+    borderRadius: 18,
+    borderColor: '#eef5d8',
+    borderWidth: 3,
   },
 
   inputBox: {
     width: '85%',
     margin: 10,
-    padding: 30,
+    padding: 25,
     fontSize: 18,
-    borderColor: '#d3d3d3',
+    //borderColor: '#d3d3d3',
+    borderRadius: 10,
     color: '#4f6367',
   },
 
   button: {
-    justifyContent: 'center',
-    alignContent: 'center',
+    marginTop: 10,
     marginBottom: 30,
     paddingVertical: 5,
-    alignSelf: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
     backgroundColor: '#FE5F55',
     borderColor: '#fff',
     borderWidth: 1,

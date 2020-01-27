@@ -8,6 +8,7 @@ import {
   Text,
   Picker,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import {Button, CheckBox, Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
@@ -38,6 +39,7 @@ class UserInformation extends Component {
       firstName: '',
       lastName: '',
       gender: '',
+      age: '',
       dateOfBirth: new Date(),
       maximumDate: new Date(),
       check: false,
@@ -50,8 +52,8 @@ class UserInformation extends Component {
       this.state.firstName === '' ||
       this.state.lastName === '' ||
       this.state.gender === '' ||
-      this.state.gender === 'gender' ||
-      this.state.dateOfBirth === ''
+      this.state.gender === 'gender'
+      //this.state.dateOfBirth === this.state.maximumDate
     ) {
       Alert.alert('Missing details');
     } else {
@@ -72,6 +74,10 @@ class UserInformation extends Component {
         .then(
           this.props.navigation.navigate('ExstraInformation'),
           this.setState({
+            firstName: '',
+            lastName: '',
+            gender: '',
+            dateOfBirth: new Date(),
             isLoading: false,
           }),
         )
@@ -79,6 +85,14 @@ class UserInformation extends Component {
           console.error('Error adding document: ', error);
         });
     }
+  };
+
+  calculateAge = dateOfBirth => {
+    var birthDate = new Date(dateOfBirth);
+    var difference = Date.now() - birthDate.getTime();
+    var ageDate = new Date(difference);
+
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
   };
 
   render() {
@@ -90,87 +104,105 @@ class UserInformation extends Component {
     //   );
     // }
     return (
-      <ScrollView style={styles.scroll}>
-        <Header
-          centerComponent={{
-            text: 'Details',
-            style: {color: '#bbd8d8', fontSize: 30, fontWeight: 'bold'},
-          }}
-          containerStyle={{
-            backgroundColor: '#FE5F55',
-            justifyContent: 'space-around',
-          }}
-        />
-        <View style={styles.container}>
-          <TextInput
-            style={styles.inputBox}
-            value={this.state.firstName}
-            onChangeText={firstName => this.setState({firstName})}
-            placeholder={'first name'}
-            autoCapitalize="none"
-          />
-          <TextInput
-            style={styles.inputBox}
-            value={this.state.lastName}
-            onChangeText={lastName => this.setState({lastName})}
-            placeholder={'last name'}
-            autoCapitalize="none"
-          />
-          <Picker
-            style={styles.pickerStyle}
-            selectedValue={this.state.gender}
-            onValueChange={itemValue => this.setState({gender: itemValue})}>
-            <Picker.Item label="gender" value="gender" />
-            <Picker.Item label="male" value="male" />
-            <Picker.Item label="female" value="female" />
-          </Picker>
-
-          <Text style={styles.date}>date of birth</Text>
-
-          <DatePicker
-            style={{width: 250, marginTop: 10}}
-            date={this.state.dateOfBirth}
-            mode="date"
-            placeholder={this.state.date}
-            format="DD/MM/YYYY"
-            minDate="01-01-1920"
-            maxDate={this.state.maximumDate}
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-              },
-              // ... You can check the source to find the other keys.
-            }}
-            onDateChange={date => {
-              this.setState({dateOfBirth: date});
-            }}
-          />
-
-          <View style={styles.pic}>
-            <Text style={styles.text}>upload picture</Text>
-
-            <IconButton
-              style={{paddingTop: 13}}
-              icon="camera"
-              color={Colors.red500}
-              size={25}
-              onPress={() => console.log('Pressed')}
+      <View style={{flex: 1}}>
+        <ImageBackground
+          source={require('./images/vanishing_hitchhiker2.jpg')}
+          imageStyle={{opacity: 0.3}}
+          style={{resizeMode: 'cover', flex: 1}}>
+          <ScrollView style={styles.scroll}>
+            <Header
+              centerComponent={{
+                text: 'Details',
+                style: {
+                  color: '#bbd8d8',
+                  fontSize: 25,
+                  fontWeight: 'bold',
+                  paddingBottom: 20,
+                },
+              }}
+              containerStyle={{
+                backgroundColor: '#FE5F55',
+                justifyContent: 'space-around',
+                marginBottom: 10,
+                borderRadius: 10,
+                borderWidth: 4,
+                borderColor: '#eef5d8',
+              }}
             />
-          </View>
+            <View style={styles.container}>
+              <TextInput
+                style={styles.inputBox}
+                value={this.state.firstName}
+                onChangeText={firstName => this.setState({firstName})}
+                placeholder={'first name'}
+                autoCapitalize="none"
+              />
+              <TextInput
+                style={styles.inputBox}
+                value={this.state.lastName}
+                onChangeText={lastName => this.setState({lastName})}
+                placeholder={'last name'}
+                autoCapitalize="none"
+              />
+              <Picker
+                style={styles.pickerStyle}
+                selectedValue={this.state.gender}
+                onValueChange={itemValue => this.setState({gender: itemValue})}>
+                <Picker.Item label="gender" value="gender" />
+                <Picker.Item label="male" value="male" />
+                <Picker.Item label="female" value="female" />
+              </Picker>
 
-          <TouchableOpacity style={styles.button} onPress={this.handleDetails}>
-            <Text style={styles.buttonText}>Countine</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+              <Text style={styles.date}>date of birth</Text>
+
+              <DatePicker
+                style={{width: 250, marginTop: 10}}
+                date={this.state.dateOfBirth}
+                mode="date"
+                placeholder={this.state.date}
+                format="DD/MM/YYYY"
+                minDate="01-01-1920"
+                maxDate={this.state.maximumDate}
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateIcon: {
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0,
+                  },
+                  dateInput: {
+                    marginLeft: 36,
+                  },
+                  // ... You can check the source to find the other keys.
+                }}
+                onDateChange={date => {
+                  this.setState({dateOfBirth: date});
+                }}
+              />
+              <Text>{this.calculateAge(this.state.dateOfBirth)}</Text>
+
+              <View style={styles.pic}>
+                <Text style={styles.text}>upload picture</Text>
+
+                <IconButton
+                  style={{paddingTop: 13}}
+                  icon="camera"
+                  color={Colors.red500}
+                  size={25}
+                  onPress={() => console.log('Pressed')}
+                />
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.handleDetails}>
+              <Text style={styles.buttonText}>Countine</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </ImageBackground>
+      </View>
     );
   }
 }
@@ -179,31 +211,35 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#7a9e9f',
+    backgroundColor: 'transparent',
   },
 
   container: {
     flex: 1,
-    backgroundColor: '#EEF5D8',
+    //backgroundColor: '#EEF5D8',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
+    //borderWidth: 4,
+    //borderRadius: 10,
+    //borderColor: '#fff',
   },
 
   inputBox: {
     width: '85%',
     margin: 10,
     padding: 15,
-    fontSize: 16,
+    fontSize: 18,
     borderColor: '#d3d3d3',
-    borderBottomWidth: 1,
+    borderBottomWidth: 1.4,
     color: '#4f6367',
   },
 
   text: {
     fontSize: 16,
     color: '#4f6367',
-    paddingBottom: 5,
-    paddingTop: 20,
+    marginTop: 20,
+    marginBottom: 20,
     alignSelf: 'flex-start',
   },
 
@@ -217,7 +253,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 30,
     paddingVertical: 5,
     alignItems: 'center',
