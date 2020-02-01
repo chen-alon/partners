@@ -10,75 +10,10 @@ import {
   Alert,
   ImageBackground,
 } from 'react-native';
+// import LabelSelect from './common/LabelSelect';
 import {Header} from 'react-native-elements';
 import firebase from 'firebase';
 import 'firebase/firestore';
-
-const months = [
-  {
-    itemKey: 1,
-    itemDescription: 'January',
-  },
-  {
-    itemKey: 2,
-    itemDescription: 'February',
-  },
-  {
-    itemKey: 3,
-    itemDescription: 'March',
-  },
-  {
-    itemKey: 4,
-    itemDescription: 'April',
-  },
-  {
-    itemKey: 5,
-    itemDescription: 'May',
-  },
-  {
-    itemKey: 6,
-    itemDescription: 'June',
-  },
-  {
-    itemKey: 7,
-    itemDescription: 'July',
-  },
-  {
-    itemKey: 8,
-    itemDescription: 'August',
-  },
-  {
-    itemKey: 9,
-    itemDescription: 'September',
-  },
-  {
-    itemKey: 10,
-    itemDescription: 'October',
-  },
-  {
-    itemKey: 11,
-    itemDescription: 'November',
-  },
-  {
-    itemKey: 12,
-    itemDescription: 'December',
-  },
-];
-
-// const months = [
-//   'January',
-//   'February',
-//   'March',
-//   'April',
-//   'May',
-//   'June',
-//   'July',
-//   'August',
-//   'September',
-//   'October',
-//   'November',
-//   'December',
-// ];
 
 class TravelingDetails extends Component {
   constructor(props) {
@@ -91,9 +26,89 @@ class TravelingDetails extends Component {
       partnerGender: '',
       theme: '',
       mode: 'israel',
-      selectedMonths: [],
+      // months: [
+      //   {
+      //     name: 'January',
+      //     isSelected: false,
+      //     value: 1,
+      //   },
+      //   {
+      //     name: 'February',
+      //     isSelected: false,
+      //     value: 2,
+      //   },
+      //   {
+      //     name: 'March',
+      //     isSelected: false,
+      //     value: 3,
+      //   },
+      //   {
+      //     name: 'April',
+      //     isSelected: false,
+      //     value: 4,
+      //   },
+      //   {
+      //     name: 'May',
+      //     isSelected: false,
+      //     value: 5,
+      //   },
+      //   {
+      //     name: 'June',
+      //     isSelected: false,
+      //     value: 6,
+      //   },
+      //   {
+      //     name: 'July',
+      //     isSelected: false,
+      //     value: 7,
+      //   },
+      //   {
+      //     name: 'August',
+      //     isSelected: false,
+      //     value: 8,
+      //   },
+      //   {
+      //     name: 'September',
+      //     isSelected: false,
+      //     value: 9,
+      //   },
+      //   {
+      //     name: 'October',
+      //     isSelected: false,
+      //     value: 10,
+      //   },
+      //   {
+      //     name: 'November',
+      //     isSelected: false,
+      //     value: 11,
+      //   },
+      //   {
+      //     name: 'December',
+      //     isSelected: false,
+      //     value: 12,
+      //   },
+      // ],
     };
+    // this.selectConfirm = this.selectConfirm.bind(this);
+    // this.deleteItem = this.deleteItem.bind(this);
   }
+
+  // selectConfirm(list) {
+  //   let {months} = this.state;
+  //   for (let item of list) {
+  //     let index = arr.findIndex(ele => ele === item);
+  //     if (~index) months[index].isSelected = true;
+  //     else continue;
+  //   }
+  //   this.setState({arr: arr});
+  // }
+
+  // deleteItem(item) {
+  //   let {months} = this.state;
+  //   let index = months.findIndex(a => a === item);
+  //   months[index].isSelected = false;
+  //   this.setState({months: months});
+  // }
 
   handleDetails = () => {
     if (
@@ -104,11 +119,19 @@ class TravelingDetails extends Component {
         this.state.partnerGender === 'select gender' ||
         this.state.partnerAge === '' ||
         this.state.partnerAge === 'select age range')
+        // this.state.months === '' ||
+        // this.state.months === 'select months')
     ) {
       Alert.alert('Missing details');
     } else if (
       this.state.mode === 'worldwide' &&
-      (this.state.theme === '' ||
+      // (this.state.months === '' ||
+      //   this.state.months === 'select months' ||
+        (this.state.partnerGender === '' ||
+        this.state.partnerGender === 'select gender' ||
+        this.state.partnerAge === '' ||
+        this.state.partnerAge === 'select age range' ||
+        this.state.theme === '' ||
         this.state.theme === 'select theme' ||
         this.state.mainland === '' ||
         this.state.mainland === 'select mainland' ||
@@ -130,6 +153,7 @@ class TravelingDetails extends Component {
           partnerGender: this.state.partnerGender,
           theme: this.state.theme,
           mode: this.state.mode,
+          //months: this.state.months,
         })
         .then(
           this.props.navigation.navigate('Questions'),
@@ -442,7 +466,44 @@ class TravelingDetails extends Component {
                 <Picker.Item label="up 66" value="up 66" />
               </Picker>
 
-              <Text style={styles.text}>dates</Text>
+              <Text style={styles.text}>period</Text>
+              {/* <LabelSelect
+                title="Checkbox"
+                ref="select months"
+                style={styles.labelSelect}
+                onConfirm={this.selectConfirm}>
+                {this.state.months
+                  .filter(item => item.isSelected)
+                  .map((item, index) => (
+                    <LabelSelect.Label
+                      key={'label-' + index}
+                      data={item}
+                      onCancel={() => {
+                        this.deleteItem(item);
+                      }}>
+                      {item.name}
+                    </LabelSelect.Label>
+                  ))}
+                {this.state.months
+                  .filter(item => !item.isSelected)
+                  .map((item, index) => (
+                    <LabelSelect.ModalItem
+                      key={'modal-item-' + index}
+                      data={item}>
+                      {item.name}
+                    </LabelSelect.ModalItem>
+                  ))}
+              </LabelSelect> */}
+
+              {/* <Picker
+                style={styles.pickerStyle}
+                selectedValue={this.state.selectedMonths}
+                onValueChange={months =>
+                  this.setState({selectedMonths: months})
+                }>
+                <Picker.Item label="select months" value="select months" />
+                {monthsItems}
+              </Picker> */}
 
               {this.state.mode === 'worldwide' ? (
                 <View>
@@ -500,6 +561,16 @@ const styles = StyleSheet.create({
     padding: 30,
     backgroundColor: '#EEF5D8',
     justifyContent: 'center',
+  },
+
+  labelSelect: {
+    marginTop: 5,
+    marginBottom: 20,
+    padding: 5,
+    borderWidth: 1,
+    borderRadius: 6,
+    borderStyle: 'dashed',
+    borderColor: '#6dc2a2',
   },
 
   text: {

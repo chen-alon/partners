@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {BottomNavigation, Text} from 'react-native-paper';
 import UserProfile from './UserProfile';
 import Matches from './Matches';
+//import Chat from './Chat';
+// <Chat></Chat>;
 
 const HomeRoute = () => <Matches></Matches>;
 const ChatRoute = () => <Text>chats:</Text>;

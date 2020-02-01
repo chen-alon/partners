@@ -12,8 +12,6 @@ import {
 import {CheckBox, Header} from 'react-native-elements';
 import firebase from 'firebase';
 
-//import Icon from 'react-native-vector-icons/FontAwesome'
-
 class CreateUser extends Component {
   constructor(props) {
     super(props);
@@ -74,7 +72,7 @@ class CreateUser extends Component {
 
   onLoginFailure(errorMessage) {
     this.setState({error: errorMessage, loading: false});
-    Alert.alert('Error: ' + errorMessage);
+    Alert.alert('Login fail with error: ' + errorMessage);
   }
 
   render() {
@@ -83,7 +81,7 @@ class CreateUser extends Component {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('./images/start.jpg')}
+          source={require('./images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.15}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>
@@ -99,7 +97,7 @@ class CreateUser extends Component {
                 marginLeft: 10,
               }}
               onPress={() => navigate('LoginForm')}>
-              {'<<'} Back
+              {'<<'} Already have an account
             </Text>
             <Header
               centerComponent={{

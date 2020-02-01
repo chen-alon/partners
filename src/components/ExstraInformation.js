@@ -78,7 +78,7 @@ class ExstraInformation extends Component {
                 style={styles.inputBox}
                 value={this.state.countries}
                 onChangeText={countries => this.setState({countries})}
-                placeholder={'countries'}
+                placeholder={'the countries I visited'}
                 autoCapitalize="none"
               />
             </View>
@@ -88,7 +88,7 @@ class ExstraInformation extends Component {
                 style={styles.inputBox}
                 value={this.state.languages}
                 onChangeText={languages => this.setState({languages})}
-                placeholder={'languages'}
+                placeholder={'languages i know'}
                 autoCapitalize="none"
               />
             </View>
@@ -98,7 +98,7 @@ class ExstraInformation extends Component {
                 style={styles.inputBox}
                 value={this.state.more}
                 onChangeText={more => this.setState({more})}
-                placeholder={'more'}
+                placeholder={'more about me'}
                 autoCapitalize="none"
               />
             </View>

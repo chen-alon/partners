@@ -20,26 +20,13 @@ import 'firebase/firestore';
 //import { DotIndicator } from "react-native-indicators";
 
 class UserInformation extends Component {
-  static navigationOptions = {
-    title: 'Details',
-    headerStyle: {
-      backgroundColor: '#F8F8F8',
-    },
-    // headerTintColor: '#005D93',
-    // headerTitleStyle: {
-    //     fontSize: 26,
-    //     color: "#005D93",
-    //     fontFamily: "AmaticSC-Bold"
-    // },
-  };
-
   constructor() {
     super();
     this.state = {
       firstName: '',
       lastName: '',
       gender: '',
-      age: '',
+      age: 0,
       dateOfBirth: new Date(),
       maximumDate: new Date(),
       check: false,
@@ -52,10 +39,15 @@ class UserInformation extends Component {
       this.state.firstName === '' ||
       this.state.lastName === '' ||
       this.state.gender === '' ||
-      this.state.gender === 'gender'
+      this.state.gender === 'gender' ||
+      this.state.age === 0
       //this.state.dateOfBirth === this.state.maximumDate
     ) {
-      Alert.alert('Missing details');
+      Alert.alert(
+        'Missing details',
+        // [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+        // {cancelable: false},
+      );
     } else {
       this.setState({
         isLoading: true,
@@ -70,6 +62,7 @@ class UserInformation extends Component {
           lastName: this.state.lastName,
           gender: this.state.gender,
           dateOfBirth: this.state.dateOfBirth,
+          age: this.state.age,
         })
         .then(
           this.props.navigation.navigate('ExstraInformation'),
@@ -77,6 +70,7 @@ class UserInformation extends Component {
             firstName: '',
             lastName: '',
             gender: '',
+            age: '',
             dateOfBirth: new Date(),
             isLoading: false,
           }),
@@ -87,22 +81,52 @@ class UserInformation extends Component {
     }
   };
 
-  calculateAge = dateOfBirth => {
-    var birthDate = new Date(dateOfBirth);
-    var difference = Date.now() - birthDate.getTime();
-    var ageDate = new Date(difference);
+  // calculateAge() {
+  //   var birthDate = new Date(this.state.dateOfBirth);
+  //   var difference = Date.now() - birthDate.getTime();
+  //   var ageDate = new Date(difference);
+  //   var ageNum = Math.abs(ageDate.getUTCFullYear() - 1970);
 
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  //   this.setState({age: ageNum}, () => {
+  //     // this will have the latest this.state.age1
+  //     console.log('Age:', this.state.age);
+  //   });
+  // }
+
+  handleChange_age = dateOfBirth => {
+    Alert.alert('here');
+    console.log('DOB:', dateOfBirth);
+
+    this.setState({dob1: dateOfBirth}, () => {
+      // example of setState callback
+      // this will have the latest this.state.dob1
+      console.log(this.state.dob1);
+    });
+
+    // call calculate_age with event.target.value
+    var age_latest = {age_latest: this.calculate_age(doc1)};
+    console.log(age_latest);
+
+    this.setState({age: age_latest}, () => {
+      // this will have the latest this.state.age1
+      console.log('Age:', this.state.age);
+    });
+  };
+
+  calculate_age = date => {
+    var today = new Date();
+    var birthDate = new Date(date); // create a date object directly from `dob1` argument
+    var age_now = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    var d = today.getDate() - birthDate.getDate();
+    if (m < 0 || (m === 0 && d < 0)) {
+      age_now--;
+    }
+    console.log(age_now);
+    return age_now;
   };
 
   render() {
-    // if (this.state.isLoading) {
-    //   return (
-    //     <View style={styles.activity}>
-    //       <DotIndicator color="#004577" />
-    //     </View>
-    //   );
-    // }
     return (
       <View style={{flex: 1}}>
         <ImageBackground
@@ -175,13 +199,22 @@ class UserInformation extends Component {
                   dateInput: {
                     marginLeft: 36,
                   },
-                  // ... You can check the source to find the other keys.
                 }}
                 onDateChange={date => {
                   this.setState({dateOfBirth: date});
+                  this.setState({age: this.calculate_age(date)}, () =>
+                    console.log(this.state.age),
+                  );
                 }}
               />
-              <Text>{this.calculateAge(this.state.dateOfBirth)}</Text>
+
+              {this.state.age != '0' ? (
+                <View>
+                  <Text style={styles.age}>age : {this.state.age}</Text>
+                </View>
+              ) : (
+                <View></View>
+              )}
 
               <View style={styles.pic}>
                 <Text style={styles.text}>upload picture</Text>
@@ -250,6 +283,13 @@ const styles = StyleSheet.create({
     color: '#4f6367',
     paddingBottom: 1,
     paddingTop: 20,
+  },
+
+  age: {
+    fontSize: 15,
+    color: '#4f6367',
+    paddingTop: 6,
+    fontWeight: 'bold',
   },
 
   button: {

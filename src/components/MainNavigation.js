@@ -17,6 +17,9 @@ const MainNavigator = createStackNavigator(
     },
     LoginForm: {
       screen: LoginForm,
+      navigationOptions: () => ({
+        header: null,
+      }),
     },
     CreateUser: {
       screen: CreateUser,
@@ -26,6 +29,10 @@ const MainNavigator = createStackNavigator(
     },
     Questions: {
       screen: Questions,
+      navigationOptions: () => ({
+        header: null,
+        HeaderProps: null,
+      }),
     },
     Navigation: {
       screen: Navigation,
@@ -46,6 +53,7 @@ const MainNavigator = createStackNavigator(
     initialRouteName: 'AuthLoadingScreen',
     navigationOptions: {
       headerVisible: false,
+      header: null,
     },
   },
 );

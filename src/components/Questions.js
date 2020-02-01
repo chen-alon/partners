@@ -6,6 +6,9 @@ import {ListOfQandA} from './ListOfQandA';
 import firebase from 'firebase';
 
 class Questions extends Component {
+  static navigationOptions = {
+    headerLeft: null,
+  };
   constructor(props) {
     super(props);
     this.state = {

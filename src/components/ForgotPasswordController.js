@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
-import {Text, View, TextInput, Alert, ImageBackground} from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  Alert,
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import * as firebase from 'firebase';
 import Button from './common/Button';
 import {DotIndicator} from 'react-native-indicators';
 
 export default class ForgotPasswordController extends Component {
-  static navigationOptions = ({navigation}) => {};
   static defaultProps = {
-    backgroundColor: '#fff',
-    titleText: 'Forgot Password',
     submitText: 'send',
     placeHolderText: 'example@domain.com',
   };
@@ -20,6 +25,7 @@ export default class ForgotPasswordController extends Component {
       spinner: false,
     };
   }
+
   renderButton() {
     if (this.state.spinner) {
       return <DotIndicator color="#fe5f55" />;
@@ -35,17 +41,13 @@ export default class ForgotPasswordController extends Component {
     );
   }
 
-  /**
-   * Validate email
-   */
+  //Validate email
   validateEmail = function(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   };
 
-  /**
-   * Button submit pressed
-   */
+  //Button submit pressed
   btnSubmitPress() {
     if (this.state.email.trim().length == 0) {
       Alert.alert(
@@ -66,9 +68,7 @@ export default class ForgotPasswordController extends Component {
     }
   }
 
-  /**
-   * forgot pasword function
-   */
+  //Forgot pasword function
   callForgotPassword() {
     firebase
       .auth()
@@ -88,9 +88,7 @@ export default class ForgotPasswordController extends Component {
       });
   }
 
-  /**
-   * Button close pressed
-   */
+  //Button close pressed
   btnClosePress() {
     this.props.callbackAfterForgotPassword(0, this.props.otherParamsToSend);
   }
@@ -104,37 +102,17 @@ export default class ForgotPasswordController extends Component {
           source={require('./images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
-          <View>
+          <ScrollView style={{flex: 1, padding: 20}}>
             <Text
-              style={{
-                textAlign: 'left',
-                color: '#fe5f55',
-                fontSize: 20,
-                fontWeight: 'bold',
-                fontFamily: 'AmaticSC-Bold',
-                marginTop: 20,
-                marginLeft: 10,
-              }}
+              style={styles.backButton}
               onPress={() => navigate('LoginForm')}>
               {'<<'} Back
             </Text>
-          </View>
-          <View>
+            <Text style={styles.header}>Forgot Password</Text>
+
             <View style={{paddingTop: 100}}>
               <TextInput
-                style={{
-                  borderColor: '#000',
-                  borderRadius: 10,
-                  position: 'relative',
-                  borderWidth: 0.2,
-                  fontSize: 15,
-                  width: '80%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  alignSelf: 'center',
-                  backgroundColor: 'transparent',
-                  fontFamily: 'AmaticSC-Bold',
-                }}
+                style={styles.inputBox}
                 autoCorrect={false}
                 keyboardType={'email-address'}
                 textAlign="center"
@@ -148,11 +126,45 @@ export default class ForgotPasswordController extends Component {
                 onChangeText={email => this.setState({email})}
                 value={this.state.email}
               />
+              <View style={{paddingTop: 30}}>{this.renderButton()}</View>
             </View>
-            <View style={{paddingTop: 30}}>{this.renderButton()}</View>
-          </View>
+          </ScrollView>
         </ImageBackground>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  inputBox: {
+    borderColor: '#000',
+    borderRadius: 10,
+    position: 'relative',
+    borderWidth: 0.2,
+    fontSize: 16,
+    width: '85%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
+    fontFamily: 'AmaticSC-Bold',
+  },
+
+  header: {
+    color: '#7a9e9f',
+    fontSize: 40,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+
+  backButton: {
+    textAlign: 'left',
+    color: '#fe5f55',
+    fontSize: 20,
+    fontWeight: 'bold',
+    fontFamily: 'AmaticSC-Bold',
+    marginTop: 10,
+    marginBottom: 20,
+    marginLeft: 10,
+  },
+});
