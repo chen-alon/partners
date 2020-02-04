@@ -1,9 +1,33 @@
 import React, {Component} from 'react';
 import firebase from 'firebase';
 import {DotIndicator} from 'react-native-indicators';
-import {View, ImageBackground} from 'react-native';
+import {View, ImageBackground, BackHandler, Alert} from 'react-native';
 
 class AuthLoadingScreen extends Component {
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  //Handling Android Back Button Press in React Native
+  onBackPress = () => {
+    //Code to display alert message when use click on android device back button.
+    // Alert.alert(
+    //   'EXIT from App',
+    //   'Do you want to exit from app?',
+    //   [
+    //     {text: 'Yes', onPress: () => BackHandler.exitApp()},
+    //     {text: 'No', onPress: () => console.log('No Pressed')},
+    //   ],
+    //   {cancelable: false},
+    // );
+    BackHandler.exitApp();
+    return true;
+  };
+
   uid = '';
   messagesRef = null;
   constructor(props) {

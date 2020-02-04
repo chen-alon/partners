@@ -10,7 +10,8 @@ import {
   Alert,
   ImageBackground,
 } from 'react-native';
-import {Button, CheckBox, Header} from 'react-native-elements';
+import {Header} from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
 import DatePicker from 'react-native-datepicker';
 import {IconButton, Colors} from 'react-native-paper';
 import firebase from 'firebase';
@@ -81,6 +82,27 @@ class UserInformation extends Component {
     }
   };
 
+  // selectImage = () => {
+  //   const options = {
+  //     noData: true,
+  //   };
+  //   ImagePicker.launchImageLibrary(options, response => {
+  //     if (response.didCancel) {
+  //       console.log('User cancelled image picker');
+  //     } else if (response.error) {
+  //       console.log('ImagePicker Error: ', response.error);
+  //     } else if (response.customButton) {
+  //       console.log('User tapped custom button: ', response.customButton);
+  //     } else {
+  //       const source = {uri: response.uri};
+  //       console.log(source);
+  //       this.setState({
+  //         image: source,
+  //       });
+  //     }
+  //   });
+  // };
+
   // calculateAge() {
   //   var birthDate = new Date(this.state.dateOfBirth);
   //   var difference = Date.now() - birthDate.getTime();
@@ -127,6 +149,8 @@ class UserInformation extends Component {
   };
 
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
       <View style={{flex: 1}}>
         <ImageBackground
@@ -224,7 +248,7 @@ class UserInformation extends Component {
                   icon="camera"
                   color={Colors.red500}
                   size={25}
-                  onPress={() => console.log('Pressed')}
+                  //onPress={this.selectImage}
                 />
               </View>
             </View>

@@ -9,6 +9,7 @@ import {
   Alert,
   ImageBackground,
 } from 'react-native';
+import {Icon} from 'native-base';
 import {CheckBox, Header} from 'react-native-elements';
 import firebase from 'firebase';
 
@@ -85,20 +86,16 @@ class CreateUser extends Component {
           imageStyle={{opacity: 0.15}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>
-            <Text
+            <Icon
+              name="arrow-back"
               style={{
-                textAlign: 'left',
-                color: '#fe5f55',
-                fontSize: 20,
-                fontWeight: 'bold',
-                fontFamily: 'AmaticSC-Bold',
-                marginTop: 10,
-                marginBottom: 20,
+                color: '#4f6367',
                 marginLeft: 10,
+                marginBottom: 10,
               }}
-              onPress={() => navigate('LoginForm')}>
-              {'<<'} Already have an account
-            </Text>
+              onPress={() => navigate('LoginForm')}
+            />
+
             <Header
               centerComponent={{
                 text: 'Register',

@@ -10,8 +10,10 @@ import {
   Alert,
   ImageBackground,
 } from 'react-native';
+import {Icon} from 'native-base';
 // import LabelSelect from './common/LabelSelect';
 import {Header} from 'react-native-elements';
+import PickerCheckBox from 'react-native-picker-checkbox';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -92,6 +94,9 @@ class TravelingDetails extends Component {
     // this.selectConfirm = this.selectConfirm.bind(this);
     // this.deleteItem = this.deleteItem.bind(this);
   }
+  handleConfirm(pItems) {
+    console.log('pItems =>', pItems);
+  }
 
   // selectConfirm(list) {
   //   let {months} = this.state;
@@ -119,15 +124,15 @@ class TravelingDetails extends Component {
         this.state.partnerGender === 'select gender' ||
         this.state.partnerAge === '' ||
         this.state.partnerAge === 'select age range')
-        // this.state.months === '' ||
-        // this.state.months === 'select months')
+      // this.state.months === '' ||
+      // this.state.months === 'select months')
     ) {
       Alert.alert('Missing details');
     } else if (
       this.state.mode === 'worldwide' &&
       // (this.state.months === '' ||
       //   this.state.months === 'select months' ||
-        (this.state.partnerGender === '' ||
+      (this.state.partnerGender === '' ||
         this.state.partnerGender === 'select gender' ||
         this.state.partnerAge === '' ||
         this.state.partnerAge === 'select age range' ||
@@ -319,7 +324,24 @@ class TravelingDetails extends Component {
     }
   }
 
+  items = [
+    {
+      itemKey: 1,
+      itemDescription: 'Item 1',
+    },
+    {
+      itemKey: 2,
+      itemDescription: 'Item 2',
+    },
+    {
+      itemKey: 3,
+      itemDescription: 'Item 3',
+    },
+  ];
+
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
       <View style={{flex: 1}}>
         <ImageBackground
@@ -327,6 +349,27 @@ class TravelingDetails extends Component {
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>
+            <PickerCheckBox
+              data={items}
+              headerComponent={<Text style={{fontSize: 25}}>items</Text>}
+              OnConfirm={pItems => this.handleConfirm(pItems)}
+              ConfirmButtonTitle="OK"
+              DescriptionField="itemDescription"
+              KeyField="itemKey"
+              placeholder="select some items"
+              arrowColor="#FFD740"
+              arrowSize={10}
+              placeholderSelectedItems="$count selected item(s)"
+            />
+            <Icon
+              name="arrow-back"
+              style={{
+                color: '#4f6367',
+                marginLeft: 10,
+                marginBottom: 10,
+              }}
+              onPress={() => navigate('ExstraInformation')}
+            />
             <Header
               centerComponent={{
                 text: 'Lets find your partner',

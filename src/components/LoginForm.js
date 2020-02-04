@@ -7,7 +7,6 @@ import {
   Text,
   KeyboardAvoidingView,
   Alert,
-  BackHandler,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
 import firebase from 'firebase';
@@ -56,29 +55,6 @@ class LoginForm extends Component {
         onPress={this.onButtonPress.bind(this)}></Button>
     );
   }
-
-  componentWillMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-  }
-
-  //Handling Android Back Button Press in React Native
-  onBackPress = () => {
-    //Code to display alert message when use click on android device back button.
-    Alert.alert(
-      'EXIT from App',
-      'Do you want to exit from app?',
-      [
-        {text: 'Yes', onPress: () => BackHandler.exitApp()},
-        {text: 'No', onPress: () => console.log('No Pressed')},
-      ],
-      {cancelable: false},
-    );
-    return true;
-  };
 
   render() {
     const {navigate} = this.props.navigation;

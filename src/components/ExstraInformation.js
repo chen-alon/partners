@@ -8,6 +8,7 @@ import {
   Text,
   ImageBackground,
 } from 'react-native';
+import {Icon} from 'native-base';
 import {Header} from 'react-native-elements';
 import firebase from 'firebase';
 import 'firebase/firestore';
@@ -47,6 +48,8 @@ class ExstraInformation extends Component {
   };
 
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
       <View style={{flex: 1}}>
         <ImageBackground
@@ -54,6 +57,15 @@ class ExstraInformation extends Component {
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>
+            <Icon
+              name="arrow-back"
+              style={{
+                color: '#4f6367',
+                marginLeft: 10,
+                marginBottom: 10,
+              }}
+              onPress={() => navigate('UserInformation')}
+            />
             <Header
               centerComponent={{
                 text: 'More about me',
