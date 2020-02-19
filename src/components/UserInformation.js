@@ -9,6 +9,7 @@ import {
   Picker,
   Alert,
   ImageBackground,
+  NativeAppEventEmitter,
 } from 'react-native';
 import {Header} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
@@ -28,6 +29,7 @@ class UserInformation extends Component {
       lastName: '',
       gender: '',
       age: 0,
+      image: null,
       dateOfBirth: new Date(),
       maximumDate: new Date(),
       check: false,
@@ -35,13 +37,13 @@ class UserInformation extends Component {
     };
   }
 
-  handleDetails = () => {
+  handleDetails = async () => {
     if (
       this.state.firstName === '' ||
       this.state.lastName === '' ||
       this.state.gender === '' ||
-      this.state.gender === 'gender' ||
-      this.state.age === 0
+      this.state.gender === 'gender'
+      //this.state.age === 0
       //this.state.dateOfBirth === this.state.maximumDate
     ) {
       Alert.alert(
@@ -53,6 +55,19 @@ class UserInformation extends Component {
       this.setState({
         isLoading: true,
       });
+
+      // try {
+      //   const post = {
+      //     photo: this.state.image,
+      //   };
+      //   this.props.firebase.uploadPost(post);
+
+      //   this.setState({
+      //     image: null,
+      //   });
+      // } catch (e) {
+      //   console.error(e);
+      // }
 
       firebase
         .firestore()
@@ -71,9 +86,10 @@ class UserInformation extends Component {
             firstName: '',
             lastName: '',
             gender: '',
-            age: '',
+            age: 0,
             dateOfBirth: new Date(),
             isLoading: false,
+            image: null,
           }),
         )
         .catch(error => {
@@ -82,71 +98,52 @@ class UserInformation extends Component {
     }
   };
 
-  // selectImage = () => {
-  //   const options = {
-  //     noData: true,
-  //   };
-  //   ImagePicker.launchImageLibrary(options, response => {
-  //     if (response.didCancel) {
-  //       console.log('User cancelled image picker');
-  //     } else if (response.error) {
-  //       console.log('ImagePicker Error: ', response.error);
-  //     } else if (response.customButton) {
-  //       console.log('User tapped custom button: ', response.customButton);
-  //     } else {
-  //       const source = {uri: response.uri};
-  //       console.log(source);
-  //       this.setState({
-  //         image: source,
-  //       });
-  //     }
-  //   });
-  // };
-
-  // calculateAge() {
-  //   var birthDate = new Date(this.state.dateOfBirth);
-  //   var difference = Date.now() - birthDate.getTime();
-  //   var ageDate = new Date(difference);
-  //   var ageNum = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-  //   this.setState({age: ageNum}, () => {
-  //     // this will have the latest this.state.age1
-  //     console.log('Age:', this.state.age);
-  //   });
-  // }
-
-  handleChange_age = dateOfBirth => {
-    Alert.alert('here');
-    console.log('DOB:', dateOfBirth);
-
-    this.setState({dob1: dateOfBirth}, () => {
-      // example of setState callback
-      // this will have the latest this.state.dob1
-      console.log(this.state.dob1);
+  selectImage = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = {uri: response.uri};
+        console.log(source);
+        this.setState({
+          image: source,
+        });
+      }
     });
-
-    // call calculate_age with event.target.value
-    var age_latest = {age_latest: this.calculate_age(doc1)};
-    console.log(age_latest);
-
-    this.setState({age: age_latest}, () => {
-      // this will have the latest this.state.age1
-      console.log('Age:', this.state.age);
+    const cam_options = {
+      mediaType: 'photo',
+      maxWidth: 1000,
+      maxHeight: 1000,
+      quality: 1,
+      noData: true,
+    };
+    ImagePicker.launchCamera(cam_options, response => {
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else {
+        this.setState({
+          imagePath: response.uri,
+          imageHeight: response.height,
+          imageWidth: response.width,
+        });
+      }
     });
   };
 
-  calculate_age = date => {
-    var today = new Date();
-    var birthDate = new Date(date); // create a date object directly from `dob1` argument
-    var age_now = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    var d = today.getDate() - birthDate.getDate();
-    if (m < 0 || (m === 0 && d < 0)) {
-      age_now--;
-    }
-    console.log(age_now);
-    return age_now;
-  };
+  calculateAge(dateOfBirth) {
+    var birthDate = new Date(dateOfBirth);
+
+    var difference = Date.now() - birthDate.getTime();
+    var ageDate = new Date(difference);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
 
   render() {
     const {navigate} = this.props.navigation;
@@ -180,14 +177,14 @@ class UserInformation extends Component {
             <View style={styles.container}>
               <TextInput
                 style={styles.inputBox}
-                value={this.state.firstName}
+                value={firebase.auth().currentUser.uid.firstName}
                 onChangeText={firstName => this.setState({firstName})}
                 placeholder={'first name'}
                 autoCapitalize="none"
               />
               <TextInput
                 style={styles.inputBox}
-                value={this.state.lastName}
+                value={firebase.auth().currentUser.uid.lastName}
                 onChangeText={lastName => this.setState({lastName})}
                 placeholder={'last name'}
                 autoCapitalize="none"
@@ -207,8 +204,8 @@ class UserInformation extends Component {
                 style={{width: 250, marginTop: 10}}
                 date={this.state.dateOfBirth}
                 mode="date"
-                placeholder={this.state.date}
-                format="DD/MM/YYYY"
+                placeholder={this.state.dateOfBirth}
+                //format="MM/DD/YYYY"
                 minDate="01-01-1920"
                 maxDate={this.state.maximumDate}
                 confirmBtnText="Confirm"
@@ -225,10 +222,10 @@ class UserInformation extends Component {
                   },
                 }}
                 onDateChange={date => {
-                  this.setState({dateOfBirth: date});
-                  this.setState({age: this.calculate_age(date)}, () =>
-                    console.log(this.state.age),
-                  );
+                  this.setState({
+                    dateOfBirth: date,
+                    age: this.calculateAge(date),
+                  });
                 }}
               />
 
@@ -248,7 +245,7 @@ class UserInformation extends Component {
                   icon="camera"
                   color={Colors.red500}
                   size={25}
-                  //onPress={this.selectImage}
+                  onPress={this.selectImage}
                 />
               </View>
             </View>

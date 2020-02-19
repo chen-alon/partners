@@ -73,7 +73,7 @@ class CreateUser extends Component {
 
   onLoginFailure(errorMessage) {
     this.setState({error: errorMessage, loading: false});
-    Alert.alert('Login fail with error: ' + errorMessage);
+    Alert.alert('Login fail with error');
   }
 
   render() {

@@ -13,7 +13,6 @@ import {
 import {Icon} from 'native-base';
 // import LabelSelect from './common/LabelSelect';
 import {Header} from 'react-native-elements';
-import PickerCheckBox from 'react-native-picker-checkbox';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -93,9 +92,6 @@ class TravelingDetails extends Component {
     };
     // this.selectConfirm = this.selectConfirm.bind(this);
     // this.deleteItem = this.deleteItem.bind(this);
-  }
-  handleConfirm(pItems) {
-    console.log('pItems =>', pItems);
   }
 
   // selectConfirm(list) {
@@ -324,21 +320,6 @@ class TravelingDetails extends Component {
     }
   }
 
-  items = [
-    {
-      itemKey: 1,
-      itemDescription: 'Item 1',
-    },
-    {
-      itemKey: 2,
-      itemDescription: 'Item 2',
-    },
-    {
-      itemKey: 3,
-      itemDescription: 'Item 3',
-    },
-  ];
-
   render() {
     const {navigate} = this.props.navigation;
 
@@ -349,18 +330,6 @@ class TravelingDetails extends Component {
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>
-            <PickerCheckBox
-              data={items}
-              headerComponent={<Text style={{fontSize: 25}}>items</Text>}
-              OnConfirm={pItems => this.handleConfirm(pItems)}
-              ConfirmButtonTitle="OK"
-              DescriptionField="itemDescription"
-              KeyField="itemKey"
-              placeholder="select some items"
-              arrowColor="#FFD740"
-              arrowSize={10}
-              placeholderSelectedItems="$count selected item(s)"
-            />
             <Icon
               name="arrow-back"
               style={{

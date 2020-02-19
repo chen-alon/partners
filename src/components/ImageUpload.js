@@ -109,7 +109,8 @@ const ImageRow = ({image, windowWidth, popImage}) => (
     />
   </View>
 );
-export default class App extends Component {
+
+export default class AddPost extends Component {
   state = {
     imgSource: '',
     uploading: false,
