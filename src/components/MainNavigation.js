@@ -9,6 +9,7 @@ import UserInformation from './UserInformation';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import ExstraInformation from './ExstraInformation';
 import TravelingDetails from './TravelingDetails';
+import UserProfile from './UserProfile';
 
 const MainNavigator = createStackNavigator(
   {
@@ -45,6 +46,9 @@ const MainNavigator = createStackNavigator(
     },
     TravelingDetails: {
       screen: TravelingDetails,
+    },
+    UserProfile: {
+      screen: UserProfile,
     },
   },
 

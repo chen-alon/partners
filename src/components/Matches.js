@@ -129,10 +129,6 @@ class Matches extends Component {
     };
   }
 
-  addProductToCart = () => {
-    Alert.alert('Success', 'The product has been added to your cart');
-  };
-
   render() {
     return (
       <View style={styles.container}>

@@ -28,7 +28,6 @@ class Questions extends Component {
   }
 
   getNext({currentQ, ListOfQandA}) {
-    this.setState({textButton: "let's start"});
     let next = (currentQ + 1) % ListOfQandA.length;
     for (let i = 0; i < ListOfQandA.length; i++) {
       if (!ListOfQandA[next].a) return next;
@@ -81,7 +80,9 @@ class Questions extends Component {
         </View>
         <Button
           titleStyle={styles.buttonAnswer}
-          title="Next Question"
+          title={
+            this.getAnswersCount() === 15 ? "Let's start" : 'Next Question'
+          }
           type="clear"
           color="#ef5f55"
           onPress={() => {

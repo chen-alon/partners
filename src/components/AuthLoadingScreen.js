@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import firebase from 'firebase';
-import 'firebase/storage';
 import {DotIndicator} from 'react-native-indicators';
 import {View, ImageBackground, BackHandler, Alert} from 'react-native';
 

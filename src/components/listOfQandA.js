@@ -1,3 +1,5 @@
+// 25 questions
+
 export const ListOfQandA = [
   {q: 'Do you observe Shabbat?', aOptions: ['Yes', 'No']},
   {q: 'Do you eat kosher?', aOptions: ['Yes', 'No']},

@@ -9,17 +9,61 @@ import {
   Picker,
   Alert,
   ImageBackground,
-  NativeAppEventEmitter,
 } from 'react-native';
 import {Header} from 'react-native-elements';
-import ImagePicker from 'react-native-image-picker';
 import DatePicker from 'react-native-datepicker';
+import ImagePicker from 'react-native-image-picker';
+import RNFetchBlob from 'react-native-fetch-blob';
 import {IconButton, Colors} from 'react-native-paper';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
-//import firebase, { secondFirebaseInstance } from "./Firebase";
-//import { DotIndicator } from "react-native-indicators";
+let config = {
+  apiKey: 'AIzaSyAuD9ks-5V0k8cWULtri5LNpc3MpP6L1hs',
+  authDomain: 'partner-f74cb.firebaseapp.com',
+  databaseURL: 'https://partner-f74cb.firebaseio.com',
+  projectId: 'partner-f74cb',
+  storageBucket: 'partner-f74cb.appspot.com',
+  messagingSenderId: '276035857295',
+  appId: '1:276035857295:web:7577ae19b1c833313679fa',
+  measurementId: 'G-7N3KY4B8MJ',
+};
+!firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+const storage = firebase.storage();
+
+const Blob = RNFetchBlob.polyfill.Blob;
+const fs = RNFetchBlob.fs;
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob;
+
+const uploadImage = (uri, mime = 'application/octet-stream') => {
+  return new Promise((resolve, reject) => {
+    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+    let uploadBlob = null;
+    const imageRef = storage
+      .ref('images')
+      .child(`${firebase.auth().currentUser.uid}`);
+
+    fs.readFile(uploadUri, 'base64')
+      .then(data => {
+        return Blob.build(data, {type: `${mime};BASE64`});
+      })
+      .then(blob => {
+        uploadBlob = blob;
+        return imageRef.put(blob, {contentType: mime});
+      })
+      .then(() => {
+        uploadBlob.close();
+        return imageRef.getDownloadURL();
+      })
+      .then(url => {
+        resolve(url);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
 
 class UserInformation extends Component {
   constructor() {
@@ -29,7 +73,6 @@ class UserInformation extends Component {
       lastName: '',
       gender: '',
       age: 0,
-      image: null,
       dateOfBirth: new Date(),
       maximumDate: new Date(),
       check: false,
@@ -42,9 +85,8 @@ class UserInformation extends Component {
       this.state.firstName === '' ||
       this.state.lastName === '' ||
       this.state.gender === '' ||
-      this.state.gender === 'gender'
-      //this.state.age === 0
-      //this.state.dateOfBirth === this.state.maximumDate
+      this.state.gender === 'gender' ||
+      this.state.age === 0
     ) {
       Alert.alert(
         'Missing details',
@@ -55,19 +97,6 @@ class UserInformation extends Component {
       this.setState({
         isLoading: true,
       });
-
-      // try {
-      //   const post = {
-      //     photo: this.state.image,
-      //   };
-      //   this.props.firebase.uploadPost(post);
-
-      //   this.setState({
-      //     image: null,
-      //   });
-      // } catch (e) {
-      //   console.error(e);
-      // }
 
       firebase
         .firestore()
@@ -89,52 +118,12 @@ class UserInformation extends Component {
             age: 0,
             dateOfBirth: new Date(),
             isLoading: false,
-            image: null,
           }),
         )
         .catch(error => {
           console.error('Error adding document: ', error);
         });
     }
-  };
-
-  selectImage = () => {
-    const options = {
-      noData: true,
-    };
-    ImagePicker.launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = {uri: response.uri};
-        console.log(source);
-        this.setState({
-          image: source,
-        });
-      }
-    });
-    const cam_options = {
-      mediaType: 'photo',
-      maxWidth: 1000,
-      maxHeight: 1000,
-      quality: 1,
-      noData: true,
-    };
-    ImagePicker.launchCamera(cam_options, response => {
-      if (response.didCancel) {
-      } else if (response.error) {
-      } else {
-        this.setState({
-          imagePath: response.uri,
-          imageHeight: response.height,
-          imageWidth: response.width,
-        });
-      }
-    });
   };
 
   calculateAge(dateOfBirth) {
@@ -145,9 +134,17 @@ class UserInformation extends Component {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 
-  render() {
-    const {navigate} = this.props.navigation;
+  pickImage() {
+    this.setState({uploadURL: ''});
 
+    ImagePicker.launchImageLibrary({}, response => {
+      uploadImage(response.uri)
+        .then(url => this.setState({uploadURL: url}))
+        .catch(error => console.log(error));
+    });
+  }
+
+  render() {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
@@ -245,7 +242,7 @@ class UserInformation extends Component {
                   icon="camera"
                   color={Colors.red500}
                   size={25}
-                  onPress={this.selectImage}
+                  onPress={() => this.pickImage()}
                 />
               </View>
             </View>

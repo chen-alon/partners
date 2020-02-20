@@ -11,10 +11,10 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Icon} from 'native-base';
-// import LabelSelect from './common/LabelSelect';
-import {Header} from 'react-native-elements';
+import {Header, ListItem} from 'react-native-elements';
 import firebase from 'firebase';
 import 'firebase/firestore';
+// import MultiSelect from 'react-native-multiple-select';
 
 class TravelingDetails extends Component {
   constructor(props) {
@@ -27,89 +27,72 @@ class TravelingDetails extends Component {
       partnerGender: '',
       theme: '',
       mode: 'israel',
-      // months: [
-      //   {
-      //     name: 'January',
-      //     isSelected: false,
-      //     value: 1,
-      //   },
-      //   {
-      //     name: 'February',
-      //     isSelected: false,
-      //     value: 2,
-      //   },
-      //   {
-      //     name: 'March',
-      //     isSelected: false,
-      //     value: 3,
-      //   },
-      //   {
-      //     name: 'April',
-      //     isSelected: false,
-      //     value: 4,
-      //   },
-      //   {
-      //     name: 'May',
-      //     isSelected: false,
-      //     value: 5,
-      //   },
-      //   {
-      //     name: 'June',
-      //     isSelected: false,
-      //     value: 6,
-      //   },
-      //   {
-      //     name: 'July',
-      //     isSelected: false,
-      //     value: 7,
-      //   },
-      //   {
-      //     name: 'August',
-      //     isSelected: false,
-      //     value: 8,
-      //   },
-      //   {
-      //     name: 'September',
-      //     isSelected: false,
-      //     value: 9,
-      //   },
-      //   {
-      //     name: 'October',
-      //     isSelected: false,
-      //     value: 10,
-      //   },
-      //   {
-      //     name: 'November',
-      //     isSelected: false,
-      //     value: 11,
-      //   },
-      //   {
-      //     name: 'December',
-      //     isSelected: false,
-      //     value: 12,
-      //   },
-      // ],
+      checked: false,
+      selectedItems: [],
+      months: [
+        {
+          name: 'January',
+          isSelected: false,
+          value: 1,
+        },
+        {
+          name: 'February',
+          isSelected: false,
+          value: 2,
+        },
+        {
+          name: 'March',
+          isSelected: false,
+          value: 3,
+        },
+        {
+          name: 'April',
+          isSelected: false,
+          value: 4,
+        },
+        {
+          name: 'May',
+          isSelected: false,
+          value: 5,
+        },
+        {
+          name: 'June',
+          isSelected: false,
+          value: 6,
+        },
+        {
+          name: 'July',
+          isSelected: false,
+          value: 7,
+        },
+        {
+          name: 'August',
+          isSelected: false,
+          value: 8,
+        },
+        {
+          name: 'September',
+          isSelected: false,
+          value: 9,
+        },
+        {
+          name: 'October',
+          isSelected: false,
+          value: 10,
+        },
+        {
+          name: 'November',
+          isSelected: false,
+          value: 11,
+        },
+        {
+          name: 'December',
+          isSelected: false,
+          value: 12,
+        },
+      ],
     };
-    // this.selectConfirm = this.selectConfirm.bind(this);
-    // this.deleteItem = this.deleteItem.bind(this);
   }
-
-  // selectConfirm(list) {
-  //   let {months} = this.state;
-  //   for (let item of list) {
-  //     let index = arr.findIndex(ele => ele === item);
-  //     if (~index) months[index].isSelected = true;
-  //     else continue;
-  //   }
-  //   this.setState({arr: arr});
-  // }
-
-  // deleteItem(item) {
-  //   let {months} = this.state;
-  //   let index = months.findIndex(a => a === item);
-  //   months[index].isSelected = false;
-  //   this.setState({months: months});
-  // }
 
   handleDetails = () => {
     if (
@@ -120,6 +103,7 @@ class TravelingDetails extends Component {
         this.state.partnerGender === 'select gender' ||
         this.state.partnerAge === '' ||
         this.state.partnerAge === 'select age range')
+      // this.state.selectedItems === null)
       // this.state.months === '' ||
       // this.state.months === 'select months')
     ) {
@@ -154,11 +138,21 @@ class TravelingDetails extends Component {
           partnerGender: this.state.partnerGender,
           theme: this.state.theme,
           mode: this.state.mode,
+          selectedItems: this.state.selectedItems,
           //months: this.state.months,
         })
         .then(
           this.props.navigation.navigate('Questions'),
           this.setState({
+            area: '',
+            mainland: '',
+            country: '',
+            partnerAge: '',
+            partnerGender: '',
+            theme: '',
+            mode: 'israel',
+            checked: false,
+            selectedItems: [],
             isLoading: false,
           }),
         )
@@ -320,8 +314,17 @@ class TravelingDetails extends Component {
     }
   }
 
+  // onSelectedItemsChange = selectedItems => {
+  //   if (selectedItems) {
+  //     this.setState({selectedItems});
+  //   }
+  // };
+
+  renderPickMonths() {}
+
   render() {
     const {navigate} = this.props.navigation;
+    // const {selectedItems} = this.state;
 
     return (
       <View style={{flex: 1}}>
@@ -384,7 +387,6 @@ class TravelingDetails extends Component {
                   </TouchableHighlight>
                 </View>
               </View>
-
               {this.state.mode === 'israel' ? (
                 <View>
                   <Text style={styles.text}>area</Text>
@@ -443,7 +445,6 @@ class TravelingDetails extends Component {
                   )}
                 </View>
               )}
-
               <Text style={styles.text}>gender and age</Text>
               <Picker
                 style={styles.pickerStyle}
@@ -456,7 +457,6 @@ class TravelingDetails extends Component {
                 <Picker.Item label="man" value="man" />
                 <Picker.Item label="female" value="female" />
               </Picker>
-
               <Picker
                 style={styles.pickerStyle}
                 selectedValue={this.state.partnerAge}
@@ -478,45 +478,33 @@ class TravelingDetails extends Component {
                 <Picker.Item label="up 66" value="up 66" />
               </Picker>
 
-              <Text style={styles.text}>period</Text>
-              {/* <LabelSelect
-                title="Checkbox"
-                ref="select months"
-                style={styles.labelSelect}
-                onConfirm={this.selectConfirm}>
-                {this.state.months
-                  .filter(item => item.isSelected)
-                  .map((item, index) => (
-                    <LabelSelect.Label
-                      key={'label-' + index}
-                      data={item}
-                      onCancel={() => {
-                        this.deleteItem(item);
-                      }}>
-                      {item.name}
-                    </LabelSelect.Label>
-                  ))}
-                {this.state.months
-                  .filter(item => !item.isSelected)
-                  .map((item, index) => (
-                    <LabelSelect.ModalItem
-                      key={'modal-item-' + index}
-                      data={item}>
-                      {item.name}
-                    </LabelSelect.ModalItem>
-                  ))}
-              </LabelSelect> */}
+              <Text style={styles.text}>period - Pick months</Text>
 
-              {/* <Picker
-                style={styles.pickerStyle}
-                selectedValue={this.state.selectedMonths}
-                onValueChange={months =>
-                  this.setState({selectedMonths: months})
-                }>
-                <Picker.Item label="select months" value="select months" />
-                {monthsItems}
-              </Picker> */}
-
+              {/* <View style={styles.pickerStyle}>
+                <MultiSelect
+                  hideTags
+                  items={months}
+                  uniqueKey="id"
+                  ref={component => {
+                    this.multiSelect = component;
+                  }}
+                  onSelectedItemsChange={this.onSelectedItemsChange}
+                  selectedItems={selectedItems}
+                  selectText="Pick months"
+                  searchInputPlaceholderText="Search Months..."
+                  //onChangeInput={text => console.log(text)}
+                  altFontFamily="ProximaNova-Light"
+                  tagRemoveIconColor="#CCC"
+                  tagBorderColor="#000"
+                  tagTextColor="#eef5d8"
+                  selectedItemTextColor="#fe5f55"
+                  selectedItemIconColor="#fe5f55"
+                  displayKey="name"
+                  searchInputStyle="#eef5d8"
+                  submitButtonColor="#eef5d8"
+                  submitButtonText="Select"
+                />
+              </View> */}
               {this.state.mode === 'worldwide' ? (
                 <View>
                   <Text style={styles.text}>the theme of the trip</Text>
@@ -654,6 +642,33 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#bbd8d8',
+  },
+
+  item: {
+    width: '80%',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 10,
+    marginBottom: 10,
+    flexDirection: 'row',
+  },
+
+  pickMonths: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+
+  checkBoxTxt: {
+    marginLeft: 20,
+  },
+
+  submit: {
+    width: '80%',
+    backgroundColor: '#fc5185',
+    borderRadius: 20,
+    padding: 10,
+    alignItems: 'center',
+    marginTop: 40,
   },
 });
 

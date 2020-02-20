@@ -48,8 +48,6 @@ android_binary(
     name = "app",
     keystore = "//android/keystores:debug",
     manifest = "src/main/AndroidManifest.xml",
-    <uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     package_type = "debug",
     deps = [
         ":app-code",

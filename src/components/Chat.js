@@ -49,52 +49,52 @@
 //   }
 // }
 
-import React from 'react';
-import {GiftedChat} from 'react-native-gifted-chat';
-import Backend from '../Backend';
+// import React from 'react';
+// import {GiftedChat} from 'react-native-gifted-chat';
+// import Backend from '../Backend';
 
-class Chat extends Component {
-  constructor(props) {
-    super(props);
-    this.statestate = {
-      messages: [],
-    };
-  }
-  componentWillMount() {}
-  render() {
-    return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={message => {
-          Backend.sendMessage(message);
-        }}
-        user={{
-          _id: Backend.getUid(),
-          name: this.props.name,
-        }}
-      />
-    );
-  }
-  componentDidMount() {
-    Backend.loadMessages(message => {
-      this.setState(previousState => {
-        return {
-          messages: GiftedChat.append(previousState.messages, message),
-        };
-      });
-    });
-  }
-  componentWillUnmount() {
-    Backend.closeChat();
-  }
-}
+// class Chat extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.statestate = {
+//       messages: [],
+//     };
+//   }
+//   componentWillMount() {}
+//   render() {
+//     return (
+//       <GiftedChat
+//         messages={this.state.messages}
+//         onSend={message => {
+//           Backend.sendMessage(message);
+//         }}
+//         user={{
+//           _id: Backend.getUid(),
+//           name: this.props.name,
+//         }}
+//       />
+//     );
+//   }
+//   componentDidMount() {
+//     Backend.loadMessages(message => {
+//       this.setState(previousState => {
+//         return {
+//           messages: GiftedChat.append(previousState.messages, message),
+//         };
+//       });
+//     });
+//   }
+//   componentWillUnmount() {
+//     Backend.closeChat();
+//   }
+// }
 
-Chat.defaultProps = {
-  name: 'John Smith',
-};
+// Chat.defaultProps = {
+//   name: 'John Smith',
+// };
 
-Chat.propTypes = {
-  name: React.PropTypes.string,
-};
+// Chat.propTypes = {
+//   name: React.PropTypes.string,
+// };
 
-export default Chat;
+// export default Chat;
