@@ -102,7 +102,9 @@ class TravelingDetails extends Component {
         this.state.partnerGender === '' ||
         this.state.partnerGender === 'select gender' ||
         this.state.partnerAge === '' ||
-        this.state.partnerAge === 'select age range')
+        this.state.partnerAge === 'select age range' ||
+        this.state.theme === '' ||
+        this.state.theme === 'select theme')
       // this.state.selectedItems === null)
       // this.state.months === '' ||
       // this.state.months === 'select months')
@@ -142,7 +144,9 @@ class TravelingDetails extends Component {
           //months: this.state.months,
         })
         .then(
-          this.props.navigation.navigate('Questions'),
+          this.props.navigation.navigate('Questions', {
+            go_back_key: this.props.navigation.key,
+          }),
           this.setState({
             area: '',
             mainland: '',
@@ -323,7 +327,9 @@ class TravelingDetails extends Component {
   renderPickMonths() {}
 
   render() {
-    const {navigate} = this.props.navigation;
+    const {state, goBack} = this.props.navigation;
+    const params = state.params || {};
+
     // const {selectedItems} = this.state;
 
     return (
@@ -340,7 +346,7 @@ class TravelingDetails extends Component {
                 marginLeft: 10,
                 marginBottom: 10,
               }}
-              onPress={() => navigate('ExstraInformation')}
+              onPress={() => goBack(params.go_back_key)}
             />
             <Header
               centerComponent={{
@@ -534,7 +540,21 @@ class TravelingDetails extends Component {
                   </Picker>
                 </View>
               ) : (
-                <View></View>
+                <View>
+                  <Text style={styles.text}>the theme of the trip</Text>
+                  <Picker
+                    style={styles.pickerStyle}
+                    selectedValue={this.state.theme}
+                    onValueChange={itemValue =>
+                      this.setState({theme: itemValue})
+                    }>
+                    <Picker.Item label="select theme" value="select theme" />
+                    <Picker.Item label="all the theme" value="all the theme" />
+                    <Picker.Item label="vacation" value="vacation" />
+                    <Picker.Item label="volunteering" value="volunteering" />
+                    <Picker.Item label="camping" value="camping" />
+                  </Picker>
+                </View>
               )}
             </View>
             <TouchableOpacity

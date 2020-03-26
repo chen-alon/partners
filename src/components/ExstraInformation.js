@@ -34,7 +34,9 @@ class ExstraInformation extends Component {
         more: this.state.more,
       })
       .then(
-        this.props.navigation.navigate('TravelingDetails'),
+        this.props.navigation.navigate('TravelingDetails', {
+          go_back_key: this.props.navigation.key,
+        }),
         this.setState({
           countries: '',
           languages: '',
@@ -48,7 +50,8 @@ class ExstraInformation extends Component {
   };
 
   render() {
-    const {navigate} = this.props.navigation;
+    const {state, goBack} = this.props.navigation;
+    const params = state.params || {};
 
     return (
       <View style={{flex: 1}}>
@@ -64,7 +67,7 @@ class ExstraInformation extends Component {
                 marginLeft: 10,
                 marginBottom: 10,
               }}
-              onPress={() => navigate('UserInformation')}
+              onPress={() => goBack(params.go_back_key)}
             />
             <Header
               centerComponent={{
