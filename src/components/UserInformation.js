@@ -12,58 +12,7 @@ import {
 } from 'react-native';
 import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
-import ImagePicker from 'react-native-image-picker';
-import RNFetchBlob from 'react-native-fetch-blob';
-import {IconButton, Colors} from 'react-native-paper';
 import firebase from 'firebase';
-import 'firebase/firestore';
-
-let config = {
-  apiKey: 'AIzaSyAuD9ks-5V0k8cWULtri5LNpc3MpP6L1hs',
-  authDomain: 'partner-f74cb.firebaseapp.com',
-  databaseURL: 'https://partner-f74cb.firebaseio.com',
-  projectId: 'partner-f74cb',
-  storageBucket: 'partner-f74cb.appspot.com',
-  messagingSenderId: '276035857295',
-  appId: '1:276035857295:web:7577ae19b1c833313679fa',
-  measurementId: 'G-7N3KY4B8MJ',
-};
-!firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
-const storage = firebase.storage();
-
-const Blob = RNFetchBlob.polyfill.Blob;
-const fs = RNFetchBlob.fs;
-window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
-window.Blob = Blob;
-
-const uploadImage = (uri, mime = 'application/octet-stream') => {
-  return new Promise((resolve, reject) => {
-    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-    let uploadBlob = null;
-    const imageRef = storage
-      .ref('images')
-      .child(`${firebase.auth().currentUser.uid}`);
-
-    fs.readFile(uploadUri, 'base64')
-      .then(data => {
-        return Blob.build(data, {type: `${mime};BASE64`});
-      })
-      .then(blob => {
-        uploadBlob = blob;
-        return imageRef.put(blob, {contentType: mime});
-      })
-      .then(() => {
-        uploadBlob.close();
-        return imageRef.getDownloadURL();
-      })
-      .then(url => {
-        resolve(url);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-};
 
 class UserInformation extends Component {
   constructor() {
@@ -134,16 +83,6 @@ class UserInformation extends Component {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 
-  pickImage() {
-    this.setState({uploadURL: ''});
-
-    ImagePicker.launchImageLibrary({}, response => {
-      uploadImage(response.uri)
-        .then(url => this.setState({uploadURL: url}))
-        .catch(error => console.log(error));
-    });
-  }
-
   render() {
     return (
       <View style={{flex: 1}}>
@@ -203,7 +142,7 @@ class UserInformation extends Component {
                 mode="date"
                 placeholder={this.state.dateOfBirth}
                 //format="MM/DD/YYYY"
-                minDate="01-01-1920"
+                minDate="1920-01-01"
                 maxDate={this.state.maximumDate}
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
@@ -234,7 +173,7 @@ class UserInformation extends Component {
                 <View></View>
               )}
 
-              <View style={styles.pic}>
+              {/* <View style={styles.pic}>
                 <Text style={styles.text}>upload picture</Text>
 
                 <IconButton
@@ -244,7 +183,7 @@ class UserInformation extends Component {
                   size={25}
                   onPress={() => this.pickImage()}
                 />
-              </View>
+              </View> */}
             </View>
             <TouchableOpacity
               style={styles.button}
@@ -284,6 +223,7 @@ const styles = StyleSheet.create({
     borderColor: '#d3d3d3',
     borderBottomWidth: 1.4,
     color: '#4f6367',
+    marginTop: 20,
   },
 
   text: {
@@ -311,7 +251,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 20,
+    marginTop: 65,
     marginBottom: 30,
     paddingVertical: 5,
     alignItems: 'center',
@@ -337,13 +277,13 @@ const styles = StyleSheet.create({
     color: '#bbd8d8',
   },
 
-  pic: {
-    flex: 1,
-    flexDirection: 'row',
-    paddingTop: 15,
-    // alignItems: 'flex-start',
-    // alignSelf: 'flex-start'
-  },
+  // pic: {
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   paddingTop: 15,
+  //   alignItems: 'flex-start',
+  //   alignSelf: 'flex-start'
+  // },
 });
 
 export default UserInformation;

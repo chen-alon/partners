@@ -2,7 +2,7 @@ import firebase from 'react-native-firebase';
 import uuid from 'uuid';
 
 const Firebase = {
-  ploadPost: post => {
+  uploadPost: post => {
     const id = uuid.v4();
     const uploadData = {
       id: id,
