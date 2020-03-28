@@ -24,6 +24,10 @@ class ExstraInformation extends Component {
   }
 
   ExDetailsCheck = () => {
+    this.setState({
+      isLoading: true,
+    });
+
     firebase
       .firestore()
       .collection('users')

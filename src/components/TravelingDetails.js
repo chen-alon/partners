@@ -11,10 +11,65 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Icon} from 'native-base';
-import {Header, ListItem} from 'react-native-elements';
+import {Header} from 'react-native-elements';
+import MultiSelect from 'react-native-multiple-select';
 import firebase from 'firebase';
 import 'firebase/firestore';
-// import MultiSelect from 'react-native-multiple-select';
+
+const months = [
+  {
+    id: '0',
+    name: 'All months',
+  },
+  {
+    id: '1',
+    name: 'January',
+  },
+  {
+    id: '2',
+    name: 'February',
+  },
+  {
+    id: '3',
+    name: 'March',
+  },
+  {
+    id: '4',
+    name: 'April',
+  },
+  {
+    id: '5',
+    name: 'May',
+  },
+  {
+    id: '6',
+    name: 'June',
+  },
+  {
+    id: '7',
+    name: 'July',
+  },
+  {
+    id: '8',
+    name: 'August',
+  },
+  {
+    id: '9',
+    name: 'September',
+  },
+  {
+    id: '10',
+    name: 'October',
+  },
+  {
+    id: '11',
+    name: 'November',
+  },
+  {
+    id: '12',
+    name: 'December',
+  },
+];
 
 class TravelingDetails extends Component {
   constructor(props) {
@@ -29,68 +84,6 @@ class TravelingDetails extends Component {
       mode: 'israel',
       checked: false,
       selectedItems: [],
-      months: [
-        {
-          name: 'January',
-          isSelected: false,
-          value: 1,
-        },
-        {
-          name: 'February',
-          isSelected: false,
-          value: 2,
-        },
-        {
-          name: 'March',
-          isSelected: false,
-          value: 3,
-        },
-        {
-          name: 'April',
-          isSelected: false,
-          value: 4,
-        },
-        {
-          name: 'May',
-          isSelected: false,
-          value: 5,
-        },
-        {
-          name: 'June',
-          isSelected: false,
-          value: 6,
-        },
-        {
-          name: 'July',
-          isSelected: false,
-          value: 7,
-        },
-        {
-          name: 'August',
-          isSelected: false,
-          value: 8,
-        },
-        {
-          name: 'September',
-          isSelected: false,
-          value: 9,
-        },
-        {
-          name: 'October',
-          isSelected: false,
-          value: 10,
-        },
-        {
-          name: 'November',
-          isSelected: false,
-          value: 11,
-        },
-        {
-          name: 'December',
-          isSelected: false,
-          value: 12,
-        },
-      ],
     };
   }
 
@@ -141,7 +134,6 @@ class TravelingDetails extends Component {
           theme: this.state.theme,
           mode: this.state.mode,
           selectedItems: this.state.selectedItems,
-          //months: this.state.months,
         })
         .then(
           this.props.navigation.navigate('Questions', {
@@ -318,19 +310,14 @@ class TravelingDetails extends Component {
     }
   }
 
-  // onSelectedItemsChange = selectedItems => {
-  //   if (selectedItems) {
-  //     this.setState({selectedItems});
-  //   }
-  // };
-
-  renderPickMonths() {}
+  onSelectedItemsChange = selectedItems => {
+    this.setState({selectedItems});
+  };
 
   render() {
     const {state, goBack} = this.props.navigation;
     const params = state.params || {};
-
-    // const {selectedItems} = this.state;
+    const {selectedItems} = this.state;
 
     return (
       <View style={{flex: 1}}>
@@ -484,11 +471,40 @@ class TravelingDetails extends Component {
                 <Picker.Item label="up 66" value="up 66" />
               </Picker>
 
-              <Text style={styles.text}>period - Pick months</Text>
-
-              {/* <View style={styles.pickerStyle}>
+              <Text style={styles.text}>period</Text>
+              <View style={styles.pickerStyle}>
                 <MultiSelect
+                  styleMainWrapper={{
+                    backgroundColor: '#eef5d8',
+                    borderBottomColor: '#eef5d8',
+                    borderEndColor: '#eef5d8',
+                    // borderStartColor: '#eef5d8',
+                    width: '104%',
+                    paddingLeft: 9,
+                    fontSize: 16,
+                    color: '#fff',
+                    //borderRightColor: '#eef5d8',
+                  }}
+                  styleDropdownMenuSubsection={{
+                    backgroundColor: '#eef5d8',
+                    borderColor: '#eef5d8',
+                  }}
+                  styleTextDropdown={{
+                    backgroundColor: '#eef5d8',
+                    color: '#4f6367',
+                    fontSize: 16,
+                  }}
+                  searchInputStyle={{
+                    //backgroundColor: '#eef5d8',
+                    fontSize: 16,
+                    width: '85%',
+                    maxWidth: '80%',
+                  }}
+                  styleTextDropdownSelected={{
+                    fontSize: 16,
+                  }}
                   hideTags
+                  hideDropdown
                   items={months}
                   uniqueKey="id"
                   ref={component => {
@@ -496,21 +512,22 @@ class TravelingDetails extends Component {
                   }}
                   onSelectedItemsChange={this.onSelectedItemsChange}
                   selectedItems={selectedItems}
-                  selectText="Pick months"
-                  searchInputPlaceholderText="Search Months..."
-                  //onChangeInput={text => console.log(text)}
-                  altFontFamily="ProximaNova-Light"
-                  tagRemoveIconColor="#CCC"
-                  tagBorderColor="#000"
+                  selectText="select months"
+                  //searchInputPlaceholderText="Search Months..."
+                  //onChangeInput={months => console.log(months)}
+                  //altFontFamily="ProximaNova-Light"
+                  //tagRemoveIconColor="#CCC"
+                  textColor="#4f6367"
                   tagTextColor="#eef5d8"
                   selectedItemTextColor="#fe5f55"
                   selectedItemIconColor="#fe5f55"
                   displayKey="name"
-                  searchInputStyle="#eef5d8"
-                  submitButtonColor="#eef5d8"
-                  submitButtonText="Select"
+                  hideSubmitButton
+                  flatListProps
+                  onAddItem={false}
                 />
-              </View> */}
+              </View>
+
               {this.state.mode === 'worldwide' ? (
                 <View>
                   <Text style={styles.text}>the theme of the trip</Text>
@@ -573,7 +590,6 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     padding: 20,
-    //backgroundColor: '#7a9e9f',
   },
 
   container: {
@@ -581,16 +597,9 @@ const styles = StyleSheet.create({
     padding: 30,
     backgroundColor: '#EEF5D8',
     justifyContent: 'center',
-  },
-
-  labelSelect: {
-    marginTop: 5,
-    marginBottom: 20,
-    padding: 5,
-    borderWidth: 1,
-    borderRadius: 6,
-    borderStyle: 'dashed',
-    borderColor: '#6dc2a2',
+    borderWidth: 4,
+    borderRadius: 5,
+    borderColor: '#fff',
   },
 
   text: {
@@ -609,6 +618,7 @@ const styles = StyleSheet.create({
     borderColor: '#d3d3d3',
     borderBottomWidth: 1,
     color: '#4f6367',
+    backgroundColor: '#eef5d8',
   },
 
   card: {
@@ -662,33 +672,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#bbd8d8',
-  },
-
-  item: {
-    width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 10,
-    marginBottom: 10,
-    flexDirection: 'row',
-  },
-
-  pickMonths: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-
-  checkBoxTxt: {
-    marginLeft: 20,
-  },
-
-  submit: {
-    width: '80%',
-    backgroundColor: '#fc5185',
-    borderRadius: 20,
-    padding: 10,
-    alignItems: 'center',
-    marginTop: 40,
   },
 });
 
