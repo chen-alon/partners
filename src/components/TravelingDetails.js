@@ -97,16 +97,12 @@ class TravelingDetails extends Component {
         this.state.partnerAge === '' ||
         this.state.partnerAge === 'select age range' ||
         this.state.theme === '' ||
-        this.state.theme === 'select theme')
-      // this.state.selectedItems === null)
-      // this.state.months === '' ||
-      // this.state.months === 'select months')
+        this.state.theme === 'select theme' ||
+        this.state.selectedItems === null)
     ) {
       Alert.alert('Missing details');
     } else if (
       this.state.mode === 'worldwide' &&
-      // (this.state.months === '' ||
-      //   this.state.months === 'select months' ||
       (this.state.partnerGender === '' ||
         this.state.partnerGender === 'select gender' ||
         this.state.partnerAge === '' ||
@@ -115,46 +111,82 @@ class TravelingDetails extends Component {
         this.state.theme === 'select theme' ||
         this.state.mainland === '' ||
         this.state.mainland === 'select mainland' ||
+        this.state.selectedItems === null ||
         (this.state.mainland != 'antarctica' &&
           (this.state.country === '' ||
             this.state.country === 'select country')))
     ) {
       Alert.alert('Missing details');
     } else {
-      firebase
-        .firestore()
-        .collection('users')
-        .doc(firebase.auth().currentUser.uid)
-        .update({
-          area: this.state.area,
-          mainland: this.state.mainland,
-          country: this.state.country,
-          partnerAge: this.state.partnerAge,
-          partnerGender: this.state.partnerGender,
-          theme: this.state.theme,
-          mode: this.state.mode,
-          selectedItems: this.state.selectedItems,
-        })
-        .then(
-          this.props.navigation.navigate('Questions', {
-            go_back_key: this.props.navigation.key,
-          }),
-          this.setState({
-            area: '',
-            mainland: '',
-            country: '',
-            partnerAge: '',
-            partnerGender: '',
-            theme: '',
-            mode: 'israel',
-            checked: false,
-            selectedItems: [],
-            isLoading: false,
-          }),
-        )
-        .catch(error => {
-          console.error('Error adding document: ', error);
-        });
+      if (this.state.mode == 'israel') {
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(firebase.auth().currentUser.uid)
+          .update({
+            mode: this.state.mode,
+            area: this.state.area,
+            partnerAge: this.state.partnerAge,
+            partnerGender: this.state.partnerGender,
+            theme: this.state.theme,
+            selectedItems: this.state.selectedItems,
+          })
+          .then(
+            this.props.navigation.navigate('Questions', {
+              go_back_key: this.props.navigation.key,
+            }),
+            this.setState({
+              area: '',
+              mainland: '',
+              country: '',
+              partnerAge: '',
+              partnerGender: '',
+              theme: '',
+              mode: 'israel',
+              checked: false,
+              selectedItems: [],
+              isLoading: false,
+            }),
+          )
+          .catch(error => {
+            console.error('Error adding document: ', error);
+          });
+      }
+      if (this.state.mode == 'worldwide') {
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(firebase.auth().currentUser.uid)
+          .update({
+            mode: this.state.mode,
+            mainland: this.state.mainland,
+            country: this.state.country,
+            partnerAge: this.state.partnerAge,
+            partnerGender: this.state.partnerGender,
+            selectedItems: this.state.selectedItems,
+            theme: this.state.theme,
+          })
+          .then(
+            this.props.navigation.navigate('Questions', {
+              go_back_key: this.props.navigation.key,
+            }),
+            this.setState({
+              area: '',
+              mainland: '',
+              country: '',
+              partnerAge: '',
+              partnerGender: '',
+              theme: '',
+              mode: 'israel',
+              checked: false,
+              selectedItems: [],
+              isLoading: false,
+            }),
+          )
+          .catch(error => {
+            console.error('Error adding document: ', error);
+          });
+      }
     }
   };
 

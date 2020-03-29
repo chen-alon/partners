@@ -17,6 +17,25 @@ class Questions extends Component {
     };
   }
 
+  handleDetails = () => {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .update({
+        ListOfQandA: this.state.ListOfQandA,
+      })
+      .then(
+        this.props.navigation.navigate('Navigation'),
+        this.setState({
+          ListOfQandA,
+        }),
+      )
+      .catch(error => {
+        console.error('Error adding document: ', error);
+      });
+  };
+
   getAnswersCount() {
     let numOfAnswer = 0;
     for (let i = 0; i < this.state.ListOfQandA.length; i++) {
@@ -66,8 +85,6 @@ class Questions extends Component {
   }
 
   render() {
-    const {navigate} = this.props.navigation;
-
     return (
       <View style={styles.container}>
         <Text style={styles.note}>Answered:</Text>
@@ -81,13 +98,13 @@ class Questions extends Component {
         <Button
           titleStyle={styles.buttonAnswer}
           title={
-            this.getAnswersCount() === 15 ? "Let's start" : 'Next Question'
+            this.getAnswersCount() === 15 ? "Let's Start" : 'Next Question'
           }
           type="clear"
           color="#ef5f55"
           onPress={() => {
             if (this.getAnswersCount() === 15) {
-              navigate('Navigation');
+              this.handleDetails();
             }
             this.setState(prev => ({
               currentQ: this.getNext(prev),

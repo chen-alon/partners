@@ -58,7 +58,7 @@ export default class UserProfile extends Component {
               <Text style={styles.name}>Chen Alon</Text>
               <Text style={styles.info}>hitchhiker / 2020</Text>
               <Text style={styles.description}>
-                Let's find your partner for your next vication
+                Let's find your partner for your next vacation
               </Text>
 
               <TouchableOpacity style={styles.buttonContainer}>
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: '#696969',
     fontWeight: '600',
+    fontWeight: 'bold',
   },
   info: {
     fontSize: 16,
@@ -132,8 +133,9 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     color: '#696969',
-    marginTop: 10,
+    //marginTop: 10,
     textAlign: 'center',
+    marginBottom: 10,
   },
   buttonContainer: {
     marginTop: 10,
