@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -9,10 +9,10 @@ import {
   StyleSheet,
 } from 'react-native';
 import * as firebase from 'firebase';
-import Button from './common/Button';
+import Button from '../components/common/Button';
 import {DotIndicator} from 'react-native-indicators';
 
-export default class ForgotPasswordController extends Component {
+class ForgotPasswordController extends React.Component {
   static defaultProps = {
     submitText: 'send',
     placeHolderText: 'example@domain.com',
@@ -99,7 +99,7 @@ export default class ForgotPasswordController extends Component {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('./images/vanishing_hitchhiker2.jpg')}
+          source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={{flex: 1, padding: 20}}>
@@ -168,3 +168,5 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
+
+export default ForgotPasswordController;

@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Text, View, StyleSheet, Alert} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {Button} from 'react-native-elements';
 import {ListOfQandA} from './ListOfQandA';
 import firebase from 'firebase';
 
-class Questions extends Component {
+class Questions extends React.Component {
   static navigationOptions = {
     headerLeft: null,
   };

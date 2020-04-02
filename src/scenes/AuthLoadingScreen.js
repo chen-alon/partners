@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import firebase from 'firebase';
 import {DotIndicator} from 'react-native-indicators';
 import {View, ImageBackground, BackHandler, Alert} from 'react-native';
 
-class AuthLoadingScreen extends Component {
+class AuthLoadingScreen extends React.Component {
   componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
   }
@@ -111,7 +111,7 @@ class AuthLoadingScreen extends Component {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('./images/vanishing_hitchhiker2.jpg')}
+          source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
           style={{
             resizeMode: 'cover',

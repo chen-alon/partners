@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -13,7 +13,7 @@ import {Icon} from 'native-base';
 import {CheckBox, Header} from 'react-native-elements';
 import firebase from 'firebase';
 
-class CreateUser extends Component {
+class CreateUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -82,7 +82,7 @@ class CreateUser extends Component {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('./images/vanishing_hitchhiker2.jpg')}
+          source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.15}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>

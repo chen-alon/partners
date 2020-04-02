@@ -1,15 +1,15 @@
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import LoginForm from './LoginForm';
-import CreateUser from './CreateUser';
-import ForgotPasswordController from './ForgotPasswordController';
-import Questions from './Questions';
-import Navigation from './Navigation';
-import UserInformation from './UserInformation';
-import AuthLoadingScreen from './AuthLoadingScreen';
-import ExstraInformation from './ExstraInformation';
-import TravelingDetails from './TravelingDetails';
-import UserProfile from './UserProfile';
+import LoginForm from './scenes/LoginForm';
+import CreateUser from './scenes/CreateUser';
+import ForgotPasswordController from './scenes/ForgotPasswordController';
+import Questions from './scenes/Questions';
+import UserInformation from './scenes/UserInformation';
+import AuthLoadingScreen from './scenes/AuthLoadingScreen';
+import ExstraInformation from './scenes/ExstraInformation';
+import TravelingDetails from './scenes/TravelingDetails';
+import UserProfile from './scenes/UserProfile';
+import Navigation from './scenes/Navigation';
 
 const MainNavigator = createStackNavigator(
   {

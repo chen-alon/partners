@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -12,7 +12,7 @@ import {DotIndicator} from 'react-native-indicators';
 import firebase from 'firebase';
 import {Button} from 'react-native-elements';
 
-class LoginForm extends Component {
+class LoginForm extends React.Component {
   state = {email: '', password: '', error: '', loading: false};
 
   onButtonPress() {
@@ -62,7 +62,7 @@ class LoginForm extends Component {
     return (
       <View style={styles.background}>
         <ImageBackground
-          source={require('./images/vanishing_hitchhiker2.jpg')}
+          source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
           style={styles.backgroundImage}>
           <View

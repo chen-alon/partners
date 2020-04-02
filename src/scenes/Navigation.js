@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {BottomNavigation, Text} from 'react-native-paper';
 import UserProfile from './UserProfile';
 import Matches from './Matches';
@@ -9,7 +9,7 @@ const HomeRoute = () => <Matches></Matches>;
 const ChatRoute = () => <Text>chats:</Text>;
 const ProfileRoute = () => <UserProfile></UserProfile>;
 
-class Navigation extends Component {
+class Navigation extends React.Component {
   state = {
     index: 0,
     routes: [

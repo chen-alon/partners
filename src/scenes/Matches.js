@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 // import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
 // import {Card} from './common/Card';
 // import {CardSection} from './common/CardSection';
@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
 //const {userName, age, pic, percentage} = partner;
-class Matches extends Component {
+class Matches extends React.Component {
   //   render() {
   //     return (
   //       //   <Card>

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -13,7 +13,7 @@ import {Header} from 'react-native-elements';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
-class ExstraInformation extends Component {
+class ExstraInformation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -60,7 +60,7 @@ class ExstraInformation extends Component {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('./images/vanishing_hitchhiker2.jpg')}
+          source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>

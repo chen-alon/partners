@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -14,7 +14,7 @@ import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import firebase from 'firebase';
 
-class UserInformation extends Component {
+class UserInformation extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -87,7 +87,7 @@ class UserInformation extends Component {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('./images/vanishing_hitchhiker2.jpg')}
+          source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>

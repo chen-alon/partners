@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   TouchableOpacity,
   StyleSheet,
@@ -71,7 +71,7 @@ const months = [
   },
 ];
 
-class TravelingDetails extends Component {
+class TravelingDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -98,7 +98,7 @@ class TravelingDetails extends Component {
         this.state.partnerAge === 'select age range' ||
         this.state.theme === '' ||
         this.state.theme === 'select theme' ||
-        this.state.selectedItems === null)
+        this.state.selectedItems.length === 0)
     ) {
       Alert.alert('Missing details');
     } else if (
@@ -111,7 +111,7 @@ class TravelingDetails extends Component {
         this.state.theme === 'select theme' ||
         this.state.mainland === '' ||
         this.state.mainland === 'select mainland' ||
-        this.state.selectedItems === null ||
+        this.state.selectedItems.length === 0 ||
         (this.state.mainland != 'antarctica' &&
           (this.state.country === '' ||
             this.state.country === 'select country')))
@@ -354,7 +354,7 @@ class TravelingDetails extends Component {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('./images/vanishing_hitchhiker2.jpg')}
+          source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>

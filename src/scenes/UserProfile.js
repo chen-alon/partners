@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 
-export default class UserProfile extends Component {
+class UserProfile extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -51,7 +51,7 @@ export default class UserProfile extends Component {
           <View style={styles.header}></View>
           <Image
             style={styles.avatar}
-            source={require('./images/profile.jpg')}
+            source={require('../images/profile.jpg')}
           />
           <View style={styles.body}>
             <View style={styles.bodyContent}>
@@ -151,3 +151,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fe5f55',
   },
 });
+
+export default UserProfile;

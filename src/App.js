@@ -1,5 +1,5 @@
 import React from 'react';
-import MainNavigation from './src/components/MainNavigation';
+import MainNavigation from './MainNavigation';
 console.disableYellowBox = true;
 
 const App = () => <MainNavigation />;
