@@ -95,7 +95,7 @@ class ExstraInformation extends React.Component {
             <View style={styles.container}>
               <TextInput
                 style={styles.inputBox}
-                value={this.state.countries}
+                value={firebase.auth().currentUser.uid.countries}
                 onChangeText={countries => this.setState({countries})}
                 placeholder={'the countries I visited'}
                 autoCapitalize="none"
@@ -105,7 +105,7 @@ class ExstraInformation extends React.Component {
             <View style={styles.container}>
               <TextInput
                 style={styles.inputBox}
-                value={this.state.languages}
+                value={firebase.auth().currentUser.uid.languages}
                 onChangeText={languages => this.setState({languages})}
                 placeholder={'languages i know'}
                 autoCapitalize="none"
@@ -115,7 +115,7 @@ class ExstraInformation extends React.Component {
             <View style={styles.container}>
               <TextInput
                 style={styles.inputBox}
-                value={this.state.more}
+                value={firebase.auth().currentUser.uid.more}
                 onChangeText={more => this.setState({more})}
                 placeholder={'more about me'}
                 autoCapitalize="none"

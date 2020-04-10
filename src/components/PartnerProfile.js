@@ -1,35 +1,4 @@
-// import React, {Component} from 'react';
-// import {Text} from 'react-native';
-// import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
-
-// // import Card from
-// // import CardSection from
-
-// createMaterialBottomTabNavigator(
-//   RouteConfigs,
-//   MaterialBottomTabNavigatorConfig,
-// );
-
-// const HomePage = ({user}) => {
-//   //const { firstName, lastName, image} = user;
-//   // return(
-//   // <Card>
-//   //     <CardSection>
-//   //         <View></View>
-//   //         <View>
-//   //             <Text>helloooo</Text>
-//   //             <Text>roii</Text>
-//   //         </View>
-//   //     </CardSection>
-//   // </Card>
-//   // )
-// };
-
-// const styles = {};
-
-// export default HomePage;
-
-import React, {Component} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -38,73 +7,160 @@ import {
   Image,
   Alert,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
+import {Icon} from 'native-base';
 
-export default class PartnerProfile extends Component {
+class PartnerProfile extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      choice: '',
+    };
   }
 
   onClickListener = viewId => {
     Alert.alert('Alert', 'Button pressed ' + viewId);
   };
 
-  render() {
+  onClickInformation() {
     return (
-      <ScrollView style={styles.scrollContainer}>
-        <View style={styles.container}>
-          <View style={styles.box}>
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri: 'https://bootdey.com/img/Content/avatar/avatar6.png',
-              }}
-            />
-            <Text style={styles.name}>John Doe</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <TouchableHighlight
-              style={[styles.button, styles.buttonMessage]}
-              onPress={() => this.onClickListener('message')}>
-              <Image
-                style={styles.icon}
-                source={{uri: 'https://png.icons8.com/message/win8/100/ffffff'}}
-              />
-            </TouchableHighlight>
+      <View style={(backgroundColor = '#fff')}>
+        <Text
+          style={styles.inputBox}
+          placeholder={'languages i know'}
+          autoCapitalize="none"
+        />
+      </View>
+    );
+  }
 
-            <TouchableHighlight
-              style={[styles.button, styles.buttonLike]}
-              onPress={() => this.onClickListener('like')}>
-              <Image
-                style={styles.icon}
-                source={{
-                  uri: 'https://png.icons8.com/facebook-like/win10/100/ffffff',
-                }}
-              />
-            </TouchableHighlight>
+  onClickMessage = () => {
+    Alert.alert('send message - Going forward');
+  };
 
-            <TouchableHighlight
-              style={[styles.button, styles.buttonLove]}
-              onPress={() => this.onClickListener('love')}>
-              <Image
-                style={styles.icon}
-                source={{
-                  uri: 'https://png.icons8.com/heart/androidL/100/ffffff',
-                }}
-              />
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              style={[styles.button, styles.buttonCall]}
-              onPress={() => this.onClickListener('phone')}>
-              <Image
-                style={styles.icon}
-                source={{uri: 'https://png.icons8.com/phone/win8/100/ffffff'}}
-              />
-            </TouchableHighlight>
-          </View>
+  displayRequestedDetails() {
+    if (this.state.choice === 'basicInformation') {
+      return (
+        <View style={styles.boxDetails}>
+          <ScrollView>
+            <Text>information</Text>
+          </ScrollView>
         </View>
-      </ScrollView>
+      );
+    }
+
+    if (this.state.choice === 'moreDetails') {
+      return (
+        <View style={styles.boxDetails}>
+          <ScrollView>
+            <Text>more Details</Text>
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (this.state.choice === 'travelingDetails') {
+      return (
+        <View style={styles.boxDetails}>
+          <ScrollView>
+            <Text>traveling Details</Text>
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (this.state.choice === 'message') {
+      return (
+        <View style={styles.boxDetails}>
+          <ScrollView>
+            <Text>send message</Text>
+          </ScrollView>
+        </View>
+      );
+    }
+  }
+
+  render() {
+    // const {state, goBack} = this.props.navigation;
+    // const params = state.params || {};
+
+    return (
+      <View style={{flex: 1}}>
+        <ImageBackground
+          source={require('../images/background.jpg')}
+          imageStyle={{opacity: 0.6}}
+          style={{resizeMode: 'cover', flex: 1}}>
+          <ScrollView style={styles.scrollContainer}>
+            <Icon
+              name="arrow-back"
+              style={{
+                color: '#4f6367',
+                marginLeft: 10,
+                marginBottom: 10,
+              }}
+              onPress={() => goBack(params.go_back_key)}
+            />
+            <View>
+              <View style={styles.box}>
+                <View>
+                  <Image
+                    style={styles.profileImage}
+                    source={require('../images/user.png')}
+                  />
+                </View>
+                <View>
+                  <Text style={styles.name}>Full name, Age</Text>
+                  <Text style={styles.name}>percentages</Text>
+                </View>
+              </View>
+
+              <View style={styles.buttonContainer}>
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => this.setState({choice: 'basicInformation'})}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../images/information.png')}
+                  />
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => this.setState({choice: 'moreDetails'})}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../images/details.png')}
+                  />
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => this.setState({choice: 'travelingDetails'})}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../images/airplane-take-off.png')}
+                  />
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                  style={styles.button}
+                  onPress={() => this.setState({choice: 'message'})}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../images/send-message.png')}
+                  />
+                </TouchableHighlight>
+              </View>
+              {this.state.choice === '' ? (
+                <View></View>
+              ) : (
+                this.displayRequestedDetails()
+              )}
+            </View>
+          </ScrollView>
+        </ImageBackground>
+      </View>
     );
   }
 }
@@ -112,70 +168,69 @@ export default class PartnerProfile extends Component {
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-  },
-  container: {
-    padding: 20,
+    padding: 10,
+    backgroundColor: 'transparent',
   },
   box: {
-    marginTop: 10,
-    backgroundColor: 'white',
+    marginTop: 15,
+    borderRadius: 8,
     alignItems: 'center',
-    shadowColor: 'black',
-    shadowOpacity: 0.2,
-    shadowOffset: {
-      height: 1,
-      width: -2,
-    },
-    elevation: 2,
-    paddingTop: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   profileImage: {
-    width: 300,
-    height: 300,
-    marginBottom: 20,
+    width: 200,
+    height: 200,
+    borderWidth: 4,
+    borderColor: '#dcdcdc',
   },
   name: {
-    fontSize: 35,
-    marginBottom: 20,
+    fontSize: 16,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    color: '#4f6367',
     fontWeight: 'bold',
-    color: '#1E90FF',
   },
   buttonContainer: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 30,
+    alignSelf: 'center',
   },
-
   button: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fe5f55',
     marginBottom: 20,
-    borderRadius: 30,
-    margin: 10,
+    borderRadius: 40,
+    margin: 8,
     shadowColor: 'black',
-    shadowOpacity: 0.8,
-    shadowOffset: {
-      height: 2,
-      width: -2,
-    },
-    elevation: 4,
-  },
-  buttonMessage: {
-    backgroundColor: '#00BFFF',
-  },
-  buttonLike: {
-    backgroundColor: '#228B22',
-  },
-  buttonLove: {
-    backgroundColor: '#FF1493',
-  },
-  buttonCall: {
-    backgroundColor: '#40E0D0',
+    elevation: 13,
+    borderWidth: 2,
+    borderColor: '#fff',
   },
   icon: {
-    width: 35,
-    height: 35,
+    width: 40,
+    height: 40,
+  },
+  text: {
+    fontSize: 20,
+    color: '#fff',
+  },
+  boxDetails: {
+    marginTop: 10,
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    //borderRadius: 1,
+    borderColor: '#dcdcdc',
   },
 });
+
+export default PartnerProfile;
