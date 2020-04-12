@@ -526,6 +526,7 @@ class TravelingDetails extends React.Component {
                     color: '#4f6367',
                     fontSize: 16,
                   }}
+                  textInputProps={{editable: false}}
                   searchInputStyle={{
                     //backgroundColor: '#eef5d8',
                     fontSize: 16,
@@ -545,10 +546,7 @@ class TravelingDetails extends React.Component {
                   onSelectedItemsChange={this.onSelectedItemsChange}
                   selectedItems={selectedItems}
                   selectText="select months"
-                  //searchInputPlaceholderText="Search Months..."
-                  //onChangeInput={months => console.log(months)}
-                  //altFontFamily="ProximaNova-Light"
-                  //tagRemoveIconColor="#CCC"
+                  searchInputPlaceholderText="select months"
                   textColor="#4f6367"
                   tagTextColor="#eef5d8"
                   selectedItemTextColor="#fe5f55"
@@ -556,7 +554,6 @@ class TravelingDetails extends React.Component {
                   displayKey="name"
                   hideSubmitButton
                   flatListProps
-                  onAddItem={false}
                 />
               </View>
 

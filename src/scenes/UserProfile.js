@@ -22,18 +22,38 @@ class UserProfile extends React.Component {
     };
   }
 
+  // componentDidMount() {
+  //   const {navigation} = this.props;
+  //   const ref = firebase
+  //     .firestore()
+  //     .collection('users')
+  //     .doc(JSON.parse(navigation.getParam('firstName')));
+  //   ref.get().then(doc => {
+  //     if (doc.exists) {
+  //       this.setState({
+  //         board: doc.data(),
+  //         key: doc.id,
+  //         isLoading: false,
+  //       });
+  //     } else {
+  //       console.log('No such document!');
+  //     }
+  //   });
+  // }
+
   getName = () => {
-    const name = this.state.firstName;
-    if (name == null || name.length <= 0) return 'User';
-    return name;
+    // const name = this.state.firstName;
+    // if (name == null || name.length <= 0) return 'User';
+    // return name;
+    Alert.alert('hellooo');
     // firebase
     //   .firestore()
     //   .collection('users')
     //   .doc(this.state.uid)
-    //   .get()
+    //   .get(firstName)
     //   .then(doc => {
     //     if (doc.exists) {
-    //       return 'xxx';
+    //       return doc;
     //     } else {
     //       // doc.data() will be undefined in this case
     //       return 'user';
@@ -55,7 +75,7 @@ class UserProfile extends React.Component {
           />
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>Chen Alon</Text>
+              <Text style={styles.name}>chen alon</Text>
               <Text style={styles.info}>hitchhiker / 2020</Text>
               <Text style={styles.description}>
                 Let's find your partner for your next vacation
