@@ -7,7 +7,9 @@ import {
   ImageBackground,
   ScrollView,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
+import {Icon} from 'native-base';
 import * as firebase from 'firebase';
 import Button from '../components/common/Button';
 import {DotIndicator} from 'react-native-indicators';
@@ -94,23 +96,28 @@ class ForgotPasswordController extends React.Component {
   }
 
   render() {
-    const {navigate} = this.props.navigation;
+    const {state, goBack} = this.props.navigation;
+    const params = state.params || {};
 
     return (
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          style={styles.backgroundImage}>
           <ScrollView style={{flex: 1, padding: 20}}>
-            <Text
-              style={styles.backButton}
-              onPress={() => navigate('LoginForm')}>
-              {'<<'} Back
-            </Text>
+            <Icon
+              name="arrow-back"
+              style={{
+                color: '#4f6367',
+                marginLeft: 10,
+                marginBottom: 10,
+              }}
+              onPress={() => goBack(params.go_back_key)}
+            />
             <Text style={styles.header}>Forgot Password</Text>
 
-            <View style={{paddingTop: 100}}>
+            <View style={{paddingTop: 80}}>
               <TextInput
                 style={styles.inputBox}
                 autoCorrect={false}
@@ -126,7 +133,7 @@ class ForgotPasswordController extends React.Component {
                 onChangeText={email => this.setState({email})}
                 value={this.state.email}
               />
-              <View style={{paddingTop: 30}}>{this.renderButton()}</View>
+              <View style={{paddingTop: 20}}>{this.renderButton()}</View>
             </View>
           </ScrollView>
         </ImageBackground>
@@ -149,14 +156,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontFamily: 'AmaticSC-Bold',
   },
-
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   header: {
     color: '#7a9e9f',
     fontSize: 40,
     fontWeight: 'bold',
     alignSelf: 'center',
   },
-
   backButton: {
     textAlign: 'left',
     color: '#fe5f55',

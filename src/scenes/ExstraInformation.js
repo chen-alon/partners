@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import {Icon} from 'native-base';
 import {Header} from 'react-native-elements';
@@ -61,8 +62,8 @@ class ExstraInformation extends React.Component {
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
-          imageStyle={{opacity: 0.3}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          imageStyle={{opacity: 0.4}}
+          style={styles.backgroundImage}>
           <ScrollView style={styles.scroll}>
             <Icon
               name="arrow-back"
@@ -140,7 +141,12 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'transparent',
   },
-
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   container: {
     flex: 1,
     backgroundColor: 'transparent',
@@ -153,17 +159,14 @@ const styles = StyleSheet.create({
     borderColor: '#eef5d8',
     borderWidth: 3,
   },
-
   inputBox: {
     width: '85%',
     margin: 10,
     padding: 25,
     fontSize: 18,
-    //borderColor: '#d3d3d3',
     borderRadius: 10,
     color: '#4f6367',
   },
-
   button: {
     marginTop: 10,
     marginBottom: 30,
@@ -176,7 +179,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 200,
   },
-
   buttonText: {
     justifyContent: 'center',
     alignContent: 'center',

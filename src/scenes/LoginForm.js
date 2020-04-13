@@ -7,6 +7,7 @@ import {
   Text,
   KeyboardAvoidingView,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
 import firebase from 'firebase';
@@ -60,10 +61,10 @@ class LoginForm extends React.Component {
     const {navigate} = this.props.navigation;
 
     return (
-      <View style={styles.background}>
+      <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
-          imageStyle={{opacity: 0.3}}
+          imageStyle={{opacity: 0.4}}
           style={styles.backgroundImage}>
           <View
             style={{
@@ -142,10 +143,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 
-  background: {
-    flex: 1,
-  },
-
   signIn: {
     textAlign: 'center',
     fontSize: 14,
@@ -192,7 +189,8 @@ const styles = StyleSheet.create({
   backgroundImage: {
     resizeMode: 'cover',
     flex: 1,
-    //justifyContent: 'center',
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
   },
 });
 

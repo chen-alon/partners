@@ -9,6 +9,7 @@ import {
   Picker,
   Alert,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
@@ -88,8 +89,8 @@ class UserInformation extends React.Component {
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
-          imageStyle={{opacity: 0.3}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          imageStyle={{opacity: 0.4}}
+          style={styles.backgroundImage}>
           <ScrollView style={styles.scroll}>
             <Header
               centerComponent={{
@@ -186,7 +187,7 @@ class UserInformation extends React.Component {
               </View> */}
             </View>
             <TouchableOpacity
-              style={styles.button}
+              style={[styles.button]}
               onPress={this.handleDetails}>
               <Text style={styles.buttonText}>Countine</Text>
             </TouchableOpacity>
@@ -203,18 +204,18 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'transparent',
   },
-
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   container: {
     flex: 1,
-    //backgroundColor: '#EEF5D8',
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    //borderWidth: 4,
-    //borderRadius: 10,
-    //borderColor: '#fff',
   },
-
   inputBox: {
     width: '85%',
     margin: 10,
@@ -225,7 +226,6 @@ const styles = StyleSheet.create({
     color: '#4f6367',
     marginTop: 20,
   },
-
   text: {
     fontSize: 16,
     color: '#4f6367',
@@ -233,7 +233,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: 'flex-start',
   },
-
   date: {
     width: '85%',
     padding: 15,
@@ -242,17 +241,14 @@ const styles = StyleSheet.create({
     paddingBottom: 1,
     paddingTop: 20,
   },
-
   age: {
-    fontSize: 15,
+    fontSize: 14,
     color: '#4f6367',
     paddingTop: 6,
     fontWeight: 'bold',
   },
-
   button: {
-    marginTop: 65,
-    marginBottom: 30,
+    marginTop: 60,
     paddingVertical: 5,
     alignItems: 'center',
     alignSelf: 'center',
@@ -262,7 +258,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 200,
   },
-
   pickerStyle: {
     width: '80%',
     color: '#344953',
@@ -270,13 +265,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingTop: 20,
   },
-
   buttonText: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#bbd8d8',
   },
-
   // pic: {
   //   flex: 1,
   //   flexDirection: 'row',

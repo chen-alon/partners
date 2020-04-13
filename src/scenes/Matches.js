@@ -12,6 +12,7 @@ import {
   Alert,
   ScrollView,
   FlatList,
+  ImageBackground,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
 //const {userName, age, pic, percentage} = partner;
@@ -131,46 +132,50 @@ class Matches extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <FlatList
-          style={styles.list}
-          contentContainerStyle={styles.listContainer}
-          data={this.state.data}
-          horizontal={false}
-          numColumns={2}
-          keyExtractor={item => {
-            return item.id;
-          }}
-          ItemSeparatorComponent={() => {
-            return <View style={styles.separator} />;
-          }}
-          renderItem={post => {
-            const item = post.item;
-            return (
-              <View style={styles.card}>
-                <View style={styles.imageContainer}>
-                  <Image style={styles.cardImage} source={{uri: item.image}} />
+      <View style={{flex: 1, backgroundColor: 'transparent'}}>
+        <ImageBackground
+          source={require('../images/background.jpg')}
+          imageStyle={{opacity: 0.5}}
+          style={{resizeMode: 'cover', flex: 1}}>
+          <FlatList
+            style={styles.list}
+            contentContainerStyle={styles.listContainer}
+            data={this.state.data}
+            horizontal={false}
+            numColumns={2}
+            keyExtractor={item => {
+              return item.id;
+            }}
+            ItemSeparatorComponent={() => {
+              return <View style={styles.separator} />;
+            }}
+            renderItem={post => {
+              const item = post.item;
+              return (
+                <View style={styles.card}>
+                  <View style={styles.imageContainer}>
+                    <Image
+                      style={styles.cardImage}
+                      source={{uri: item.image}}
+                    />
+                  </View>
+                  <View style={styles.cardContent}>
+                    <Text style={styles.details}>
+                      {item.firstName}, {item.age}
+                    </Text>
+                    <Text style={styles.percentage}>{item.percentage}%</Text>
+                  </View>
                 </View>
-                <View style={styles.cardContent}>
-                  <Text style={styles.details}>
-                    {item.firstName}, {item.age}
-                  </Text>
-                  <Text style={styles.percentage}>{item.percentage}%</Text>
-                </View>
-              </View>
-            );
-          }}
-        />
+              );
+            }}
+          />
+        </ImageBackground>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#7a9e9f',
-  },
   list: {
     paddingHorizontal: 10,
   },

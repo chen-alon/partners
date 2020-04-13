@@ -8,6 +8,7 @@ import {
   Text,
   Alert,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import {Icon} from 'native-base';
 import {CheckBox, Header} from 'react-native-elements';
@@ -77,14 +78,15 @@ class CreateUser extends React.Component {
   }
 
   render() {
-    const {navigate} = this.props.navigation;
+    const {state, goBack} = this.props.navigation;
+    const params = state.params || {};
 
     return (
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
-          imageStyle={{opacity: 0.15}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          imageStyle={{opacity: 0.4}}
+          style={styles.backgroundImage}>
           <ScrollView style={styles.scroll}>
             <Icon
               name="arrow-back"
@@ -93,9 +95,8 @@ class CreateUser extends React.Component {
                 marginLeft: 10,
                 marginBottom: 10,
               }}
-              onPress={() => navigate('LoginForm')}
+              onPress={() => goBack(params.go_back_key)}
             />
-
             <Header
               centerComponent={{
                 text: 'Register',
@@ -143,7 +144,7 @@ class CreateUser extends React.Component {
             </View>
             <CheckBox
               containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
-              textStyle={{fontSize: 11, color: '#4F6367'}}
+              textStyle={{fontSize: 13, color: '#4F6367'}}
               fontFamily="AmaticSC-Bold"
               checkedColor="#4F6367"
               center
@@ -165,35 +166,28 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     padding: 20,
-    //backgroundColor: '#7a9e9f',
   },
-
-  checkBoxContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#bbd8d8',
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
   },
-
   container: {
     marginTop: 10,
     flex: 1,
-    backgroundColor: '#eef5d8',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 4,
-    borderRadius: 5,
-    borderColor: '#fff',
   },
-
   inputBox: {
     width: '85%',
     margin: 10,
     padding: 15,
-    fontSize: 16,
+    fontSize: 18,
     borderColor: '#d3d3d3',
     borderBottomWidth: 1,
   },
-
   button: {
     marginTop: 20,
     marginBottom: 30,
@@ -206,13 +200,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 200,
   },
-
   buttonText: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#bbd8d8',
   },
-
   buttonSignup: {
     fontSize: 12,
   },

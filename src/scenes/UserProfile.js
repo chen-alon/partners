@@ -6,9 +6,9 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  Button,
-  Alert,
+  ImageBackground,
 } from 'react-native';
+import {DotIndicator} from 'react-native-indicators';
 import firebase from 'firebase';
 
 class UserProfile extends React.Component {
@@ -16,91 +16,91 @@ class UserProfile extends React.Component {
     super();
     this.state = {
       isLoading: true,
-      tableData: [],
       key: '',
+      details: {},
       uid: firebase.auth().currentUser.uid,
     };
   }
 
-  // componentDidMount() {
-  //   const {navigation} = this.props;
-  //   const ref = firebase
-  //     .firestore()
-  //     .collection('users')
-  //     .doc(JSON.parse(navigation.getParam('firstName')));
-  //   ref.get().then(doc => {
-  //     if (doc.exists) {
-  //       this.setState({
-  //         board: doc.data(),
-  //         key: doc.id,
-  //         isLoading: false,
-  //       });
-  //     } else {
-  //       console.log('No such document!');
-  //     }
-  //   });
-  // }
-
-  getName = () => {
-    // const name = this.state.firstName;
-    // if (name == null || name.length <= 0) return 'User';
-    // return name;
-    Alert.alert('hellooo');
-    // firebase
-    //   .firestore()
-    //   .collection('users')
-    //   .doc(this.state.uid)
-    //   .get(firstName)
-    //   .then(doc => {
-    //     if (doc.exists) {
-    //       return doc;
-    //     } else {
-    //       // doc.data() will be undefined in this case
-    //       return 'user';
-    //     }
-    //   })
-    //   .catch(function(error) {
-    //     console.log('Error getting document:', error);
-    //   });
-  };
+  componentDidMount() {
+    const ref = firebase
+      .firestore()
+      .collection('users')
+      .doc(this.state.uid);
+    ref.get().then(doc => {
+      if (doc.exists) {
+        this.setState({
+          details: doc.data(),
+          key: doc.id,
+          isLoading: false,
+        });
+      } else {
+        console.log('No such document!');
+      }
+    });
+  }
 
   render() {
     return (
-      <ScrollView style={styles.scroll}>
-        <View style={styles.container}>
-          <View style={styles.header}></View>
-          <Image
-            style={styles.avatar}
-            source={require('../images/profile.jpg')}
-          />
-          <View style={styles.body}>
-            <View style={styles.bodyContent}>
-              <Text style={styles.name}>chen alon</Text>
-              <Text style={styles.info}>hitchhiker / 2020</Text>
-              <Text style={styles.description}>
-                Let's find your partner for your next vacation
-              </Text>
+      <View style={{flex: 1}}>
+        <ImageBackground
+          source={require('../images/background.jpg')}
+          imageStyle={{opacity: 0.5}}
+          style={{resizeMode: 'cover', flex: 1}}>
+          <ScrollView style={styles.scroll}>
+            <View style={styles.container}>
+              <View style={styles.header}></View>
+              <Image
+                style={styles.avatar}
+                source={require('../images/user.png')}
+              />
+              <View>
+                <View style={styles.bodyContent}>
+                  {this.state.details.firstName === undefined ? (
+                    <View>
+                      <DotIndicator color="#fe5f55" />
+                    </View>
+                  ) : (
+                    <View>
+                      <Text style={styles.name}>
+                        {this.state.details.firstName +
+                          ' ' +
+                          this.state.details.lastName}
+                      </Text>
+                    </View>
+                  )}
 
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={{color: '#eef5d8'}}>Edit profile</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={{color: '#eef5d8'}}>Ideal hitchhiker</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={{color: '#eef5d8'}}>Account settings</Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Text
-                  style={{color: '#eef5d8', fontSize: 20, fontWeight: 'bold'}}
-                  onPress={() => firebase.auth().signOut()}>
-                  Sign Out
-                </Text>
-              </TouchableOpacity>
+                  <Text style={styles.info}>hitchhiker / 2020</Text>
+                  <Text style={styles.description}>
+                    Let's find your partner for your next vacation
+                  </Text>
+
+                  <TouchableOpacity style={styles.buttonContainer}>
+                    <Text style={{color: '#eef5d8'}}>Edit profile</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.buttonContainer}>
+                    <Text style={{color: '#eef5d8'}}>Ideal hitchhiker</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.buttonContainer}>
+                    <Text style={{color: '#eef5d8'}}>Account settings</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Text
+                      style={{
+                        color: '#eef5d8',
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                      }}
+                      onPress={() => firebase.auth().signOut()}>
+                      Sign Out
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
-      </ScrollView>
+          </ScrollView>
+        </ImageBackground>
+      </View>
     );
   }
 }
@@ -109,30 +109,24 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#7a9e9f',
   },
   header: {
-    backgroundColor: '#b8d8d8',
-    height: 170,
+    backgroundColor: '#fff',
+    alignSelf: 'center',
+    height: 230,
+    width: 230,
+    borderRadius: 130,
+    marginTop: 15,
   },
   avatar: {
-    width: 190,
-    height: 190,
+    width: 200,
+    height: 200,
     borderRadius: 100,
     borderWidth: 2,
     borderColor: '#fe5f55',
-    marginBottom: 10,
     alignSelf: 'center',
     position: 'absolute',
-    marginTop: 50,
-  },
-  name: {
-    fontSize: 22,
-    color: '#FFFFFF',
-    fontWeight: '600',
-  },
-  body: {
-    marginTop: 40,
+    marginTop: 30,
   },
   bodyContent: {
     flex: 1,
@@ -140,20 +134,20 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   name: {
-    fontSize: 28,
+    fontSize: 32,
     color: '#696969',
     fontWeight: '600',
     fontWeight: 'bold',
+    flexDirection: 'row',
   },
   info: {
-    fontSize: 16,
+    fontSize: 13,
     color: '#eef5d8',
     marginTop: 10,
   },
   description: {
-    fontSize: 16,
+    fontSize: 13,
     color: '#696969',
-    //marginTop: 10,
     textAlign: 'center',
     marginBottom: 10,
   },
