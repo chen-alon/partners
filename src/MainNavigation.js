@@ -30,10 +30,10 @@ const MainNavigator = createStackNavigator(
     },
     Questions: {
       screen: Questions,
-      navigationOptions: () => ({
-        header: null,
-        HeaderProps: null,
-      }),
+      // navigationOptions: () => ({
+      //   header: null,
+      //   HeaderProps: null,
+      // }),
     },
     Navigation: {
       screen: Navigation,

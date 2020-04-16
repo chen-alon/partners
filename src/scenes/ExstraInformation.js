@@ -25,10 +25,6 @@ class ExstraInformation extends React.Component {
   }
 
   ExDetailsCheck = () => {
-    this.setState({
-      isLoading: true,
-    });
-
     firebase
       .firestore()
       .collection('users')
@@ -39,14 +35,11 @@ class ExstraInformation extends React.Component {
         more: this.state.more,
       })
       .then(
-        this.props.navigation.navigate('TravelingDetails', {
-          go_back_key: this.props.navigation.key,
-        }),
+        this.props.navigation.navigate('TravelingDetails'),
         this.setState({
           countries: '',
           languages: '',
           more: '',
-          isLoading: false,
         }),
       )
       .catch(error => {
@@ -55,8 +48,7 @@ class ExstraInformation extends React.Component {
   };
 
   render() {
-    const {state, goBack} = this.props.navigation;
-    const params = state.params || {};
+    const {navigate} = this.props.navigation;
 
     return (
       <View style={{flex: 1}}>
@@ -72,7 +64,7 @@ class ExstraInformation extends React.Component {
                 marginLeft: 10,
                 marginBottom: 10,
               }}
-              onPress={() => goBack(params.go_back_key)}
+              onPress={() => navigate('UserInformation')}
             />
             <Header
               centerComponent={{

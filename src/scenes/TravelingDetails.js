@@ -132,9 +132,7 @@ class TravelingDetails extends React.Component {
             selectedItems: this.state.selectedItems,
           })
           .then(
-            this.props.navigation.navigate('Questions', {
-              go_back_key: this.props.navigation.key,
-            }),
+            this.props.navigation.navigate('Questions'),
             this.setState({
               area: '',
               mainland: '',
@@ -167,9 +165,7 @@ class TravelingDetails extends React.Component {
             theme: this.state.theme,
           })
           .then(
-            this.props.navigation.navigate('Questions', {
-              go_back_key: this.props.navigation.key,
-            }),
+            this.props.navigation.navigate('Questions'),
             this.setState({
               area: '',
               mainland: '',
@@ -347,8 +343,7 @@ class TravelingDetails extends React.Component {
   };
 
   render() {
-    const {state, goBack} = this.props.navigation;
-    const params = state.params || {};
+    const {navigate} = this.props.navigation;
     const {selectedItems} = this.state;
 
     return (
@@ -365,7 +360,7 @@ class TravelingDetails extends React.Component {
                 marginLeft: 10,
                 marginBottom: 10,
               }}
-              onPress={() => goBack(params.go_back_key)}
+              onPress={() => navigate('ExstraInformation')}
             />
             <Header
               centerComponent={{

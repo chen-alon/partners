@@ -90,6 +90,7 @@ class UserProfile extends React.Component {
                         color: '#eef5d8',
                         fontSize: 20,
                         fontWeight: 'bold',
+                        paddingBottom: 10,
                       }}
                       onPress={() => firebase.auth().signOut()}>
                       Sign Out

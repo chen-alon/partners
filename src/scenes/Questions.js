@@ -24,6 +24,7 @@ class Questions extends React.Component {
       .doc(firebase.auth().currentUser.uid)
       .update({
         ListOfQandA: this.state.ListOfQandA,
+        finished: true,
       })
       .then(
         this.props.navigation.navigate('Navigation'),

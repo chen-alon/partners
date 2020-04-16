@@ -1,4 +1,4 @@
-// firebase NATIVE App configs (created in firebase console two native apps):
+// firebase NATIVE App config (created in firebase console native apps):
 
 // from firebase console and also saved in `android/app/google-services.json`
 const CONFIG_ANDROID = {
