@@ -4,7 +4,7 @@ import {CONFIG_ANDROID} from '../utils/firebase/constants';
 import {DotIndicator} from 'react-native-indicators';
 import {View, ImageBackground, BackHandler, Alert} from 'react-native';
 
-class AuthLoadingScreen extends React.Component {
+class AuthLoadingScene extends React.Component {
   componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
   }
@@ -59,4 +59,4 @@ class AuthLoadingScreen extends React.Component {
   }
 }
 
-export default AuthLoadingScreen;
+export default AuthLoadingScene;

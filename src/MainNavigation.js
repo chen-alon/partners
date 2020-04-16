@@ -5,7 +5,7 @@ import CreateUser from './scenes/CreateUser';
 import ForgotPasswordController from './scenes/ForgotPasswordController';
 import Questions from './scenes/Questions';
 import UserInformation from './scenes/UserInformation';
-import AuthLoadingScreen from './scenes/AuthLoadingScreen';
+import AuthLoadingScene from './scenes/AuthLoadingScene';
 import ExstraInformation from './scenes/ExstraInformation';
 import TravelingDetails from './scenes/TravelingDetails';
 import UserProfile from './scenes/UserProfile';
@@ -13,8 +13,8 @@ import Navigation from './scenes/Navigation';
 
 const MainNavigator = createStackNavigator(
   {
-    AuthLoadingScreen: {
-      screen: AuthLoadingScreen,
+    AuthLoadingScene: {
+      screen: AuthLoadingScene,
     },
     LoginForm: {
       screen: LoginForm,
@@ -54,7 +54,7 @@ const MainNavigator = createStackNavigator(
 
   {
     headerMode: 'none',
-    initialRouteName: 'AuthLoadingScreen',
+    initialRouteName: 'AuthLoadingScene',
     navigationOptions: {
       headerVisible: false,
       header: null,
