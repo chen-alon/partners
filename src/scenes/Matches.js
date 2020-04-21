@@ -1,134 +1,53 @@
 import React from 'react';
-// import {Text, View, StyleSheet, Image, ScrollView} from 'react-native';
-// import {Card} from './common/Card';
-// import {CardSection} from './common/CardSection';
-
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   Image,
-  Alert,
   ScrollView,
   FlatList,
   ImageBackground,
 } from 'react-native';
-import {TextInput} from 'react-native-paper';
-//const {userName, age, pic, percentage} = partner;
+import firebase from '../utils/firebase/firebase-db';
+
 class Matches extends React.Component {
-  //   render() {
-  //     return (
-  //       //   <Card>
-  //       //     <CardSection>
-  //       <ScrollView style={styles.scroll}>
-  //         <View>
-  //           <Image
-  //             style={styles.picStyle}
-  //             source={require('./images/start.jpg')}
-  //           />
-  //           <Text style={styles.percentStyle}>percentage</Text>
-  //         </View>
-  //         <View style={styles.detailStyle}>
-  //           <Text>userName, age</Text>
-  //         </View>
-  //       </ScrollView>
-  //       //     </CardSection>
-  //       //   </Card>
-  //     );
-  //   }
-  // }
-
-  // const styles = StyleSheet.create({
-  //   detailStyle: {
-  //     //flexDirection: 'column',
-  //     justifyContent: 'space-around',
-  //   },
-  //   scroll: {
-  //     flex: 1,
-  //     padding: 20,
-  //     backgroundColor: '#7a9e9f',
-  //   },
-  //   percentStyle: {
-  //     fontSize: 20,
-  //     fontWeight: 'bold',
-  //   },
-  //   picStyle: {
-  //     height: 150,
-  //     width: 150,
-  //     justifyContent: 'space-around',
-  //     flexDirection: 'column',
-  //     marginLeft: 10,
-  //   },
-  // });
-
   constructor(props) {
     super(props);
+    this.ref = firebase.firestore().collection('users');
+    this.unsubscribe = null;
+
     this.state = {
-      data: [
-        {
-          firstName: 'Chen',
-          age: '26',
-          percentage: '90',
-          image: 'https://lorempixel.com/400/200/nature/6/',
-        },
-        {
-          firstName: 'Roi',
-          age: '27',
-          percentage: '89',
-          image: 'https://lorempixel.com/400/200/nature/5/',
-        },
-        {
-          firstName: 'Tehila',
-          age: '21',
-          percentage: '81',
-          image: 'https://lorempixel.com/400/200/nature/4/',
-        },
-        {
-          firstName: 'Naomi',
-          age: '26',
-          percentage: '81',
-          image: 'https://lorempixel.com/400/200/nature/6/',
-        },
-        {
-          firstName: 'Stav',
-          age: '20',
-          percentage: '77',
-          image: 'https://lorempixel.com/400/200/sports/1/',
-        },
-        {
-          firstName: 'Gal',
-          age: '19',
-          percentage: '70',
-          image: 'https://lorempixel.com/400/200/nature/8/',
-        },
-        {
-          firstName: 'Yuri',
-          age: '24',
-          percentage: '70',
-          image: 'https://lorempixel.com/400/200/nature/1/',
-        },
-        {
-          firstName: 'Israel',
-          age: '28',
-          percentage: '69',
-          image: 'https://lorempixel.com/400/200/nature/3/',
-        },
-        {
-          firstName: 'Yossi',
-          age: '54',
-          percentage: '62',
-          image: 'https://lorempixel.com/400/200/nature/4/',
-        },
-        {
-          firstName: 'Iris',
-          age: '51',
-          percentage: '61',
-          image: 'https://lorempixel.com/400/200/nature/5/',
-        },
-      ],
+      details: [],
+      loading: false,
+      uid: firebase.auth().currentUser.uid,
     };
   }
+
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  }
+
+  onCollectionUpdate = querySnapshot => {
+    const details = [];
+    querySnapshot.forEach(doc => {
+      const {email, firstName, lastName, age, gender, dateOfBirth} = doc.data();
+      details.push({
+        key: doc.id,
+        doc, // DocumentSnapshot
+        email,
+        firstName,
+        lastName,
+        age,
+        gender,
+        dateOfBirth,
+      });
+    });
+    this.setState({
+      details,
+      loading: false,
+    });
+  };
 
   render() {
     return (
@@ -137,38 +56,42 @@ class Matches extends React.Component {
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.5}}
           style={{resizeMode: 'cover', flex: 1}}>
-          <FlatList
-            style={styles.list}
-            contentContainerStyle={styles.listContainer}
-            data={this.state.data}
-            horizontal={false}
-            numColumns={2}
-            keyExtractor={item => {
-              return item.id;
-            }}
-            ItemSeparatorComponent={() => {
-              return <View style={styles.separator} />;
-            }}
-            renderItem={post => {
-              const item = post.item;
-              return (
-                <View style={styles.card}>
-                  <View style={styles.imageContainer}>
-                    <Image
-                      style={styles.cardImage}
-                      source={{uri: item.image}}
-                    />
-                  </View>
-                  <View style={styles.cardContent}>
-                    <Text style={styles.details}>
-                      {item.firstName}, {item.age}
-                    </Text>
-                    <Text style={styles.percentage}>{item.percentage}%</Text>
-                  </View>
-                </View>
-              );
-            }}
-          />
+          <ScrollView style={{flex: 1}}>
+            <FlatList
+              style={styles.list}
+              //contentContainerStyle={styles.listContainer}
+              data={this.state.details}
+              horizontal={false}
+              numColumns={2}
+              keyExtractor={item => item.uid}
+              ItemSeparatorComponent={() => {
+                return <View style={styles.separator} />;
+              }}
+              renderItem={post => {
+                const item = post.item;
+                return (
+                  <TouchableOpacity style={styles.card}>
+                    <View style={styles.imageContainer}>
+                      <Image
+                        style={styles.cardImage}
+                        source={
+                          item.image
+                            ? {uri: item.image}
+                            : require('../images/user.png')
+                        }
+                      />
+                    </View>
+                    <View style={styles.cardContent}>
+                      <Text style={styles.details}>
+                        {item.firstName + ' ' + item.lastName}, {item.age}
+                      </Text>
+                      <Text style={styles.percentage}>{item.percentage}%</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </ScrollView>
         </ImageBackground>
       </View>
     );
@@ -178,9 +101,10 @@ class Matches extends React.Component {
 const styles = StyleSheet.create({
   list: {
     paddingHorizontal: 10,
+    paddingTop: 10,
   },
   listContainer: {
-    alignItems: 'center',
+    //alignItems: 'center',
   },
   separator: {
     marginTop: 10,
@@ -216,14 +140,16 @@ const styles = StyleSheet.create({
   details: {
     fontSize: 20,
     flex: 1,
-    color: '#eef5db',
+    //color: '#eef5db',
+    color: '#4f6367',
     alignSelf: 'center',
   },
 
   percentage: {
     fontSize: 24,
     flex: 1,
-    color: '#eef5db',
+    //color: '#eef5db',
+    color: '#4f6367',
     alignSelf: 'center',
   },
 });

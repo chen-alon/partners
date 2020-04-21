@@ -9,35 +9,31 @@ import {
   ImageBackground,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
-import firebase from 'firebase';
+import firebase from '../utils/firebase/firebase-db';
 
 class UserProfile extends React.Component {
   constructor() {
     super();
     this.state = {
       isLoading: true,
-      key: '',
       details: {},
-      uid: firebase.auth().currentUser.uid,
     };
-  }
 
-  componentDidMount() {
-    const ref = firebase
+    firebase
       .firestore()
       .collection('users')
-      .doc(this.state.uid);
-    ref.get().then(doc => {
-      if (doc.exists) {
-        this.setState({
-          details: doc.data(),
-          key: doc.id,
-          isLoading: false,
-        });
-      } else {
-        console.log('No such document!');
-      }
-    });
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          this.setState({
+            details: doc.data(),
+            isLoading: false,
+          });
+        } else {
+          console.log('No such document!');
+        }
+      });
   }
 
   render() {

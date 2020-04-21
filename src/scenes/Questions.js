@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, Alert} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {Button} from 'react-native-elements';
 import {ListOfQandA} from './ListOfQandA';
-import firebase from 'firebase';
+import firebase from '../utils/firebase/firebase-db';
 
 class Questions extends React.Component {
   static navigationOptions = {

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {Icon} from 'native-base';
 import {CheckBox, Header} from 'react-native-elements';
-import firebase from 'firebase';
+import firebase from '../utils/firebase/firebase-db';
 
 class CreateUser extends React.Component {
   constructor(props) {

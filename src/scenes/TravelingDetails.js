@@ -13,7 +13,7 @@ import {
 import {Icon} from 'native-base';
 import {Header} from 'react-native-elements';
 import MultiSelect from 'react-native-multiple-select';
-import firebase from 'firebase';
+import firebase from '../utils/firebase/firebase-db';
 import 'firebase/firestore';
 
 const months = [

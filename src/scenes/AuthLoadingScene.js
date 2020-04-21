@@ -1,26 +1,28 @@
 import React from 'react';
 import {DotIndicator} from 'react-native-indicators';
-import {View, ImageBackground, BackHandler, Alert} from 'react-native';
+import {View, BackHandler, Alert} from 'react-native';
 import firebase from '../utils/firebase/firebase-db';
 
+// eslint-disable-next-line no-console
+console.disableYellowBox = true;
 class AuthLoadingScene extends React.Component {
+  state = {
+    loggedIn: false,
+    loading: false,
+    details: {},
+  };
+
   componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
 
-    const ref = firebase
-      .firestore()
-      .collection('users')
-      .doc(this.state.uid);
-    ref.get().then(doc => {
-      if (doc.exists) {
-        this.setState({
-          details: doc.data(),
-          key: doc.id,
-          isLoading: false,
-        });
+    firebase.auth().onAuthStateChanged(() => {
+      const user = firebase.auth().currentUser;
+      if (user) {
+        this.setState({loggedIn: true, loading: true});
       } else {
-        console.log('No such document!');
+        this.setState({loggedIn: false, loading: false});
       }
+      this.retrieveData();
     });
   }
 
@@ -28,33 +30,29 @@ class AuthLoadingScene extends React.Component {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
-  //Handling Android Back Button Press in React Native
+  // retrieve data from firebase
+  retrieveData() {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          this.setState({
+            details: doc.data(),
+          });
+        } else {
+          console.log('No such document!');
+        }
+      });
+  }
+
+  // handling Android Back Button Press in React Native
   onBackPress = () => {
-    BackHandler.exitApp();
+    // BackHandler.exitApp();
     return true;
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: false,
-      key: '',
-      details: {},
-      uid: firebase.auth().currentUser.uid,
-    };
-
-    // eslint-disable-next-line no-console
-    console.disableYellowBox = true;
-
-    firebase.auth().onAuthStateChanged(() => {
-      const user = firebase.auth().currentUser;
-      if (user) {
-        this.setState({loggedIn: true});
-      } else {
-        this.setState({loggedIn: false});
-      }
-    });
-  }
 
   renderContent() {
     if (this.state.loggedIn) {

@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'react-native-fetch-blob';
-import firebase from 'firebase';
+
+import firebase from '../utils/firebase/firebase-db';
 
 // Init Firebase
 let config = {

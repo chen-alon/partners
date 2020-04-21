@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
-import firebase from 'firebase';
+import firebase from '../utils/firebase/firebase-db';
 
 class UserInformation extends React.Component {
   constructor() {
