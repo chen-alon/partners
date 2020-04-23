@@ -9,7 +9,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
-import firebase from '../utils/firebase/firebase-db';
+import firebase from 'firebase';
 
 class UserProfile extends React.Component {
   constructor() {

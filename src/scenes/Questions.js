@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, Alert} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {Button} from 'react-native-elements';
 import {ListOfQandA} from './ListOfQandA';
-import firebase from '../utils/firebase/firebase-db';
+import firebase from 'firebase';
 
 class Questions extends React.Component {
   static navigationOptions = {
@@ -14,6 +14,7 @@ class Questions extends React.Component {
     this.state = {
       ListOfQandA,
       currentQ: 0,
+      uid: firebase.auth().currentUser.uid,
     };
   }
 
@@ -21,7 +22,7 @@ class Questions extends React.Component {
     firebase
       .firestore()
       .collection('users')
-      .doc(firebase.auth().currentUser.uid)
+      .doc(this.state.uid)
       .update({
         ListOfQandA: this.state.ListOfQandA,
         finished: true,

@@ -24,30 +24,64 @@ class Matches extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-  }
+  // componentDidMount() {
+  //   this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  // }
 
-  onCollectionUpdate = querySnapshot => {
+  // onCollectionUpdate = querySnapshot => {
+  //   const details = [];
+  //   querySnapshot.forEach(doc => {
+  //     const {email, firstName, lastName, age, gender, dateOfBirth} = doc.data();
+  //     details.push({
+  //       key: doc.id,
+  //       doc, // DocumentSnapshot
+  //       email,
+  //       firstName,
+  //       lastName,
+  //       age,
+  //       gender,
+  //       dateOfBirth,
+  //     });
+  //   });
+  //   this.setState({
+  //     details,
+  //     loading: false,
+  //   });
+  // };
+
+  componentDidMount() {
     const details = [];
-    querySnapshot.forEach(doc => {
-      const {email, firstName, lastName, age, gender, dateOfBirth} = doc.data();
-      details.push({
-        key: doc.id,
-        doc, // DocumentSnapshot
-        email,
-        firstName,
-        lastName,
-        age,
-        gender,
-        dateOfBirth,
+    const currentUserDetails = [];
+    this.arr = this.ref.get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        if (this.state.uid !== doc.data().uid) {
+          const {
+            email,
+            firstName,
+            lastName,
+            age,
+            gender,
+            dateOfBirth,
+          } = doc.data();
+          details.push({
+            key: doc.id,
+            doc,
+            email,
+            firstName,
+            lastName,
+            age,
+            gender,
+            dateOfBirth,
+          });
+          this.setState({
+            details,
+            loading: false,
+          });
+        } else {
+        }
       });
     });
-    this.setState({
-      details,
-      loading: false,
-    });
-  };
+  }
 
   render() {
     return (

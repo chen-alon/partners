@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Icon} from 'native-base';
 import {Header} from 'react-native-elements';
-import firebase from '../utils/firebase/firebase-db';
+import firebase from 'firebase';
 import 'firebase/firestore';
 
 class ExstraInformation extends React.Component {

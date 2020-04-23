@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
-import firebase from '../utils/firebase/firebase-db';
+import firebase from 'firebase';
 
 class UserInformation extends React.Component {
   constructor() {
@@ -53,6 +53,7 @@ class UserInformation extends React.Component {
         .collection('users')
         .doc(firebase.auth().currentUser.uid)
         .set({
+          uid: firebase.auth().currentUser.uid,
           firstName: this.state.firstName,
           lastName: this.state.lastName,
           gender: this.state.gender,

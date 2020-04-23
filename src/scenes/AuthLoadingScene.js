@@ -6,15 +6,24 @@ import firebase from '../utils/firebase/firebase-db';
 // eslint-disable-next-line no-console
 console.disableYellowBox = true;
 class AuthLoadingScene extends React.Component {
-  state = {
-    loggedIn: false,
-    loading: false,
-    details: {},
-  };
+  constructor() {
+    super();
+    this.state = {
+      loggedIn: false,
+      loading: false,
+      details: {},
+    };
+  }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
 
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  componentDidMount() {
     firebase.auth().onAuthStateChanged(() => {
       const user = firebase.auth().currentUser;
       if (user) {
@@ -26,26 +35,22 @@ class AuthLoadingScene extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-  }
-
   // retrieve data from firebase
   retrieveData() {
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(firebase.auth().currentUser.uid)
-      .get()
-      .then(doc => {
-        if (doc.exists) {
-          this.setState({
-            details: doc.data(),
-          });
-        } else {
-          console.log('No such document!');
-        }
-      });
+    // firebase
+    //   .firestore()
+    //   .collection('users')
+    //   .doc(firebase.auth().currentUser.uid)
+    //   .get()
+    //   .then(doc => {
+    //     if (doc.exists) {
+    //       this.setState({
+    //         details: doc.data(),
+    //       });
+    //     } else {
+    //       console.log('No such document!');
+    //     }
+    //   });
   }
 
   // handling Android Back Button Press in React Native
@@ -59,7 +64,7 @@ class AuthLoadingScene extends React.Component {
       if (this.state.details.finished) {
         this.props.navigation.navigate('Navigation');
       } else if (!this.state.details.age) {
-        this.props.navigation.navigate('UserInformation');
+        this.props.navigation.navigate('Navigation');
       } else if (
         !this.state.details.countries ||
         !this.state.details.languages ||

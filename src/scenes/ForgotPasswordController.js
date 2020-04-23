@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {Icon} from 'native-base';
-import firebase from '../utils/firebase/firebase-db';
+import * as firebase from 'firebase';
 import Button from '../components/common/Button';
 import {DotIndicator} from 'react-native-indicators';
 

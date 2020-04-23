@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
-import firebase from '../utils/firebase/firebase-db';
+import firebase from 'firebase';
 import {Button} from 'react-native-elements';
 
 class LoginForm extends React.Component {
