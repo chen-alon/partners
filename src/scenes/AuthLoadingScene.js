@@ -1,6 +1,6 @@
 import React from 'react';
 import {DotIndicator} from 'react-native-indicators';
-import {View, BackHandler, Alert} from 'react-native';
+import {View, BackHandler} from 'react-native';
 import firebase from '../utils/firebase/firebase-db';
 
 // eslint-disable-next-line no-console
@@ -30,27 +30,30 @@ class AuthLoadingScene extends React.Component {
         this.setState({loggedIn: true, loading: true});
       } else {
         this.setState({loggedIn: false, loading: false});
+        this.props.navigation.navigate('LoginForm');
       }
-      this.retrieveData();
+      if (user != null) this.retrieveData();
     });
   }
 
   // retrieve data from firebase
   retrieveData() {
-    // firebase
-    //   .firestore()
-    //   .collection('users')
-    //   .doc(firebase.auth().currentUser.uid)
-    //   .get()
-    //   .then(doc => {
-    //     if (doc.exists) {
-    //       this.setState({
-    //         details: doc.data(),
-    //       });
-    //     } else {
-    //       console.log('No such document!');
-    //     }
-    //   });
+    if (this.state.loggedIn) {
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            this.setState({
+              details: doc.data(),
+            });
+          } else {
+            console.log('No such document!');
+          }
+        });
+    }
   }
 
   // handling Android Back Button Press in React Native
@@ -63,21 +66,21 @@ class AuthLoadingScene extends React.Component {
     if (this.state.loggedIn) {
       if (this.state.details.finished) {
         this.props.navigation.navigate('Navigation');
-      } else if (!this.state.details.age) {
-        this.props.navigation.navigate('Navigation');
-      } else if (
-        !this.state.details.countries ||
-        !this.state.details.languages ||
-        !this.state.details.more
-      ) {
-        this.props.navigation.navigate('ExstraInformation');
-      } else if (!this.state.details.mode) {
-        this.props.navigation.navigate('TravelingDetails');
-      } else if (this.state.details.mode && !this.state.details.finished) {
-        this.props.navigation.navigate('Questions');
+      } else {
+        if (!this.state.details.age) {
+          this.props.navigation.navigate('UserInformation');
+        } else if (
+          !this.state.details.countries ||
+          !this.state.details.languages ||
+          !this.state.details.more
+        ) {
+          this.props.navigation.navigate('ExstraInformation');
+        } else if (!this.state.details.mode) {
+          this.props.navigation.navigate('TravelingDetails');
+        } else if (this.state.details.mode && !this.state.details.finished) {
+          this.props.navigation.navigate('Questions');
+        } else this.props.navigation.navigate('LoginForm');
       }
-    } else {
-      this.props.navigation.navigate('LoginForm');
     }
   }
 

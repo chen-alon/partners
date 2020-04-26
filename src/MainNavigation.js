@@ -10,6 +10,8 @@ import ExstraInformation from './scenes/ExstraInformation';
 import TravelingDetails from './scenes/TravelingDetails';
 import UserProfile from './scenes/UserProfile';
 import Navigation from './scenes/Navigation';
+import PartnerProfile from './scenes/PartnerProfile';
+import Matches from './scenes/Matches';
 
 const MainNavigator = createStackNavigator(
   {
@@ -18,9 +20,6 @@ const MainNavigator = createStackNavigator(
     },
     LoginForm: {
       screen: LoginForm,
-      navigationOptions: () => ({
-        header: null,
-      }),
     },
     CreateUser: {
       screen: CreateUser,
@@ -30,10 +29,6 @@ const MainNavigator = createStackNavigator(
     },
     Questions: {
       screen: Questions,
-      // navigationOptions: () => ({
-      //   header: null,
-      //   HeaderProps: null,
-      // }),
     },
     Navigation: {
       screen: Navigation,
@@ -49,6 +44,12 @@ const MainNavigator = createStackNavigator(
     },
     UserProfile: {
       screen: UserProfile,
+    },
+    Matches: {
+      screen: Matches,
+    },
+    PartnerProfile: {
+      screen: PartnerProfile,
     },
   },
 

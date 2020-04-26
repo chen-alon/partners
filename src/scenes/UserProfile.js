@@ -88,7 +88,17 @@ class UserProfile extends React.Component {
                         fontWeight: 'bold',
                         paddingBottom: 10,
                       }}
-                      onPress={() => firebase.auth().signOut()}>
+                      onPress={() =>
+                        firebase
+                          .auth()
+                          .signOut()
+                          .then(() => {
+                            this.props.navigation.navigate('Login');
+                          })
+                          .catch(error =>
+                            this.setState({errorMessage: error.message}),
+                          )
+                      }>
                       Sign Out
                     </Text>
                   </TouchableOpacity>

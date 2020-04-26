@@ -115,14 +115,14 @@ class UserInformation extends React.Component {
             <View style={styles.container}>
               <TextInput
                 style={styles.inputBox}
-                value={firebase.auth().currentUser.uid.firstName}
+                value={this.state.firstName}
                 onChangeText={firstName => this.setState({firstName})}
                 placeholder={'first name'}
                 autoCapitalize="none"
               />
               <TextInput
                 style={styles.inputBox}
-                value={firebase.auth().currentUser.uid.lastName}
+                value={this.state.lastName}
                 onChangeText={lastName => this.setState({lastName})}
                 placeholder={'last name'}
                 autoCapitalize="none"

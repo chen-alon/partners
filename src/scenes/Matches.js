@@ -8,8 +8,10 @@ import {
   ScrollView,
   FlatList,
   ImageBackground,
+  Alert,
 } from 'react-native';
-import firebase from '../utils/firebase/firebase-db';
+import {DotIndicator} from 'react-native-indicators';
+import firebase from 'firebase';
 
 class Matches extends React.Component {
   constructor(props) {
@@ -62,6 +64,7 @@ class Matches extends React.Component {
             age,
             gender,
             dateOfBirth,
+            ListOfQandA,
           } = doc.data();
           details.push({
             key: doc.id,
@@ -72,16 +75,45 @@ class Matches extends React.Component {
             age,
             gender,
             dateOfBirth,
+            ListOfQandA,
           });
           this.setState({
             details,
             loading: false,
           });
         } else {
+          const {
+            email,
+            firstName,
+            lastName,
+            age,
+            gender,
+            dateOfBirth,
+            ListOfQandA,
+          } = doc.data();
+          currentUserDetails.push({
+            key: doc.id,
+            doc,
+            email,
+            firstName,
+            lastName,
+            age,
+            gender,
+            dateOfBirth,
+            ListOfQandA,
+          });
+          this.setState({
+            currentUserDetails,
+            loading: false,
+          });
         }
       });
     });
   }
+
+  handlePress = () => {
+    // this.props.navigation.navigate('PartnerProfile');
+  };
 
   render() {
     return (
@@ -104,7 +136,9 @@ class Matches extends React.Component {
               renderItem={post => {
                 const item = post.item;
                 return (
-                  <TouchableOpacity style={styles.card}>
+                  <TouchableOpacity
+                    style={styles.card}
+                    onPress={this.handlePress}>
                     <View style={styles.imageContainer}>
                       <Image
                         style={styles.cardImage}

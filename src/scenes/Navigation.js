@@ -1,5 +1,5 @@
 import React from 'react';
-import {BottomNavigation, Text} from 'react-native-paper';
+import {BottomNavigation} from 'react-native-paper';
 import UserProfile from './UserProfile';
 import Matches from './Matches';
 import Chat from './Chat';

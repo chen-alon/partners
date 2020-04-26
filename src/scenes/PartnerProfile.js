@@ -10,6 +10,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Icon} from 'native-base';
+import firebase from 'firebase';
 
 class PartnerProfile extends React.Component {
   constructor(props) {
@@ -82,8 +83,8 @@ class PartnerProfile extends React.Component {
   }
 
   render() {
-    // const {state, goBack} = this.props.navigation;
-    // const params = state.params || {};
+    const {state, goBack} = this.props.navigation;
+    const params = state.params || {};
 
     return (
       <View style={{flex: 1}}>
