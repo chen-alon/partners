@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
 import firebase from 'firebase';
@@ -34,6 +35,10 @@ class UserProfile extends React.Component {
           console.log('No such document!');
         }
       });
+  }
+
+  editDetails() {
+    Alert.alert('im here');
   }
 
   render() {
@@ -72,7 +77,13 @@ class UserProfile extends React.Component {
                   </Text>
 
                   <TouchableOpacity style={styles.buttonContainer}>
-                    <Text style={{color: '#eef5d8'}}>Edit profile</Text>
+                    <Text
+                      style={{color: '#eef5d8'}}
+                      onPress={() =>
+                        this.props.navigation.navigate('UserInformation')
+                      }>
+                      Edit profile
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.buttonContainer}>
                     <Text style={{color: '#eef5d8'}}>Ideal hitchhiker</Text>
@@ -93,7 +104,7 @@ class UserProfile extends React.Component {
                           .auth()
                           .signOut()
                           .then(() => {
-                            this.props.navigation.navigate('Login');
+                            this.props.navigation.navigate('LoginForm');
                           })
                           .catch(error =>
                             this.setState({errorMessage: error.message}),

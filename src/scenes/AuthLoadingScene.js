@@ -1,6 +1,6 @@
 import React from 'react';
 import {DotIndicator} from 'react-native-indicators';
-import {View, BackHandler} from 'react-native';
+import {View, BackHandler, Alert} from 'react-native';
 import firebase from '../utils/firebase/firebase-db';
 
 // eslint-disable-next-line no-console
@@ -66,21 +66,21 @@ class AuthLoadingScene extends React.Component {
     if (this.state.loggedIn) {
       if (this.state.details.finished) {
         this.props.navigation.navigate('Navigation');
-      } else {
-        if (!this.state.details.age) {
-          this.props.navigation.navigate('UserInformation');
-        } else if (
-          !this.state.details.countries ||
-          !this.state.details.languages ||
-          !this.state.details.more
-        ) {
-          this.props.navigation.navigate('ExstraInformation');
-        } else if (!this.state.details.mode) {
-          this.props.navigation.navigate('TravelingDetails');
-        } else if (this.state.details.mode && !this.state.details.finished) {
-          this.props.navigation.navigate('Questions');
-        } else this.props.navigation.navigate('LoginForm');
+      } else if (!this.state.details.age) {
+        this.props.navigation.navigate('UserInformation');
+      } else if (
+        !this.state.details.countries ||
+        !this.state.details.languages ||
+        !this.state.details.more
+      ) {
+        this.props.navigation.navigate('ExstraInformation');
+      } else if (!this.state.details.mode) {
+        this.props.navigation.navigate('TravelingDetails');
+      } else if (this.state.details.mode && !this.state.details.finished) {
+        this.props.navigation.navigate('Questions');
       }
+    } else {
+      this.props.navigation.navigate('LoginForm');
     }
   }
 

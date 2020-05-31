@@ -20,69 +20,65 @@ class Matches extends React.Component {
     this.unsubscribe = null;
 
     this.state = {
-      details: [],
       loading: false,
+      percentage: [],
       uid: firebase.auth().currentUser.uid,
     };
   }
 
-  // componentDidMount() {
-  //   this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-  // }
+  checkMatch(doc, currentUser) {
+    var counter = 0;
+    for (let i = 0; i < doc.data().ListOfQandA.length; i++) {
+      if (doc.data().ListOfQandA[i].a && currentUser.ListOfQandA[i].a) {
+        if (doc.data().ListOfQandA[i].a === currentUser.ListOfQandA[i].a) {
+          counter++;
+        }
+      }
+    }
 
-  // onCollectionUpdate = querySnapshot => {
-  //   const details = [];
-  //   querySnapshot.forEach(doc => {
-  //     const {email, firstName, lastName, age, gender, dateOfBirth} = doc.data();
-  //     details.push({
-  //       key: doc.id,
-  //       doc, // DocumentSnapshot
-  //       email,
-  //       firstName,
-  //       lastName,
-  //       age,
-  //       gender,
-  //       dateOfBirth,
-  //     });
-  //   });
-  //   this.setState({
-  //     details,
-  //     loading: false,
-  //   });
-  // };
+    if (counter >= 1) {
+      this.setState({
+        percentage: [...this.state.percentage, [doc.data().uid, counter]],
+      });
+      return true;
+    } else {
+      this.setState({
+        percentage: [...this.state.percentage, [doc.data().uid, counter]],
+      });
+      return false;
+    }
+  }
 
   componentDidMount() {
-    const details = [];
-    const currentUserDetails = [];
-    this.arr = this.ref.get().then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        if (this.state.uid !== doc.data().uid) {
-          const {
-            email,
-            firstName,
-            lastName,
-            age,
-            gender,
-            dateOfBirth,
-            ListOfQandA,
-          } = doc.data();
-          details.push({
-            key: doc.id,
-            doc,
-            email,
-            firstName,
-            lastName,
-            age,
-            gender,
-            dateOfBirth,
-            ListOfQandA,
-          });
+    const partnersDetails = [];
+
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
           this.setState({
-            details,
-            loading: false,
+            currentUserDetails: doc.data(),
+            isLoading: false,
           });
         } else {
+          console.log('No such document!');
+        }
+      });
+
+    this.ref.get().then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        if (
+          this.state.uid != doc.data().uid &&
+          this.state.currentUserDetails.mode === doc.data().mode &&
+          (this.state.currentUserDetails.area === doc.data().area ||
+            this.state.currentUserDetails.country === doc.data().country) &&
+          this.checkMatch(doc, this.state.currentUserDetails)
+        ) {
           const {
+            uid,
             email,
             firstName,
             lastName,
@@ -90,10 +86,14 @@ class Matches extends React.Component {
             gender,
             dateOfBirth,
             ListOfQandA,
+            mode,
+            area,
+            country,
           } = doc.data();
-          currentUserDetails.push({
+          partnersDetails.push({
             key: doc.id,
             doc,
+            uid,
             email,
             firstName,
             lastName,
@@ -101,9 +101,12 @@ class Matches extends React.Component {
             gender,
             dateOfBirth,
             ListOfQandA,
+            mode,
+            area,
+            country,
           });
           this.setState({
-            currentUserDetails,
+            partnersDetails,
             loading: false,
           });
         }
@@ -116,6 +119,8 @@ class Matches extends React.Component {
   };
 
   render() {
+    //Alert.alert(JSON.stringify(this.state.currentUserDetails));
+
     return (
       <View style={{flex: 1, backgroundColor: 'transparent'}}>
         <ImageBackground
@@ -126,7 +131,7 @@ class Matches extends React.Component {
             <FlatList
               style={styles.list}
               //contentContainerStyle={styles.listContainer}
-              data={this.state.details}
+              data={this.state.partnersDetails}
               horizontal={false}
               numColumns={2}
               keyExtractor={item => item.uid}
@@ -153,7 +158,13 @@ class Matches extends React.Component {
                       <Text style={styles.details}>
                         {item.firstName + ' ' + item.lastName}, {item.age}
                       </Text>
-                      <Text style={styles.percentage}>{item.percentage}%</Text>
+                      <Text style={styles.percentage}>
+                        {this.state.percentage.map(percent => {
+                          if (percent[0] == item.uid) {
+                            return Math.round((percent[1] / 15) * 100) + '%';
+                          }
+                        })}
+                      </Text>
                     </View>
                   </TouchableOpacity>
                 );
