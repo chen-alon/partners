@@ -27,6 +27,18 @@ class Matches extends React.Component {
   }
 
   checkMatch(doc, currentUser) {
+    for (let i = 0; i < currentUser.selectedItems.length; i++) {
+      if (currentUser.selectedItems[i] === '0') {
+      }
+    }
+    var idealHitch = 0;
+    if (
+      currentUser.partnerGender === 'all' ||
+      currentUser.partnerAge === 'all' ||
+      currentUser.theme === 'all the theme'
+    ) {
+    }
+
     var counter = 0;
     for (let i = 0; i < doc.data().ListOfQandA.length; i++) {
       if (doc.data().ListOfQandA[i].a && currentUser.ListOfQandA[i].a) {
@@ -74,7 +86,11 @@ class Matches extends React.Component {
           this.state.uid != doc.data().uid &&
           this.state.currentUserDetails.mode === doc.data().mode &&
           (this.state.currentUserDetails.area === doc.data().area ||
-            this.state.currentUserDetails.country === doc.data().country) &&
+            this.state.currentUserDetails.country === doc.data().country ||
+            this.state.currentUserDetails.area === 'no matter' ||
+            doc.data().area === 'no matter' ||
+            this.state.currentUserDetails.country === 'all country' ||
+            doc.data().country === 'all country') &&
           this.checkMatch(doc, this.state.currentUserDetails)
         ) {
           const {
@@ -89,6 +105,8 @@ class Matches extends React.Component {
             mode,
             area,
             country,
+            theme,
+            selectedItems,
           } = doc.data();
           partnersDetails.push({
             key: doc.id,
@@ -104,6 +122,8 @@ class Matches extends React.Component {
             mode,
             area,
             country,
+            theme,
+            selectedItems,
           });
           this.setState({
             partnersDetails,
@@ -225,11 +245,12 @@ const styles = StyleSheet.create({
   },
 
   percentage: {
-    fontSize: 24,
+    fontSize: 20,
     flex: 1,
     //color: '#eef5db',
     color: '#4f6367',
     alignSelf: 'center',
+    fontWeight: 'bold',
   },
 });
 

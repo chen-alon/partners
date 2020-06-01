@@ -11,6 +11,7 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
+import {IconButton, Colors} from 'react-native-paper';
 import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import firebase from 'firebase';
@@ -175,7 +176,7 @@ class UserInformation extends React.Component {
                 <View></View>
               )}
 
-              {/* <View style={styles.pic}>
+              <View style={styles.pic}>
                 <Text style={styles.text}>upload picture</Text>
 
                 <IconButton
@@ -183,9 +184,9 @@ class UserInformation extends React.Component {
                   icon="camera"
                   color={Colors.red500}
                   size={25}
-                  onPress={() => this.pickImage()}
+                  onPress={() => this.selectImage()}
                 />
-              </View> */}
+              </View>
             </View>
             <TouchableOpacity
               style={[styles.button]}
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
   inputBox: {
     width: '85%',
     margin: 10,
-    padding: 15,
+    padding: 13,
     fontSize: 18,
     borderColor: '#d3d3d3',
     borderBottomWidth: 1.4,
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    marginTop: 60,
+    marginTop: 17,
     paddingVertical: 5,
     alignItems: 'center',
     alignSelf: 'center',
@@ -271,13 +272,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#bbd8d8',
   },
-  // pic: {
-  //   flex: 1,
-  //   flexDirection: 'row',
-  //   paddingTop: 15,
-  //   alignItems: 'flex-start',
-  //   alignSelf: 'flex-start'
-  // },
+  pic: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingTop: 15,
+  },
 });
 
 export default UserInformation;

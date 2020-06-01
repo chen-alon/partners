@@ -19,7 +19,7 @@ import 'firebase/firestore';
 const months = [
   {
     id: '0',
-    name: 'All months',
+    name: 'all months',
   },
   {
     id: '1',
@@ -194,7 +194,7 @@ class TravelingDetails extends React.Component {
           selectedValue={this.state.country}
           onValueChange={itemValue => this.setState({country: itemValue})}>
           <Picker.Item label="select country" value="select country" />
-          <Picker.Item label="All country" value="All country" />
+          <Picker.Item label="all country" value="all country" />
           <Picker.Item label="Austria" value="Austria" />
           <Picker.Item label="Belgium" value="Belgium" />
           <Picker.Item label="Bulgaria" value="Bulgaria" />
@@ -225,7 +225,7 @@ class TravelingDetails extends React.Component {
           selectedValue={this.state.country}
           onValueChange={itemValue => this.setState({country: itemValue})}>
           <Picker.Item label="select country" value="select country" />
-          <Picker.Item label="All country" value="All country" />
+          <Picker.Item label="all country" value="all country" />
           <Picker.Item label="Cambodia" value="Cambodia" />
           <Picker.Item label="China" value="China" />
           <Picker.Item label="Georgia" value="Georgia" />
@@ -250,7 +250,7 @@ class TravelingDetails extends React.Component {
           selectedValue={this.state.country}
           onValueChange={itemValue => this.setState({country: itemValue})}>
           <Picker.Item label="select country" value="select country" />
-          <Picker.Item label="All country" value="All country" />
+          <Picker.Item label="all country" value="all country" />
           <Picker.Item label="Argentina" value="Argentina" />
           <Picker.Item label="Bolivia" value="Bolivia" />
           <Picker.Item label="Brazil" value="Brazil" />
@@ -271,7 +271,7 @@ class TravelingDetails extends React.Component {
           selectedValue={this.state.country}
           onValueChange={itemValue => this.setState({country: itemValue})}>
           <Picker.Item label="select country" value="select country" />
-          <Picker.Item label="All country" value="All country" />
+          <Picker.Item label="all country" value="all country" />
           <Picker.Item label="Caribbean Islands" value="Caribbean Islands" />
           <Picker.Item label="Costa Rica" value="Costa Rica" />
           <Picker.Item label="Cuba" value="Cuba" />
@@ -291,7 +291,7 @@ class TravelingDetails extends React.Component {
           selectedValue={this.state.country}
           onValueChange={itemValue => this.setState({country: itemValue})}>
           <Picker.Item label="select country" value="select country" />
-          <Picker.Item label="All country" value="All country" />
+          <Picker.Item label="all country" value="all country" />
           <Picker.Item label="Canada" value="Canada" />
           <Picker.Item label="USA" value="USA" />
         </Picker>
@@ -305,7 +305,7 @@ class TravelingDetails extends React.Component {
           selectedValue={this.state.country}
           onValueChange={itemValue => this.setState({country: itemValue})}>
           <Picker.Item label="select country" value="select country" />
-          <Picker.Item label="All country" value="All country" />
+          <Picker.Item label="all country" value="all country" />
           <Picker.Item label="Egypt" value="Egypt" />
           <Picker.Item label="Eritrea" value="Eritrea" />
           <Picker.Item label="Ethiopia" value="Ethiopia" />
@@ -329,7 +329,7 @@ class TravelingDetails extends React.Component {
           selectedValue={this.state.country}
           onValueChange={itemValue => this.setState({country: itemValue})}>
           <Picker.Item label="select country" value="select country" />
-          <Picker.Item label="All country" value="All country" />
+          <Picker.Item label="all country" value="all country" />
           <Picker.Item label="Australia" value="Australia" />
           <Picker.Item label="New Zealand" value="New Zealand" />
           <Picker.Item label="Marshall Islands" value="Ethiopia" />

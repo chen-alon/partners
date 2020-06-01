@@ -8,10 +8,7 @@ import UserInformation from './scenes/UserInformation';
 import AuthLoadingScene from './scenes/AuthLoadingScene';
 import ExstraInformation from './scenes/ExstraInformation';
 import TravelingDetails from './scenes/TravelingDetails';
-import UserProfile from './scenes/UserProfile';
 import Navigation from './scenes/Navigation';
-import PartnerProfile from './scenes/PartnerProfile';
-import Matches from './scenes/Matches';
 
 const MainNavigator = createStackNavigator(
   {
@@ -41,15 +38,6 @@ const MainNavigator = createStackNavigator(
     },
     TravelingDetails: {
       screen: TravelingDetails,
-    },
-    UserProfile: {
-      screen: UserProfile,
-    },
-    Matches: {
-      screen: Matches,
-    },
-    PartnerProfile: {
-      screen: PartnerProfile,
     },
   },
 
