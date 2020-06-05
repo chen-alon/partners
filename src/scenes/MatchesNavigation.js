@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import Matches from './Matches';
+import PartnerProfile from './PartnerProfile';
 
 const Stack = createStackNavigator();
 
@@ -12,16 +13,11 @@ export const MatchesNavigation = () => {
         component={Matches}
         options={{headerTitle: 'Matches'}}
       />
-      {/* <Stack.Screen
-                name="Page1"
-                component={page1}
-                options={{ headerTitle: 'Page1' }}
-            />
-            <Stack.Screen
-                name="Page2"
-                component={page2}
-                options={{ headerTitle: 'Page2' }}
-            /> */}
+      <Stack.Screen
+        name="PartnerProfile"
+        component={PartnerProfile}
+        options={{headerTitle: 'Partner_Profile'}}
+      />
     </Stack.Navigator>
   );
 };

@@ -11,6 +11,8 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
+
 import {IconButton, Colors} from 'react-native-paper';
 import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
@@ -29,6 +31,42 @@ class UserInformation extends React.Component {
       check: false,
       isLoading: false,
     };
+  }
+
+  selectImage() {
+    this.setState({uploadURL: ''});
+
+    ImagePicker.launchImageLibrary({}, response => {
+      this.uploadImage(response.uri)
+        .then(url => {
+          onsole.log('chechurlt', url);
+          this.setState({uploadURL: url});
+        })
+        .catch(error => console.log(error));
+    });
+  }
+
+  async uploadImage(uri = 'application/octet-stream') {
+    return new Promise(async (resolve, reject) => {
+      const response = await fetch(uri);
+      const file = await response.blob();
+      let upload = firebase
+        .storage()
+        .ref('images')
+        .child(`${firebase.auth().currentUser.uid}`)
+        .put(file);
+      upload.on(
+        'state_changed',
+        //snapshot => {},
+        err => {
+          reject(err);
+        },
+        async () => {
+          const url = await upload.snapshot.ref.getDownloadURL();
+          resolve(url);
+        },
+      );
+    });
   }
 
   handleDetails = async () => {

@@ -118,6 +118,9 @@ class TravelingDetails extends React.Component {
     ) {
       Alert.alert('Missing details');
     } else {
+      this.state.selectedItems.sort(function(a, b) {
+        return parseInt(a) - parseInt(b);
+      });
       if (this.state.mode == 'israel') {
         firebase
           .firestore()

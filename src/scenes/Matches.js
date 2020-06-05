@@ -27,35 +27,69 @@ class Matches extends React.Component {
   }
 
   checkMatch(doc, currentUser) {
-    for (let i = 0; i < currentUser.selectedItems.length; i++) {
-      if (currentUser.selectedItems[i] === '0') {
-      }
-    }
     var idealHitch = 0;
     if (
+      currentUser.partnerGender === doc.data().gender ||
       currentUser.partnerGender === 'all' ||
-      currentUser.partnerAge === 'all' ||
-      currentUser.theme === 'all the theme'
+      doc.data().partnerGender === 'all'
     ) {
+      idealHitch++;
     }
-
-    var counter = 0;
+    if (
+      currentUser.theme === doc.data().theme ||
+      currentUser.theme === 'all the theme' ||
+      doc.data().theme === 'all the theme'
+    ) {
+      idealHitch++;
+    }
+    if (
+      currentUser.partnerAge === doc.data().partnerAge ||
+      currentUser.partnerAge === 'all' ||
+      doc.data().partnerAge === 'all'
+    ) {
+      idealHitch++;
+    }
+    if (
+      currentUser.selectedItems[0] === '0' ||
+      doc.data().selectedItems[0] === '0'
+    ) {
+      idealHitch++;
+    } else {
+      let index = 1;
+      let similarMonths = 0;
+      while (similarMonths == 0) {
+        if (
+          currentUser.selectedItems[index] === doc.data().selectedItems[index]
+        ) {
+          similarMonths = 1;
+        }
+        if (
+          currentUser.selectedItems[index] === doc.data().selectedItems[index]
+        )
+          index++;
+      }
+    }
+    var similarAnswers = 0;
     for (let i = 0; i < doc.data().ListOfQandA.length; i++) {
       if (doc.data().ListOfQandA[i].a && currentUser.ListOfQandA[i].a) {
         if (doc.data().ListOfQandA[i].a === currentUser.ListOfQandA[i].a) {
-          counter++;
+          similarAnswers++;
         }
       }
     }
 
-    if (counter >= 1) {
+    var perID = Math.round((idealHitch / 4) * 40);
+    var perSA = Math.round((similarAnswers / 15) * 60);
+    var percent = perID + perSA;
+
+    if (similarAnswers >= 1) {
       this.setState({
-        percentage: [...this.state.percentage, [doc.data().uid, counter]],
+        percentage: [...this.state.percentage, [doc.data().uid, percent]],
       });
       return true;
     } else {
       this.setState({
-        percentage: [...this.state.percentage, [doc.data().uid, counter]],
+        percentage: [...this.state.percentage, [doc.data().uid, percent]],
       });
       return false;
     }
@@ -134,12 +168,9 @@ class Matches extends React.Component {
     });
   }
 
-  handlePress = () => {
-    // this.props.navigation.navigate('PartnerProfile');
-  };
-
   render() {
     //Alert.alert(JSON.stringify(this.state.currentUserDetails));
+    //const {navigate} = this.props.navigation;
 
     return (
       <View style={{flex: 1, backgroundColor: 'transparent'}}>
@@ -161,9 +192,8 @@ class Matches extends React.Component {
               renderItem={post => {
                 const item = post.item;
                 return (
-                  <TouchableOpacity
-                    style={styles.card}
-                    onPress={this.handlePress}>
+                  <TouchableOpacity style={styles.card}>
+                    {/* onPress={() => navigate('PartnerProfile')}> */}
                     <View style={styles.imageContainer}>
                       <Image
                         style={styles.cardImage}
@@ -181,7 +211,7 @@ class Matches extends React.Component {
                       <Text style={styles.percentage}>
                         {this.state.percentage.map(percent => {
                           if (percent[0] == item.uid) {
-                            return Math.round((percent[1] / 15) * 100) + '%';
+                            return percent[1] + '%';
                           }
                         })}
                       </Text>
