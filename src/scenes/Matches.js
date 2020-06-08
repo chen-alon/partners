@@ -54,21 +54,24 @@ class Matches extends React.Component {
       doc.data().selectedItems[0] === '0'
     ) {
       idealHitch++;
-    } else {
-      let index = 1;
-      let similarMonths = 0;
-      while (similarMonths == 0) {
-        if (
-          currentUser.selectedItems[index] === doc.data().selectedItems[index]
-        ) {
-          similarMonths = 1;
-        }
-        if (
-          currentUser.selectedItems[index] === doc.data().selectedItems[index]
-        )
-          index++;
-      }
     }
+    // else {
+    //   let index = 1;
+    //   let similarMonths = 0;
+    //   while (similarMonths == 0) {
+    //     if (
+    //       currentUser.selectedItems[index] === doc.data().selectedItems[index]
+    //     ) {
+    //       similarMonths = 1;
+    //     }
+    //     if (
+    //       currentUser.selectedItems[index] === doc.data().selectedItems[index]
+    //     ){
+
+    //     }
+    //       index++;
+    //   }
+    // }
     var similarAnswers = 0;
     for (let i = 0; i < doc.data().ListOfQandA.length; i++) {
       if (doc.data().ListOfQandA[i].a && currentUser.ListOfQandA[i].a) {
@@ -169,9 +172,6 @@ class Matches extends React.Component {
   }
 
   render() {
-    //Alert.alert(JSON.stringify(this.state.currentUserDetails));
-    //const {navigate} = this.props.navigation;
-
     return (
       <View style={{flex: 1, backgroundColor: 'transparent'}}>
         <ImageBackground
