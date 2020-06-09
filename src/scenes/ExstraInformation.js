@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     color: '#4f6367',
   },
   button: {
-    marginTop: 10,
+    position: 'relative',
+    marginTop: 20,
     marginBottom: 30,
     paddingVertical: 5,
     alignItems: 'center',

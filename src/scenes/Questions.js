@@ -170,6 +170,8 @@ const styles = StyleSheet.create({
   },
 
   buttonAnswer: {
+    position: 'relative',
+    marginTop: 20,
     flexDirection: 'row',
     color: '#ef5f55',
     fontSize: 23,

@@ -28,6 +28,7 @@ class Matches extends React.Component {
 
   checkMatch(doc, currentUser) {
     var idealHitch = 0;
+    var similarMonths = 0;
     if (
       currentUser.partnerGender === doc.data().gender ||
       currentUser.partnerGender === 'all' ||
@@ -35,6 +36,7 @@ class Matches extends React.Component {
     ) {
       idealHitch++;
     }
+
     if (
       currentUser.theme === doc.data().theme ||
       currentUser.theme === 'all the theme' ||
@@ -42,6 +44,7 @@ class Matches extends React.Component {
     ) {
       idealHitch++;
     }
+
     if (
       currentUser.partnerAge === doc.data().partnerAge ||
       currentUser.partnerAge === 'all' ||
@@ -49,29 +52,39 @@ class Matches extends React.Component {
     ) {
       idealHitch++;
     }
+
     if (
       currentUser.selectedItems[0] === '0' ||
       doc.data().selectedItems[0] === '0'
     ) {
       idealHitch++;
+    } else {
+      let indexCurrentUser = 0;
+      let indexPartnerUser = 0;
+      while (
+        indexCurrentUser < currentUser.selectedItems.length &&
+        indexPartnerUser < doc.data().selectedItems.length &&
+        similarMonths != 1
+      ) {
+        if (
+          currentUser.selectedItems[indexCurrentUser] <
+          doc.data().selectedItems[indexPartnerUser]
+        ) {
+          indexCurrentUser++;
+        } else if (
+          currentUser.selectedItems[indexCurrentUser] >
+          doc.data().selectedItems[indexPartnerUser]
+        ) {
+          indexPartnerUser++;
+        } else {
+          similarMonths++;
+        }
+      }
     }
-    // else {
-    //   let index = 1;
-    //   let similarMonths = 0;
-    //   while (similarMonths == 0) {
-    //     if (
-    //       currentUser.selectedItems[index] === doc.data().selectedItems[index]
-    //     ) {
-    //       similarMonths = 1;
-    //     }
-    //     if (
-    //       currentUser.selectedItems[index] === doc.data().selectedItems[index]
-    //     ){
+    if (similarMonths === 1) {
+      idealHitch++;
+    }
 
-    //     }
-    //       index++;
-    //   }
-    // }
     var similarAnswers = 0;
     for (let i = 0; i < doc.data().ListOfQandA.length; i++) {
       if (doc.data().ListOfQandA[i].a && currentUser.ListOfQandA[i].a) {
@@ -81,11 +94,11 @@ class Matches extends React.Component {
       }
     }
 
-    var perID = Math.round((idealHitch / 4) * 40);
-    var perSA = Math.round((similarAnswers / 15) * 60);
-    var percent = perID + perSA;
+    var perIdealHitch = Math.round(((idealHitch + similarMonths) / 4) * 40);
+    var perSimilarAnswer = Math.round((similarAnswers / 15) * 60);
+    var percent = perIdealHitch + perSimilarAnswer;
 
-    if (similarAnswers >= 1) {
+    if (percent >= 60) {
       this.setState({
         percentage: [...this.state.percentage, [doc.data().uid, percent]],
       });

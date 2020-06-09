@@ -119,6 +119,7 @@ class LoginForm extends React.Component {
                     fontSize: 18,
                     textAlign: 'center',
                     fontWeight: 'bold',
+                    position: 'relative',
                   }}>
                   Create
                 </Text>
@@ -149,6 +150,7 @@ const styles = StyleSheet.create({
     color: '#fe5f55',
     alignSelf: 'center',
     marginTop: 40,
+    position: 'relative',
   },
 
   title: {

@@ -12,7 +12,6 @@ import {
   Dimensions,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-
 import {IconButton, Colors} from 'react-native-paper';
 import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
@@ -39,8 +38,8 @@ class UserInformation extends React.Component {
     ImagePicker.launchImageLibrary({}, response => {
       this.uploadImage(response.uri)
         .then(url => {
-          onsole.log('chechurlt', url);
-          this.setState({uploadURL: url});
+          console.log('chechurlt', url);
+          this.setState({uploadURL: uri});
         })
         .catch(error => console.log(error));
     });
@@ -288,7 +287,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    marginTop: 17,
+    position: 'relative',
+    marginTop: 20,
+    marginBottom: 30,
     paddingVertical: 5,
     alignItems: 'center',
     alignSelf: 'center',

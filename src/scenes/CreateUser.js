@@ -70,6 +70,7 @@ class CreateUser extends React.Component {
       error: '',
       loading: false,
     });
+    this.props.navigation.navigate('UserInformation');
   }
 
   onLoginFailure(errorMessage) {
@@ -189,6 +190,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   button: {
+    position: 'relative',
     marginTop: 20,
     marginBottom: 30,
     paddingVertical: 5,

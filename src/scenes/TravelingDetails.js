@@ -677,7 +677,8 @@ const styles = StyleSheet.create({
   },
 
   buttonSave: {
-    marginTop: 10,
+    position: 'relative',
+    marginTop: 20,
     marginBottom: 30,
     paddingVertical: 5,
     alignItems: 'center',
