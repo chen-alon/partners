@@ -26,6 +26,20 @@ class Matches extends React.Component {
     };
   }
 
+  retrieveImage(doc) {
+    let imageRef = firebase
+      .storage()
+      .ref('images')
+      .child(doc.data().uid);
+    imageRef
+      .getDownloadURL()
+      .then(url => {
+        //from url you can fetched the uploaded image easily
+        this.setState({profileImageUrl: {uri: url}});
+      })
+      .catch(e => console.log('getting downloadURL of image error => ', e));
+  }
+
   checkMatch(doc, currentUser) {
     var idealHitch = 0;
     var similarMonths = 0;
@@ -132,6 +146,7 @@ class Matches extends React.Component {
 
     this.ref.get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
+        this.retrieveImage(doc);
         if (
           this.state.uid != doc.data().uid &&
           this.state.currentUserDetails.mode === doc.data().mode &&
@@ -205,16 +220,16 @@ class Matches extends React.Component {
               renderItem={post => {
                 const item = post.item;
                 return (
-                  <TouchableOpacity style={styles.card}>
-                    {/* onPress={() => navigate('PartnerProfile')}> */}
+                  <TouchableOpacity
+                    style={styles.card}
+                    onPress={() =>
+                      this.navigation.props.navigate('PartnerProfile')
+                    }>
                     <View style={styles.imageContainer}>
                       <Image
                         style={styles.cardImage}
-                        source={
-                          item.image
-                            ? {uri: item.image}
-                            : require('../images/user.png')
-                        }
+                        source={this.state.profileImageUrl}
+                        //source={{uri: item.profileImageUrl}}
                       />
                     </View>
                     <View style={styles.cardContent}>

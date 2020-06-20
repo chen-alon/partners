@@ -20,6 +20,18 @@ class UserProfile extends React.Component {
       details: {},
     };
 
+    let imageRef = firebase
+      .storage()
+      .ref('images')
+      .child(firebase.auth().currentUser.uid);
+    imageRef
+      .getDownloadURL()
+      .then(url => {
+        //from url you can fetched the uploaded image easily
+        this.setState({profileImageUrl: url});
+      })
+      .catch(e => console.log('getting downloadURL of image error => ', e));
+
     firebase
       .firestore()
       .collection('users')
@@ -38,7 +50,7 @@ class UserProfile extends React.Component {
   }
 
   editDetails() {
-    Alert.alert('im here');
+    Alert.alert('beseder gamur');
   }
 
   render() {
@@ -54,6 +66,10 @@ class UserProfile extends React.Component {
               <Image
                 style={styles.avatar}
                 source={require('../images/user.png')}
+              />
+              <Image
+                style={styles.avatar}
+                source={{uri: this.state.profileImageUrl}}
               />
               <View>
                 <View style={styles.bodyContent}>
@@ -79,9 +95,9 @@ class UserProfile extends React.Component {
                   <TouchableOpacity style={styles.buttonContainer}>
                     <Text
                       style={{color: '#eef5d8'}}
-                      onPress={() =>
-                        this.props.navigation.navigate('UserInformation')
-                      }>
+                      onPress={() => {
+                        this.editDetails();
+                      }}>
                       Edit profile
                     </Text>
                   </TouchableOpacity>

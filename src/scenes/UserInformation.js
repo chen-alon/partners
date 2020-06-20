@@ -29,6 +29,7 @@ class UserInformation extends React.Component {
       maximumDate: new Date(),
       check: false,
       isLoading: false,
+      uploadURL: null,
     };
   }
 
@@ -97,6 +98,7 @@ class UserInformation extends React.Component {
           gender: this.state.gender,
           dateOfBirth: this.state.dateOfBirth,
           age: this.state.age,
+          uploadURL: this.state.uploadURL,
         })
         .then(
           this.props.navigation.navigate('ExstraInformation'),
@@ -106,6 +108,7 @@ class UserInformation extends React.Component {
             gender: '',
             age: 0,
             dateOfBirth: new Date(),
+            uploadURL: null,
             isLoading: false,
           }),
         )

@@ -51,7 +51,9 @@
 
 import React, {Component} from 'react';
 import {DotIndicator} from 'react-native-indicators';
-import {View, ImageBackground} from 'react-native';
+import {View, ImageBackground, StyleSheet} from 'react-native';
+import {Title} from 'react-native-paper';
+
 // import {GiftedChat} from 'react-native-gifted-chat';
 // import Backend from '../Backend';
 
@@ -63,7 +65,10 @@ class Chat extends Component {
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.5}}
           style={{resizeMode: 'cover', flex: 1}}>
-          <DotIndicator color="#fe5f55" />
+          {/* <DotIndicator color="#fe5f55" /> */}
+          <View style={styles.container}>
+            <Title style={{color: '#4f6367'}}>conversations</Title>
+          </View>
         </ImageBackground>
       </View>
     );
@@ -111,5 +116,14 @@ class Chat extends Component {
   //   name: React.PropTypes.string,
   // };
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
+  },
+});
 
 export default Chat;
