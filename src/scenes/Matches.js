@@ -22,6 +22,7 @@ class Matches extends React.Component {
     this.state = {
       loading: false,
       percentage: [],
+
       uid: firebase.auth().currentUser.uid,
     };
   }
@@ -118,9 +119,9 @@ class Matches extends React.Component {
       });
       return true;
     } else {
-      this.setState({
-        percentage: [...this.state.percentage, [doc.data().uid, percent]],
-      });
+      // this.setState({
+      //   percentage: [...this.state.percentage, [doc.data().uid, percent]],
+      // });
       return false;
     }
   }
@@ -223,7 +224,7 @@ class Matches extends React.Component {
                   <TouchableOpacity
                     style={styles.card}
                     onPress={() =>
-                      this.navigation.props.navigate('PartnerProfile')
+                      this.props.navigation.navigate('PartnerProfile')
                     }>
                     <View style={styles.imageContainer}>
                       <Image

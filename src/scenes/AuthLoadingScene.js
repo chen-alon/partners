@@ -12,6 +12,7 @@ class AuthLoadingScene extends React.Component {
       loggedIn: false,
       loading: false,
       details: {},
+      loading: false,
     };
   }
 
@@ -29,7 +30,7 @@ class AuthLoadingScene extends React.Component {
       if (user) {
         this.setState({loggedIn: true, loading: true});
       } else {
-        this.setState({loggedIn: false, loading: false});
+        this.setState({loggedIn: false});
         this.props.navigation.navigate('LoginForm');
       }
       if (user != null) this.retrieveData();
@@ -64,17 +65,22 @@ class AuthLoadingScene extends React.Component {
 
   renderContent() {
     if (this.state.loggedIn) {
-      if (!this.state.details.age) {
-        this.props.navigation.navigate('UserInformation');
-      } else if (!this.state.details.mode) {
-        this.props.navigation.navigate('TravelingDetails');
-      } else if (this.state.details.mode && !this.state.details.finished) {
-        this.props.navigation.navigate('Questions');
-      } else if (this.state.details.finished) {
+      if (this.state.details.finished) {
         this.props.navigation.navigate('Navigation');
+      } else {
+        if (this.state.loading) {
+          <DotIndicator color="#fe5f55" />;
+        } else if (this.state.details.mode && !this.state.details.finished) {
+          this.props.navigation.navigate('Questions');
+        } else if (
+          this.state.details.mode != 'israel' ||
+          this.state.details.mode != 'worldwide'
+        ) {
+          this.props.navigation.navigate('TravelingDetails');
+        } else {
+          this.props.navigation.navigate('UserInformation');
+        }
       }
-    } else {
-      this.props.navigation.navigate('LoginForm');
     }
   }
 

@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Alert,
   Dimensions,
+  Keyboard,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
 import firebase from 'firebase';
@@ -17,6 +18,8 @@ class LoginForm extends React.Component {
   state = {email: '', password: '', error: '', loading: false};
 
   onButtonPress() {
+    Keyboard.dismiss();
+
     const {email, password} = this.state;
     this.setState({error: '', loading: true});
     firebase
