@@ -25,6 +25,7 @@ class UserInformation extends React.Component {
       lastName: '',
       gender: '',
       age: 0,
+      rangeAge: 0,
       dateOfBirth: new Date(),
       maximumDate: new Date(),
       check: false,
@@ -98,6 +99,7 @@ class UserInformation extends React.Component {
           gender: this.state.gender,
           dateOfBirth: this.state.dateOfBirth,
           age: this.state.age,
+          rangeAge: this.calculateRangeAge(this.state.age),
           uploadURL: this.state.uploadURL,
         })
         .then(
@@ -107,6 +109,7 @@ class UserInformation extends React.Component {
             lastName: '',
             gender: '',
             age: 0,
+            rangeAge: 0,
             dateOfBirth: new Date(),
             uploadURL: null,
             isLoading: false,
@@ -117,6 +120,26 @@ class UserInformation extends React.Component {
         });
     }
   };
+
+  calculateRangeAge(age) {
+    if (age <= 20) {
+      return 'until 20';
+    } else if (age >= 21 && age <= 25) {
+      return '21-25';
+    } else if (age >= 26 && age <= 30) {
+      return '26-30';
+    } else if (age >= 31 && age <= 40) {
+      return '31-40';
+    } else if (age >= 41 && age <= 45) {
+      return '41-45';
+    } else if (age >= 46 && age <= 55) {
+      return '46-55';
+    } else if (age >= 56 && age <= 65) {
+      return '56-65';
+    } else {
+      return 'up 66';
+    }
+  }
 
   calculateAge(dateOfBirth) {
     var birthDate = new Date(dateOfBirth);

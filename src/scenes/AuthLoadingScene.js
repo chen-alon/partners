@@ -67,19 +67,12 @@ class AuthLoadingScene extends React.Component {
     if (this.state.loggedIn) {
       if (this.state.details.finished) {
         this.props.navigation.navigate('Navigation');
-      } else {
-        if (this.state.loading) {
-          <DotIndicator color="#fe5f55" />;
-        } else if (this.state.details.mode && !this.state.details.finished) {
-          this.props.navigation.navigate('Questions');
-        } else if (
-          this.state.details.mode != 'israel' ||
-          this.state.details.mode != 'worldwide'
-        ) {
-          this.props.navigation.navigate('TravelingDetails');
-        } else {
-          this.props.navigation.navigate('UserInformation');
-        }
+      } else if (!this.state.details.firstName) {
+        this.props.navigation.navigate('UserInformation');
+      } else if (!this.state.details.mode) {
+        this.props.navigation.navigate('TravelingDetails');
+      } else if (this.state.details.mode && !this.state.details.finished) {
+        this.props.navigation.navigate('Questions');
       }
     }
   }

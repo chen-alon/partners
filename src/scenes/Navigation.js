@@ -39,3 +39,136 @@ class Navigation extends React.Component {
 }
 
 export default Navigation;
+
+// import React from 'react';
+// import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
+// import {createStackNavigator} from '@react-navigation/stack';
+// import Icon from 'react-native-vector-icons';
+// import UserProfile from './UserProfile';
+// import Matches from './Matches';
+// import Chat from './Chat';
+
+// // const HomeStack = createStackNavigator();
+// // const ChatStack = createStackNavigator();
+// // const ProfileStack = createStackNavigator();
+
+// const Tab = createMaterialBottomTabNavigator();
+
+// const Navigation = () => (
+//   <Tab.Navigator initialRouteName="Matches" activeColor="#fff">
+//     <Tab.Screen
+//       name="Matches"
+//       component={Matches}
+//       options={{
+//         tabBarLabel: 'Matches',
+//         tabBarColor: '#009387',
+//         tabBarIcon: ({color}) => <Icon name="home" color={color} size={26} />,
+//       }}
+//     />
+//     <Tab.Screen
+//       name="Chat"
+//       component={Chat}
+//       options={{
+//         tabBarLabel: 'Updates',
+//         tabBarColor: '#1f65ff',
+//         tabBarIcon: ({color}) => (
+//           <Icon name="notifications" color={color} size={26} />
+//         ),
+//       }}
+//     />
+//     <Tab.Screen
+//       name="Profile"
+//       component={UserProfile}
+//       options={{
+//         tabBarLabel: 'Profile',
+//         tabBarColor: '#694fad',
+//         tabBarIcon: ({color}) => <Icon name="person" color={color} size={26} />,
+//       }}
+//     />
+//   </Tab.Navigator>
+// );
+
+// export default Navigation;
+
+// const HomeStackScreen = ({navigation}) => (
+//   <HomeStack.Navigator
+//     screenOptions={{
+//       headerStyle: {
+//         backgroundColor: '#009387',
+//       },
+//       headerTintColor: '#fff',
+//       headerTitleStyle: {
+//         fontWeight: 'bold',
+//       },
+//     }}>
+//     <HomeStack.Screen
+//       name="Home"
+//       component={Matches}
+//       options={{
+//         title: 'Overview',
+//         headerLeft: () => (
+//           <Icon.Button
+//             name="ios-menu"
+//             size={25}
+//             backgroundColor="#009387"
+//             onPress={() => navigation.openDrawer()}></Icon.Button>
+//         ),
+//       }}
+//     />
+//   </HomeStack.Navigator>
+// );
+
+// const ChatStackScreen = ({navigation}) => (
+//   <ChatStack.Navigator
+//     screenOptions={{
+//       headerStyle: {
+//         backgroundColor: '#1f65ff',
+//       },
+//       headerTintColor: '#fff',
+//       headerTitleStyle: {
+//         fontWeight: 'bold',
+//       },
+//     }}>
+//     <ChatStack.Screen
+//       name="Details"
+//       component={Chat}
+//       options={{
+//         headerLeft: () => (
+//           <Icon.Button
+//             name="ios-menu"
+//             size={25}
+//             backgroundColor="#1f65ff"
+//             onPress={() => navigation.openDrawer()}></Icon.Button>
+//         ),
+//       }}
+//     />
+//   </ChatStack.Navigator>
+// );
+
+// const ProfileStackScreen = ({navigation}) => (
+//   <ProfileStack.Navigator
+//     screenOptions={{
+//       headerStyle: {
+//         backgroundColor: '#009387',
+//       },
+//       headerTintColor: '#fff',
+//       headerTitleStyle: {
+//         fontWeight: 'bold',
+//       },
+//     }}>
+//     <ProfileStack.Screen
+//       name="Home"
+//       component={UserProfile}
+//       options={{
+//         title: 'Overview',
+//         headerLeft: () => (
+//           <Icon.Button
+//             name="ios-menu"
+//             size={25}
+//             backgroundColor="#009387"
+//             onPress={() => navigation.openDrawer()}></Icon.Button>
+//         ),
+//       }}
+//     />
+//   </ProfileStack.Navigator>
+// );

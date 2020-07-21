@@ -109,8 +109,8 @@ class Matches extends React.Component {
       }
     }
 
-    var perIdealHitch = Math.round(((idealHitch + similarMonths) / 4) * 40);
-    var perSimilarAnswer = Math.round((similarAnswers / 15) * 60);
+    var perIdealHitch = Math.round(((idealHitch + similarMonths) / 4) * 60);
+    var perSimilarAnswer = Math.round((similarAnswers / 15) * 40);
     var percent = perIdealHitch + perSimilarAnswer;
 
     if (percent >= 60) {
