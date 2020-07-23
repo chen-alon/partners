@@ -15,6 +15,7 @@ import firebase from 'firebase';
 class PartnerProfile extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props.navigation.state.params);
     this.state = {
       choice: '',
     };
@@ -83,8 +84,8 @@ class PartnerProfile extends React.Component {
   }
 
   render() {
-    //const {state, goBack} = this.props.navigation;
-    //const params = state.params || {};
+    const {state, goBack} = this.props.navigation;
+    const params = state.params || {};
 
     return (
       <View style={{flex: 1}}>
@@ -103,16 +104,25 @@ class PartnerProfile extends React.Component {
               onPress={() => goBack(params.go_back_key)}
             />
             <View>
-              <View style={styles.box}>
+              <View>
                 <View>
                   <Image
                     style={styles.profileImage}
-                    source={require('../images/user.png')}
+                    source={
+                      this.props.navigation.state.params.image
+                        ? {uri: this.props.navigation.state.params.image}
+                        : require('../images/user.png')
+                    }
                   />
-                </View>
-                <View>
-                  <Text style={styles.name}>Full name, Age</Text>
-                  <Text style={styles.name}>percentages</Text>
+                  <Text style={styles.details}>
+                    {this.props.navigation.state.params.firstName}{' '}
+                    {this.props.navigation.state.params.lastName}
+                    {', '}
+                    {this.props.navigation.state.params.age}
+                  </Text>
+                  <Text style={styles.details}>
+                    {this.props.navigation.state.params.percentage + '%'}
+                  </Text>
                 </View>
               </View>
 
@@ -172,25 +182,16 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'transparent',
   },
-  box: {
-    marginTop: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    paddingTop: 15,
-    paddingBottom: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
   profileImage: {
+    alignSelf: 'center',
     width: 200,
     height: 200,
     borderWidth: 4,
     borderColor: '#dcdcdc',
   },
-  name: {
-    fontSize: 16,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
+  details: {
+    fontSize: 25,
+    alignSelf: 'center',
     color: '#4f6367',
     fontWeight: 'bold',
   },

@@ -8,12 +8,32 @@ import UserInformation from './scenes/UserInformation';
 import AuthLoadingScene from './scenes/AuthLoadingScene';
 import ExstraInformation from './scenes/ExstraInformation';
 import TravelingDetails from './scenes/TravelingDetails';
-import Navigation from './scenes/Navigation';
+//import Navigation from './scenes/Navigation';
+import Matches from './scenes/Matches';
+import Chat from './scenes/Chat';
+import UserProfile from './scenes/UserProfile';
+import PartnerProfile from './scenes/PartnerProfile';
+import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 
+const Navigation = createMaterialBottomTabNavigator(
+  {
+    Matches: {screen: Matches},
+    Chat: {screen: Chat},
+    UserProfile: {screen: UserProfile},
+  },
+  {
+    initialRouteName: 'Matches',
+    activeColor: '#fff',
+    barStyle: {backgroundColor: '#4f6367'},
+  },
+);
 const MainNavigator = createStackNavigator(
   {
     AuthLoadingScene: {
       screen: AuthLoadingScene,
+    },
+    Navigation: {
+      screen: Navigation,
     },
     LoginForm: {
       screen: LoginForm,
@@ -38,6 +58,9 @@ const MainNavigator = createStackNavigator(
     },
     TravelingDetails: {
       screen: TravelingDetails,
+    },
+    PartnerProfile: {
+      screen: PartnerProfile,
     },
   },
 

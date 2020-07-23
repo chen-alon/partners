@@ -161,7 +161,6 @@ class Matches extends React.Component {
         ) {
           const {
             uid,
-            email,
             firstName,
             lastName,
             age,
@@ -179,7 +178,6 @@ class Matches extends React.Component {
             key: doc.id,
             doc,
             uid,
-            email,
             firstName,
             lastName,
             age,
@@ -232,7 +230,11 @@ class Matches extends React.Component {
                   <TouchableOpacity
                     style={styles.card}
                     onPress={() =>
-                      this.props.navigation.navigate('PartnerProfile')
+                      this.props.navigation.navigate('PartnerProfile', {
+                        ...item,
+                        percentage: this.state.percentage[item.uid],
+                        image: this.state.images[item.uid],
+                      })
                     }>
                     <View style={styles.imageContainer}>
                       <Image
