@@ -149,6 +149,7 @@ class CreateUser extends React.Component {
               fontFamily="AmaticSC-Bold"
               checkedColor="#4F6367"
               center
+              uncheckedColor="#4F6367"
               title="Agree to terms and conditions"
               checked={this.state.checked}
               onPress={() => this.checkBoxPressed()}

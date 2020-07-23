@@ -21,9 +21,10 @@ class Matches extends React.Component {
 
     this.state = {
       loading: false,
-      percentage: [],
-
+      percentage: {},
       uid: firebase.auth().currentUser.uid,
+      partnersDetails: [],
+      images: {},
     };
   }
 
@@ -36,9 +37,9 @@ class Matches extends React.Component {
       .getDownloadURL()
       .then(url => {
         //from url you can fetched the uploaded image easily
-        this.setState({profileImageUrl: {uri: url}});
+        this.setState({images: {...this.state.images, [doc.data().uid]: url}});
       })
-      .catch(e => console.log('getting downloadURL of image error => ', e));
+      .catch(_ => {});
   }
 
   checkMatch(doc, currentUser) {
@@ -46,8 +47,7 @@ class Matches extends React.Component {
     var similarMonths = 0;
     if (
       currentUser.partnerGender === doc.data().gender ||
-      currentUser.partnerGender === 'all' ||
-      doc.data().partnerGender === 'all'
+      currentUser.partnerGender === 'all'
     ) {
       idealHitch++;
     }
@@ -61,9 +61,8 @@ class Matches extends React.Component {
     }
 
     if (
-      currentUser.partnerAge === doc.data().partnerAge ||
-      currentUser.partnerAge === 'all' ||
-      doc.data().partnerAge === 'all'
+      currentUser.partnerAge === doc.data().rangeAge ||
+      currentUser.partnerAge === 'all'
     ) {
       idealHitch++;
     }
@@ -112,16 +111,18 @@ class Matches extends React.Component {
     var perIdealHitch = Math.round(((idealHitch + similarMonths) / 4) * 60);
     var perSimilarAnswer = Math.round((similarAnswers / 15) * 40);
     var percent = perIdealHitch + perSimilarAnswer;
-
     if (percent >= 60) {
+      if (!this.state.images[doc.data().uid]) {
+        this.retrieveImage(doc);
+      }
       this.setState({
-        percentage: [...this.state.percentage, [doc.data().uid, percent]],
+        percentage: {
+          ...this.state.percentage,
+          [doc.data().uid]: percent,
+        },
       });
       return true;
     } else {
-      // this.setState({
-      //   percentage: [...this.state.percentage, [doc.data().uid, percent]],
-      // });
       return false;
     }
   }
@@ -147,7 +148,6 @@ class Matches extends React.Component {
 
     this.ref.get().then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        this.retrieveImage(doc);
         if (
           this.state.uid != doc.data().uid &&
           this.state.currentUserDetails.mode === doc.data().mode &&
@@ -165,6 +165,7 @@ class Matches extends React.Component {
             firstName,
             lastName,
             age,
+            rangeAge,
             gender,
             dateOfBirth,
             ListOfQandA,
@@ -182,6 +183,7 @@ class Matches extends React.Component {
             firstName,
             lastName,
             age,
+            rangeAge,
             gender,
             dateOfBirth,
             ListOfQandA,
@@ -201,6 +203,7 @@ class Matches extends React.Component {
   }
 
   render() {
+    console.log(this.state.images);
     return (
       <View style={{flex: 1, backgroundColor: 'transparent'}}>
         <ImageBackground
@@ -211,7 +214,12 @@ class Matches extends React.Component {
             <FlatList
               style={styles.list}
               //contentContainerStyle={styles.listContainer}
-              data={this.state.partnersDetails}
+              data={this.state.partnersDetails
+                .filter(partner => this.state.percentage[partner.uid])
+                .sort(
+                  (a, b) =>
+                    this.state.percentage[b.uid] - this.state.percentage[a.uid],
+                )}
               horizontal={false}
               numColumns={2}
               keyExtractor={item => item.uid}
@@ -229,8 +237,11 @@ class Matches extends React.Component {
                     <View style={styles.imageContainer}>
                       <Image
                         style={styles.cardImage}
-                        source={this.state.profileImageUrl}
-                        //source={{uri: item.profileImageUrl}}
+                        source={
+                          this.state.images[item.uid]
+                            ? {uri: this.state.images[item.uid]}
+                            : require('../images/user.png')
+                        }
                       />
                     </View>
                     <View style={styles.cardContent}>
@@ -238,11 +249,7 @@ class Matches extends React.Component {
                         {item.firstName + ' ' + item.lastName}, {item.age}
                       </Text>
                       <Text style={styles.percentage}>
-                        {this.state.percentage.map(percent => {
-                          if (percent[0] == item.uid) {
-                            return percent[1] + '%';
-                          }
-                        })}
+                        {this.state.percentage[item.uid] + '%'}
                       </Text>
                     </View>
                   </TouchableOpacity>
