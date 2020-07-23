@@ -8,7 +8,6 @@ import UserInformation from './scenes/UserInformation';
 import AuthLoadingScene from './scenes/AuthLoadingScene';
 import ExstraInformation from './scenes/ExstraInformation';
 import TravelingDetails from './scenes/TravelingDetails';
-//import Navigation from './scenes/Navigation';
 import Matches from './scenes/Matches';
 import Chat from './scenes/Chat';
 import UserProfile from './scenes/UserProfile';
@@ -46,9 +45,6 @@ const MainNavigator = createStackNavigator(
     },
     Questions: {
       screen: Questions,
-    },
-    Navigation: {
-      screen: Navigation,
     },
     UserInformation: {
       screen: UserInformation,
