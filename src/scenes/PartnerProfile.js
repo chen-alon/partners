@@ -10,7 +10,6 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Icon} from 'native-base';
-import firebase from 'firebase';
 
 class PartnerProfile extends React.Component {
   constructor(props) {
@@ -20,14 +19,9 @@ class PartnerProfile extends React.Component {
       choice: '',
     };
   }
-
-  onClickListener = viewId => {
-    Alert.alert('Alert', 'Button pressed ' + viewId);
-  };
-
   onClickInformation() {
     return (
-      <View style={(backgroundColor = '#fff')}>
+      <View style={styles.boxDetails}>
         <Text
           style={styles.inputBox}
           placeholder={'languages i know'}
@@ -37,26 +31,37 @@ class PartnerProfile extends React.Component {
     );
   }
 
-  onClickMessage = () => {
-    Alert.alert('send message - Going forward');
-  };
-
   displayRequestedDetails() {
-    if (this.state.choice === 'basicInformation') {
-      return (
-        <View style={styles.boxDetails}>
-          <ScrollView>
-            <Text>information</Text>
-          </ScrollView>
-        </View>
-      );
-    }
-
     if (this.state.choice === 'moreDetails') {
       return (
         <View style={styles.boxDetails}>
           <ScrollView>
-            <Text>more Details</Text>
+            <View style={styles.boxText}>
+              <Text style={{fontWeight: 'bold', fontSize: 19}}>
+                {'summary: '}
+              </Text>
+              <Text style={{fontSize: 16}}>
+                {this.props.navigation.state.params.more}
+              </Text>
+            </View>
+            <View>
+              <View style={styles.boxText}>
+                <Text style={{fontWeight: 'bold', fontSize: 19}}>
+                  {'countries: '}
+                </Text>
+                <Text style={{fontSize: 16}}>
+                  {this.props.navigation.state.params.countries}
+                </Text>
+              </View>
+              <View style={styles.boxText}>
+                <Text style={{fontWeight: 'bold', fontSize: 19}}>
+                  {'languages: '}
+                </Text>
+                <Text style={{fontSize: 16}}>
+                  {this.props.navigation.state.params.languages}
+                </Text>
+              </View>
+            </View>
           </ScrollView>
         </View>
       );
@@ -66,17 +71,47 @@ class PartnerProfile extends React.Component {
       return (
         <View style={styles.boxDetails}>
           <ScrollView>
-            <Text>traveling Details</Text>
-          </ScrollView>
-        </View>
-      );
-    }
+            <View>
+              {this.props.navigation.state.params.mode == 'israel' ? (
+                <View style={styles.boxText}>
+                  <Text style={{fontWeight: 'bold', fontSize: 19}}>
+                    {'area: '}
+                  </Text>
+                  <Text style={{fontSize: 16}}>
+                    {this.props.navigation.state.params.area}
+                  </Text>
+                </View>
+              ) : (
+                <View style={styles.boxText}>
+                  <Text style={{fontWeight: 'bold', fontSize: 20}}>
+                    {'country : '}
+                  </Text>
+                  <Text style={{fontSize: 20}}>
+                    {this.props.navigation.state.params.mainland +
+                      ', ' +
+                      this.props.navigation.state.params.country}
+                  </Text>
+                </View>
+              )}
 
-    if (this.state.choice === 'message') {
-      return (
-        <View style={styles.boxDetails}>
-          <ScrollView>
-            <Text>send message</Text>
+              <View style={styles.boxText}>
+                <Text style={{fontWeight: 'bold', fontSize: 19}}>
+                  {'months: '}
+                </Text>
+                <Text style={{fontSize: 16}}>
+                  {this.props.navigation.state.params.selectedIteams}
+                </Text>
+              </View>
+
+              <View style={styles.boxText}>
+                <Text style={{fontWeight: 'bold', fontSize: 19}}>
+                  {'theme: '}
+                </Text>
+                <Text style={{fontSize: 16}}>
+                  {this.props.navigation.state.params.theme}
+                </Text>
+              </View>
+            </View>
           </ScrollView>
         </View>
       );
@@ -91,7 +126,7 @@ class PartnerProfile extends React.Component {
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/background.jpg')}
-          imageStyle={{opacity: 0.6}}
+          imageStyle={{opacity: 0.4}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scrollContainer}>
             <Icon
@@ -114,34 +149,34 @@ class PartnerProfile extends React.Component {
                         : require('../images/user.png')
                     }
                   />
-                  <Text style={styles.details}>
-                    {this.props.navigation.state.params.firstName}{' '}
-                    {this.props.navigation.state.params.lastName}
-                    {', '}
-                    {this.props.navigation.state.params.age}
-                  </Text>
-                  <Text style={styles.details}>
-                    {this.props.navigation.state.params.percentage + '%'}
-                  </Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <View>
+                      <Text style={styles.detailstext}>
+                        {this.props.navigation.state.params.firstName}{' '}
+                        {this.props.navigation.state.params.lastName}
+                        {',\n'}
+                        {this.props.navigation.state.params.gender}
+                        {', '}
+                        {this.props.navigation.state.params.age}
+                      </Text>
+                    </View>
+                    <View style={styles.percent}>
+                      <Text style={styles.percentText}>
+                        {this.props.navigation.state.params.percentage + '%'}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               </View>
 
               <View style={styles.buttonContainer}>
                 <TouchableHighlight
                   style={styles.button}
-                  onPress={() => this.setState({choice: 'basicInformation'})}>
-                  <Image
-                    style={styles.icon}
-                    source={require('../images/information.png')}
-                  />
-                </TouchableHighlight>
-
-                <TouchableHighlight
-                  style={styles.button}
                   onPress={() => this.setState({choice: 'moreDetails'})}>
                   <Image
                     style={styles.icon}
-                    source={require('../images/details.png')}
+                    source={require('../images/information.png')}
+                    // source={require('../images/details.png')}
                   />
                 </TouchableHighlight>
 
@@ -156,7 +191,11 @@ class PartnerProfile extends React.Component {
 
                 <TouchableHighlight
                   style={styles.button}
-                  onPress={() => this.setState({choice: 'message'})}>
+                  onPress={() =>
+                    this.props.navigation.navigate('Messages', {
+                      choosenUid: this.props.navigation.state.params.uid,
+                    })
+                  }>
                   <Image
                     style={styles.icon}
                     source={require('../images/send-message.png')}
@@ -184,20 +223,15 @@ const styles = StyleSheet.create({
   },
   profileImage: {
     alignSelf: 'center',
-    width: 200,
-    height: 200,
+    width: 230,
+    height: 230,
     borderWidth: 4,
     borderColor: '#dcdcdc',
-  },
-  details: {
-    fontSize: 25,
-    alignSelf: 'center',
-    color: '#4f6367',
-    fontWeight: 'bold',
+    marginBottom: 15,
   },
   buttonContainer: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 10,
     alignSelf: 'center',
   },
   button: {
@@ -209,7 +243,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fe5f55',
     marginBottom: 20,
     borderRadius: 40,
-    margin: 8,
+    // margin: 8,
+    margin: 15,
     shadowColor: 'black',
     elevation: 13,
     borderWidth: 2,
@@ -219,19 +254,45 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
-  text: {
-    fontSize: 20,
-    color: '#fff',
-  },
   boxDetails: {
-    marginTop: 10,
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#dcdcdc',
+    flexDirection: 'row',
     borderWidth: 1,
-    //borderRadius: 1,
-    borderColor: '#dcdcdc',
+    borderColor: '#fff',
+    marginBottom: 50,
+    marginTop: 20,
+  },
+  percent: {
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
+    backgroundColor: '#dcdcdc',
+    borderRadius: 40,
+    elevation: 15,
+    borderWidth: 2,
+    borderColor: '#fff',
+    color: '#4f6367',
+    alignSelf: 'center',
+    marginLeft: 60,
+  },
+  detailstext: {
+    fontSize: 25,
+    //color: '#4f6367',
+    fontWeight: 'bold',
+    paddingLeft: 40,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  boxText: {
+    paddingLeft: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  percentText: {
+    fontSize: 25,
+    //color: '#4f6367',
+    fontWeight: 'bold',
+    alignSelf: 'center',
   },
 });
 

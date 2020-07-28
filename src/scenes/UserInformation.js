@@ -342,6 +342,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 15,
   },
+  percentText: {
+    fontSize: 25,
+    //color: '#4f6367',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
 });
 
 export default UserInformation;

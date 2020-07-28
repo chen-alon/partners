@@ -1,6 +1,12 @@
 import React from 'react';
 import {DotIndicator} from 'react-native-indicators';
-import {View, BackHandler, Alert} from 'react-native';
+import {
+  View,
+  BackHandler,
+  ImageBackground,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import firebase from '../utils/firebase/firebase-db';
 
 // eslint-disable-next-line no-console
@@ -10,9 +16,7 @@ class AuthLoadingScene extends React.Component {
     super();
     this.state = {
       loggedIn: false,
-      loading: false,
       details: {},
-      loading: false,
     };
   }
 
@@ -28,7 +32,7 @@ class AuthLoadingScene extends React.Component {
     firebase.auth().onAuthStateChanged(() => {
       const user = firebase.auth().currentUser;
       if (user) {
-        this.setState({loggedIn: true, loading: true});
+        this.setState({loggedIn: true});
       } else {
         this.setState({loggedIn: false});
         this.props.navigation.navigate('LoginForm');
@@ -64,20 +68,17 @@ class AuthLoadingScene extends React.Component {
   };
 
   renderContent() {
+    // if (this.state.loading) {
+    //   return <DotIndicator color="#fe5f55" />;
+    // } else {
     if (this.state.loggedIn) {
       if (this.state.details.finished) {
-        if (this.state.loading) {
-          <DotIndicator color="#fe5f55" />;
-        }
         this.props.navigation.navigate('Navigation');
       } else if (!this.state.details.firstName) {
-        <DotIndicator color="#fe5f55" />;
         this.props.navigation.navigate('UserInformation');
       } else if (!this.state.details.mode) {
-        <DotIndicator color="#fe5f55" />;
         this.props.navigation.navigate('TravelingDetails');
       } else if (this.state.details.mode && !this.state.details.finished) {
-        <DotIndicator color="#fe5f55" />;
         this.props.navigation.navigate('Questions');
       }
     }
@@ -85,11 +86,32 @@ class AuthLoadingScene extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'transparent'}}>
-        {this.renderContent()}
-      </View>
+      <ImageBackground
+        source={require('../images/vanishing_hitchhiker2.jpg')}
+        imageStyle={{opacity: 0.4}}
+        style={styles.backgroundImage}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignSelf: 'center',
+            alignItems: 'center',
+            backgroundColor: 'transparent',
+            flex: 1,
+          }}>
+          {this.renderContent()}
+        </View>
+      </ImageBackground>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
+});
 
 export default AuthLoadingScene;

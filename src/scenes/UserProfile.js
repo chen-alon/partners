@@ -10,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
+import {Icon} from 'native-base';
 import firebase from 'firebase';
 
 class UserProfile extends React.Component {
@@ -49,63 +50,86 @@ class UserProfile extends React.Component {
       });
   }
 
-  editDetails() {
-    Alert.alert('beseder gamur');
-  }
-
   render() {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/background.jpg')}
-          imageStyle={{opacity: 0.5}}
+          imageStyle={{opacity: 0.55}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>
-            <View style={styles.container}>
-              <View style={styles.header}></View>
-              <Image
-                style={styles.avatar}
-                source={require('../images/user.png')}
-              />
-              <Image
-                style={styles.avatar}
-                source={{uri: this.state.profileImageUrl}}
-              />
+            {this.state.profileImageUrl ? (
               <View>
-                <View style={styles.bodyContent}>
-                  {this.state.details.firstName === undefined ? (
-                    <View>
-                      <DotIndicator color="#fe5f55" />
-                    </View>
-                  ) : (
-                    <View>
-                      <Text style={styles.name}>
-                        {this.state.details.firstName +
-                          ' ' +
-                          this.state.details.lastName}
-                      </Text>
-                    </View>
-                  )}
+                <Image
+                  style={styles.avatar}
+                  source={{uri: this.state.profileImageUrl}}
+                />
+                <TouchableOpacity>
+                  <View style={styles.uploadIcon}>
+                    <Image
+                      style={styles.icon}
+                      source={require('../images/edit.png')}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View>
+                <Image
+                  style={styles.avatar}
+                  source={require('../images/user.png')}
+                />
+                <TouchableOpacity>
+                  <View style={styles.uploadIcon}>
+                    <Image
+                      style={styles.icon}
+                      source={require('../images/edit.png')}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
 
-                  <Text style={styles.info}>hitchhiker / 2020</Text>
-                  <Text style={styles.description}>
-                    Let's find your partner for your next vacation
+            <View style={styles.bodyContent}>
+              {this.state.details.firstName === undefined ? (
+                <View>
+                  <DotIndicator color="#fe5f55" />
+                </View>
+              ) : (
+                <View style={{alignItems: 'center'}}>
+                  <Text style={styles.name}>
+                    {this.state.details.firstName +
+                      ' ' +
+                      this.state.details.lastName}
                   </Text>
-
                   <TouchableOpacity style={styles.buttonContainer}>
                     <Text
                       style={{color: '#eef5d8'}}
-                      onPress={() => {
-                        this.editDetails();
-                      }}>
+                      onPress={() =>
+                        this.props.navigation.navigate('PartnerProfile', {
+                          details,
+                        })
+                      }>
                       Edit profile
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.buttonContainer}>
-                    <Text style={{color: '#eef5d8'}}>Ideal hitchhiker</Text>
+                    <Text
+                      style={{color: '#eef5d8'}}
+                      onPress={() => {
+                        this.travelDetails();
+                      }}>
+                      Ideal hitchhiker
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.buttonContainer}>
-                    <Text style={{color: '#eef5d8'}}>Account settings</Text>
+                    <Text
+                      style={{color: '#eef5d8'}}
+                      onPress={() => {
+                        this.accountSettings();
+                      }}>
+                      Account settings
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <Text
@@ -120,6 +144,7 @@ class UserProfile extends React.Component {
                           .auth()
                           .signOut()
                           .then(() => {
+                            this.setState({details: {}});
                             this.props.navigation.navigate('LoginForm');
                           })
                           .catch(error =>
@@ -129,8 +154,13 @@ class UserProfile extends React.Component {
                       Sign Out
                     </Text>
                   </TouchableOpacity>
+
+                  <Text style={styles.info}>hitchhiker / 2020</Text>
+                  <Text style={styles.description}>
+                    Let's find your partner for your next vacation
+                  </Text>
                 </View>
-              </View>
+              )}
             </View>
           </ScrollView>
         </ImageBackground>
@@ -142,20 +172,12 @@ class UserProfile extends React.Component {
 const styles = StyleSheet.create({
   scroll: {
     flex: 1,
-    padding: 20,
-  },
-  header: {
-    backgroundColor: '#fff',
-    alignSelf: 'center',
-    height: 230,
-    width: 230,
-    borderRadius: 130,
-    marginTop: 15,
+    padding: 10,
   },
   avatar: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+    width: 250,
+    height: 250,
+    borderRadius: 150,
     borderWidth: 2,
     borderColor: '#fe5f55',
     alignSelf: 'center',
@@ -172,16 +194,16 @@ const styles = StyleSheet.create({
     color: '#696969',
     fontWeight: '600',
     fontWeight: 'bold',
-    flexDirection: 'row',
+    paddingBottom: 10,
   },
   info: {
     fontSize: 13,
-    color: '#eef5d8',
     marginTop: 10,
+    color: '#eef5d8',
   },
   description: {
     fontSize: 13,
-    color: '#696969',
+    color: '#eef5d8',
     textAlign: 'center',
     marginBottom: 10,
   },
@@ -197,6 +219,25 @@ const styles = StyleSheet.create({
     borderColor: '#b8d8d8',
     borderWidth: 1,
     backgroundColor: '#fe5f55',
+  },
+  uploadIcon: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    backgroundColor: '#dcdcdc',
+    borderRadius: 40,
+    elevation: 15,
+    borderWidth: 2,
+    borderColor: '#fff',
+    color: '#4f6367',
+    alignSelf: 'center',
+    marginLeft: 180,
+    marginTop: 220,
+  },
+  icon: {
+    width: 40,
+    height: 40,
+    alignSelf: 'center',
   },
 });
 
