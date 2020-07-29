@@ -1,7 +1,17 @@
 import React, {Component} from 'react';
 import {Header, ListItem} from 'react-native-elements';
-import {TextInput, Text, ScrollView, TouchableOpacity} from 'react-native';
-import {Footer, Container} from 'native-base';
+import {
+  TextInput,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  ImageBackground,
+  Keyboard,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from 'react-native';
+import {Footer, Container, Icon, View} from 'native-base';
 import firebase from 'firebase';
 
 class Messages extends Component {
@@ -14,7 +24,7 @@ class Messages extends Component {
     this.userid = firebase.auth().currentUser.uid;
     this.newUid =
       firebase.auth().currentUser.uid +
-      this.props.navigation.state.params.choosenUid;
+      this.props.navigation.state.params.partnerUid;
     console.log(this.newUid);
     this.state = {
       oldMessages: [],
@@ -62,8 +72,8 @@ class Messages extends Component {
           titleStyle={styles.titleStyle1}
           containerStyle={styles.containerStyle1}
           key={i}
-          title={message.Date + message.Message}
-          subtitle={<Text style={{color: '#fff'}}>{message.Username}</Text>}
+          title={message.Message}
+          subtitle={<Text>{message.Username}</Text>}
         />
       ) : (
         <ListItem
@@ -81,19 +91,19 @@ class Messages extends Component {
     this.textInputRef.clear();
   }
 
-  onPressOut(message, choosenUid) {
+  onPressOut(message, partnerUid) {
     if (message !== '') {
       this.clear();
-      this.addMessageToFirebase(message, choosenUid);
+      this.addMessageToFirebase(message, partnerUid);
     }
   }
-  addMessageToFirebase(message, choosenUid) {
+  addMessageToFirebase(message, partnerUid) {
     this.messagesRef
       .add({
         Message: message,
         Date: Date(),
         Uid: this.userid,
-        Uid1: [this.userid + choosenUid, choosenUid + this.userid],
+        Uid1: [this.userid + partnerUid, partnerUid + this.userid],
         Username: this.state.username,
       })
       .then(function(docRef) {
@@ -115,62 +125,114 @@ class Messages extends Component {
   }
 
   render() {
+    const {state, goBack} = this.props.navigation;
+    const params = state.params || {};
     return (
-      <Container>
-        {/* <Image
-          style={styles.profileImage}
-          source={
-            this.props.navigation.state.params.image
-              ? {uri: this.props.navigation.state.params.image}
-              : require('../images/user.png')
-          }
-        /> */}
-        <ScrollView style={{flexDirection: 'column-reverse', marginBottom: 20}}>
-          {this.displayMessages(this.state.oldMessages)}
-          <Text>{this.props.navigation.state.params.choosenUsername}</Text>
-        </ScrollView>
+      <Container style={{flex: 1}}>
+        <Header
+          containerStyle={{
+            backgroundColor: '#fff',
+            width: Dimensions.get('window').width, //full width
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Icon
+              name="arrow-back"
+              style={{
+                color: '#4f6367',
+                alignSelf: 'center',
+                marginBottom: 20,
+                marginLeft: 10,
+              }}
+              onPress={() => goBack(params.go_back_key)}
+            />
+            <Image
+              style={styles.partnerImage}
+              source={
+                this.props.navigation.state.params.partnerImage
+                  ? {uri: this.props.navigation.state.params.partnerImage}
+                  : require('../images/user.png')
+              }
+            />
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingLeft: 10,
+                marginBottom: 20,
+              }}>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+                {this.props.navigation.state.params.partnerFirstName}
+              </Text>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+                {' ' + this.props.navigation.state.params.partnerLastName}
+              </Text>
+            </View>
+          </View>
+        </Header>
 
-        <Footer>
-          <TextInput
-            style={styles.input}
-            placeholder={'Write your message here...'}
-            placeholderTextColor="#BCBCBC"
-            height={45}
-            autoCorrect={false}
-            ref={ref => (this.textInputRef = ref)}
-            onChangeText={message => this.setState({message})}
-            value={this.state.message}
-          />
+        <View style={{flex: 1}}>
+          <ImageBackground
+            source={require('../images/imagebackgroundchat.jpeg')}
+            imageStyle={{opacity: 0.5}}
+            style={{resizeMode: 'cover', flex: 1}}>
+            <ScrollView style={{flex: 1, margin: 10}}>
+              <View>{this.displayMessages(this.state.oldMessages)}</View>
+            </ScrollView>
 
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            onPress={() => {
-              this.onPressOut(
-                this.state.message,
-                this.props.navigation.state.params.choosenUid,
-              );
-            }}>
-            <Text style={styles.buttonText}>Send</Text>
-          </TouchableOpacity>
-        </Footer>
+            <Footer
+              style={{
+                backgroundColor: '#fff',
+                height: 70,
+                justifyContent: 'space-between',
+                paddingLeft: 20,
+                paddingRight: 15,
+              }}>
+              <TextInput
+                style={styles.input}
+                placeholder={'Write your message here...'}
+                //placeholderTextColor="#BCBCBC"
+                height={45}
+                autoCorrect={false}
+                ref={ref => (this.textInputRef = ref)}
+                onChangeText={message => this.setState({message})}
+                value={this.state.message}
+              />
+
+              <TouchableOpacity
+                style={{alignSelf: 'center'}}
+                onPress={() => {
+                  this.onPressOut(
+                    this.state.message,
+                    this.props.navigation.state.params.partnerUid,
+                  );
+                  Keyboard.dismiss();
+                }}>
+                <Image
+                  style={styles.icon}
+                  source={require('../images/send.png')}
+                />
+              </TouchableOpacity>
+            </Footer>
+          </ImageBackground>
+        </View>
       </Container>
     );
   }
 }
 
-export default Messages;
-
-const styles = {
+const styles = StyleSheet.create({
+  partnerImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 40,
+    borderWidth: 1,
+    borderColor: '#4f6367',
+    marginLeft: 20,
+    marginBottom: 25,
+  },
   input: {
-    marginTop: 20,
     marginRight: 10,
-    marginLeft: 10,
-    borderRadius: 50,
     backgroundColor: '#fff',
-    borderColor: '#005D93',
-    borderWidth: 2,
     fontSize: 18,
-    width: '70%',
     alignSelf: 'center',
   },
   buttonText: {
@@ -178,40 +240,42 @@ const styles = {
     alignSelf: 'center',
     marginTop: 15,
   },
-  buttonStyle: {
-    marginTop: 10,
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#1B9CE5',
-  },
   titleStyle1: {
-    fontSize: 18,
-    color: '#fff',
-    textAlign: 'right',
+    fontSize: 16,
+    color: '#000',
+    textAlign: 'left',
     borderColor: '#005D93',
   },
   titleStyle2: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#000',
-    textAlign: 'right',
+    textAlign: 'left',
     borderColor: '#005D93',
   },
   containerStyle1: {
-    backgroundColor: '#005D93',
-    borderWidth: 2,
-    borderRadius: 40,
-    width: 300,
-    height: 60,
-    alignSelf: 'flex-start',
-    marginTop: 10,
-  },
-  containerStyle2: {
-    borderWidth: 2,
-    borderRadius: 40,
-    width: 300,
-    height: 60,
+    backgroundColor: '#bbd8d8',
+    borderWidth: 0.5,
+    borderRadius: 10,
+    width: 250,
     alignSelf: 'flex-end',
     marginTop: 10,
+    shadowColor: 'black',
+    elevation: 10,
   },
-};
+  containerStyle2: {
+    borderWidth: 0.5,
+    borderRadius: 10,
+    width: 250,
+    alignSelf: 'flex-start',
+    marginTop: 10,
+    shadowColor: 'black',
+    elevation: 10,
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    alignSelf: 'center',
+  },
+});
+
+export default Messages;

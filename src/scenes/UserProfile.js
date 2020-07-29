@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
-import {Icon} from 'native-base';
+import ImagePicker from 'react-native-image-picker';
 import firebase from 'firebase';
 
 class UserProfile extends React.Component {
@@ -20,7 +20,45 @@ class UserProfile extends React.Component {
       isLoading: true,
       details: {},
     };
+  }
 
+  editImage() {
+    this.setState({uploadURL: ''});
+
+    ImagePicker.launchImageLibrary({}, response => {
+      this.uploadImage(response.uri)
+        .then(url => {
+          console.log('chechurlt', url);
+          this.setState({uploadURL: uri});
+        })
+        .catch(error => console.log(error));
+    });
+  }
+
+  async uploadImage(uri = 'application/octet-stream') {
+    return new Promise(async (resolve, reject) => {
+      const response = await fetch(uri);
+      const file = await response.blob();
+      let upload = firebase
+        .storage()
+        .ref('images')
+        .child(`${firebase.auth().currentUser.uid}`)
+        .put(file);
+      upload.on(
+        'state_changed',
+        //snapshot => {},
+        err => {
+          reject(err);
+        },
+        async () => {
+          const url = await upload.snapshot.ref.getDownloadURL();
+          resolve(url);
+        },
+      );
+    });
+  }
+
+  componentDidMount() {
     let imageRef = firebase
       .storage()
       .ref('images')
@@ -64,7 +102,7 @@ class UserProfile extends React.Component {
                   style={styles.avatar}
                   source={{uri: this.state.profileImageUrl}}
                 />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.editImage()}>
                   <View style={styles.uploadIcon}>
                     <Image
                       style={styles.icon}
@@ -79,7 +117,7 @@ class UserProfile extends React.Component {
                   style={styles.avatar}
                   source={require('../images/user.png')}
                 />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.editImage()}>
                   <View style={styles.uploadIcon}>
                     <Image
                       style={styles.icon}
@@ -200,6 +238,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 10,
     color: '#eef5d8',
+    //flexDirection: 'row-reverse',
   },
   description: {
     fontSize: 13,

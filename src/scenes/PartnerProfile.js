@@ -134,6 +134,7 @@ class PartnerProfile extends React.Component {
               style={{
                 color: '#4f6367',
                 marginLeft: 10,
+                marginTop: 10,
                 marginBottom: 10,
               }}
               onPress={() => goBack(params.go_back_key)}
@@ -149,7 +150,7 @@ class PartnerProfile extends React.Component {
                         : require('../images/user.png')
                     }
                   />
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{flexDirection: 'row', alignSelf: 'center'}}>
                     <View>
                       <Text style={styles.detailstext}>
                         {this.props.navigation.state.params.firstName}{' '}
@@ -193,7 +194,12 @@ class PartnerProfile extends React.Component {
                   style={styles.button}
                   onPress={() =>
                     this.props.navigation.navigate('Messages', {
-                      choosenUid: this.props.navigation.state.params.uid,
+                      partnerUid: this.props.navigation.state.params.uid,
+                      partnerImage: this.props.navigation.state.params.image,
+                      partnerFirstName: this.props.navigation.state.params
+                        .firstName,
+                      partnerLastName: this.props.navigation.state.params
+                        .lastName,
                     })
                   }>
                   <Image
@@ -279,7 +285,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     //color: '#4f6367',
     fontWeight: 'bold',
-    paddingLeft: 40,
+    //paddingLeft: 40,
     paddingTop: 10,
     paddingBottom: 10,
   },

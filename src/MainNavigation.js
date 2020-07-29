@@ -1,5 +1,7 @@
+import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import LoginForm from './scenes/LoginForm';
 import CreateUser from './scenes/CreateUser';
 import ForgotPasswordController from './scenes/ForgotPasswordController';
@@ -25,6 +27,26 @@ const Navigation = createMaterialBottomTabNavigator(
     initialRouteName: 'Matches',
     activeColor: '#fff',
     barStyle: {backgroundColor: '#4f6367'},
+    defaultNavigationOptions: ({navigation}) => ({
+      tabBarIcon: ({horizontal, tintColor}) => {
+        const {routeName} = navigation.state;
+        let iconName;
+        if (routeName === 'Matches') {
+          iconName = 'ios-people';
+        } else if (routeName === 'Chat') {
+          iconName = 'ios-chatboxes';
+        } else if (routeName === 'UserProfile') {
+          iconName = 'ios-person';
+        }
+        return (
+          <Ionicons
+            name={iconName}
+            size={horizontal ? 20 : 25}
+            color={tintColor}
+          />
+        );
+      },
+    }),
   },
 );
 const MainNavigator = createStackNavigator(

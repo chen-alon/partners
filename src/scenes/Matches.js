@@ -297,7 +297,8 @@ const styles = StyleSheet.create({
   cardImage: {
     flex: 1,
     height: 150,
-    width: null,
+    width: 150,
+    alignSelf: 'center',
   },
   imageContainer: {
     shadowColor: '#000',
