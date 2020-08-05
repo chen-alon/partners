@@ -120,20 +120,20 @@ class EditDeatils extends React.Component {
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/background.jpg')}
-          imageStyle={{opacity: 0.4}}
+          imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <View style={{flex: 1}}>
-            <Icon
-              name="arrow-back"
-              style={{
-                color: '#4f6367',
-                marginLeft: 10,
-                marginTop: 10,
-                marginBottom: 10,
-              }}
-              onPress={() => goBack(params.go_back_key)}
-            />
-            <ScrollView>
+            <ScrollView style={styles.scroll}>
+              <Icon
+                name="arrow-back"
+                style={{
+                  color: '#4f6367',
+                  marginLeft: 10,
+                  marginTop: 10,
+                  marginBottom: 10,
+                }}
+                onPress={() => goBack(params.go_back_key)}
+              />
               <View style={{flex: 1}}>
                 <View style={styles.boxText}>
                   <Text style={styles.text}>{'first name: '}</Text>
@@ -183,7 +183,6 @@ class EditDeatils extends React.Component {
                     date={this.state.dateOfBirth}
                     mode="date"
                     placeholder={this.props.navigation.state.params.dateOfBirth}
-                    //format="MM/DD/YYYY"
                     minDate="1920-01-01"
                     maxDate={this.state.maximumDate}
                     confirmBtnText="Confirm"
@@ -258,7 +257,7 @@ class EditDeatils extends React.Component {
                 style={styles.button}
                 onPress={this.handleDetails.bind(this)}>
                 <Image
-                  style={styles.icon}
+                  style={{width: 40, height: 40}}
                   source={require('../images/approval.png')}
                 />
               </TouchableHighlight>
@@ -271,6 +270,10 @@ class EditDeatils extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  scroll: {
+    flex: 1,
+    padding: 20,
+  },
   button: {
     width: 70,
     height: 70,
@@ -283,12 +286,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#fff',
     alignSelf: 'center',
-    marginBottom: 15,
+    marginBottom: 40,
     marginTop: 15,
-  },
-  icon: {
-    width: 40,
-    height: 40,
   },
   boxText: {
     paddingLeft: 20,

@@ -8,6 +8,7 @@ import {
   Text,
   Picker,
   Alert,
+  Image,
   ImageBackground,
 } from 'react-native';
 import {Icon} from 'native-base';
@@ -409,7 +410,7 @@ class TravelingDetails extends React.Component {
                     style={
                       this.state.mode === 'israel'
                         ? styles.buttonPress
-                        : styles.button
+                        : styles.buttonMode
                     }
                     onPress={() => this.setState({mode: 'israel'})}>
                     <Text>ISRAEL</Text>
@@ -421,7 +422,7 @@ class TravelingDetails extends React.Component {
                     style={
                       this.state.mode === 'worldwide'
                         ? styles.buttonPress
-                        : styles.button
+                        : styles.buttonMode
                     }
                     onPress={() => this.setState({mode: 'worldwide'})}>
                     <Text>WORLDWIDE</Text>
@@ -614,11 +615,23 @@ class TravelingDetails extends React.Component {
                 </View>
               )}
             </View>
-            <TouchableOpacity
-              style={styles.buttonSave}
-              onPress={this.handleDetails}>
-              <Text style={styles.buttonText}>Save</Text>
-            </TouchableOpacity>
+
+            {this.props.navigation.state.params.finished ? (
+              <TouchableHighlight
+                style={styles.button}
+                onPress={this.handleDetails.bind(this)}>
+                <Image
+                  style={{width: 40, height: 40}}
+                  source={require('../images/approval.png')}
+                />
+              </TouchableHighlight>
+            ) : (
+              <TouchableOpacity
+                style={styles.buttonSave}
+                onPress={this.handleDetails}>
+                <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+            )}
           </ScrollView>
         </ImageBackground>
       </View>
@@ -631,7 +644,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-
   container: {
     flex: 1,
     padding: 30,
@@ -641,7 +653,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#fff',
   },
-
   text: {
     fontSize: 20,
     color: '#4f6367',
@@ -649,7 +660,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingTop: 10,
   },
-
   inputBox: {
     width: '85%',
     margin: 10,
@@ -660,14 +670,12 @@ const styles = StyleSheet.create({
     color: '#4f6367',
     backgroundColor: '#eef5d8',
   },
-
   card: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignSelf: 'center',
   },
-
-  button: {
+  buttonMode: {
     margin: 10,
     alignItems: 'center',
     backgroundColor: 'transparent',
@@ -677,7 +685,21 @@ const styles = StyleSheet.create({
     width: 130,
     padding: 10,
   },
-
+  button: {
+    width: 70,
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fe5f55',
+    borderRadius: 40,
+    shadowColor: 'black',
+    elevation: 13,
+    borderWidth: 2,
+    borderColor: '#fff',
+    alignSelf: 'center',
+    marginBottom: 40,
+    marginTop: 15,
+  },
   buttonPress: {
     backgroundColor: '#b8d8d8',
     margin: 10,
@@ -688,7 +710,6 @@ const styles = StyleSheet.create({
     width: 130,
     padding: 10,
   },
-
   buttonSave: {
     position: 'relative',
     marginTop: 20,
@@ -702,13 +723,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 200,
   },
-
   pickerStyle: {
     width: '100%',
     color: '#344953',
     justifyContent: 'center',
   },
-
   buttonText: {
     fontSize: 20,
     fontWeight: 'bold',

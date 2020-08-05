@@ -165,9 +165,11 @@ class UserProfile extends React.Component {
                   <TouchableOpacity style={styles.buttonContainer}>
                     <Text
                       style={{color: '#eef5d8'}}
-                      onPress={() => {
-                        this.accountSettings();
-                      }}>
+                      onPress={() =>
+                        this.props.navigation.navigate('AccountSettings', {
+                          ...this.state.details,
+                        })
+                      }>
                       Account settings
                     </Text>
                   </TouchableOpacity>
@@ -184,7 +186,7 @@ class UserProfile extends React.Component {
                           .auth()
                           .signOut()
                           .then(() => {
-                            this.setState({details: {}});
+                            this.setState({details: []});
                             this.props.navigation.navigate('LoginForm');
                           })
                           .catch(error =>

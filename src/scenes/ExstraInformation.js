@@ -48,7 +48,8 @@ class ExstraInformation extends React.Component {
   };
 
   render() {
-    const {navigate} = this.props.navigation;
+    const {state, goBack} = this.props.navigation;
+    const params = state.params || {};
 
     return (
       <View style={{flex: 1}}>
@@ -64,7 +65,7 @@ class ExstraInformation extends React.Component {
                 marginLeft: 10,
                 marginBottom: 10,
               }}
-              onPress={() => navigate('UserInformation')}
+              onPress={() => goBack(params.go_back_key)}
             />
             <Header
               centerComponent={{
