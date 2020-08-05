@@ -75,15 +75,15 @@ class TravelingDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      area: '',
-      mainland: '',
-      country: '',
-      partnerAge: '',
-      partnerGender: '',
-      theme: '',
-      mode: 'israel',
       checked: false,
-      selectedItems: [],
+      mode: this.props.navigation.state.params.mode,
+      mainland: this.props.navigation.state.params.mainland,
+      country: this.props.navigation.state.params.country,
+      area: this.props.navigation.state.params.area,
+      theme: this.props.navigation.state.params.theme,
+      partnerAge: this.props.navigation.state.params.partnerAge,
+      partnerGender: this.props.navigation.state.params.partnerGender,
+      selectedItems: this.props.navigation.state.params.selectedItems,
     };
   }
 
@@ -135,7 +135,9 @@ class TravelingDetails extends React.Component {
             selectedItems: this.state.selectedItems,
           })
           .then(
-            this.props.navigation.navigate('Questions'),
+            this.props.navigation.state.params.finished
+              ? Alert.alert('details updated successfully')
+              : this.props.navigation.navigate('Questions'),
             this.setState({
               area: '',
               mainland: '',
@@ -346,13 +348,18 @@ class TravelingDetails extends React.Component {
   };
 
   render() {
-    const {navigate} = this.props.navigation;
+    const {state, goBack} = this.props.navigation;
+    const params = state.params || {};
     const {selectedItems} = this.state;
 
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('../images/vanishing_hitchhiker2.jpg')}
+          source={
+            this.props.navigation.state.params.finished
+              ? require('../images/background.jpg')
+              : '../images/vanishing_hitchhiker2.jpg'
+          }
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>
@@ -363,28 +370,39 @@ class TravelingDetails extends React.Component {
                 marginLeft: 10,
                 marginBottom: 10,
               }}
-              onPress={() => navigate('ExstraInformation')}
+              onPress={() => goBack(params.go_back_key)}
             />
-            <Header
-              centerComponent={{
-                text: 'Lets find your partner',
-                style: {
-                  color: '#bbd8d8',
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  paddingBottom: 20,
-                },
-              }}
-              containerStyle={{
-                backgroundColor: '#FE5F55',
-                justifyContent: 'space-around',
-                marginBottom: 10,
-                borderRadius: 10,
-                borderWidth: 4,
-                borderColor: '#eef5d8',
-              }}
-            />
-            <View style={styles.container}>
+
+            {this.props.navigation.state.params.finished ? (
+              <View></View>
+            ) : (
+              <Header
+                centerComponent={{
+                  text: 'Lets find your partner',
+                  style: {
+                    color: '#bbd8d8',
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    paddingBottom: 20,
+                  },
+                }}
+                containerStyle={{
+                  backgroundColor: '#FE5F55',
+                  justifyContent: 'space-around',
+                  marginBottom: 10,
+                  borderRadius: 10,
+                  borderWidth: 4,
+                  borderColor: '#eef5d8',
+                }}
+              />
+            )}
+
+            <View
+              style={
+                this.props.navigation.state.params.finished
+                  ? null
+                  : styles.container
+              }>
               <View style={styles.card}>
                 <View>
                   <TouchableHighlight
@@ -505,28 +523,23 @@ class TravelingDetails extends React.Component {
               <View style={styles.pickerStyle}>
                 <MultiSelect
                   styleMainWrapper={{
-                    backgroundColor: '#eef5d8',
-                    borderBottomColor: '#eef5d8',
+                    backgroundColor: 'transparent',
                     borderEndColor: '#eef5d8',
-                    // borderStartColor: '#eef5d8',
                     width: '104%',
                     paddingLeft: 9,
                     fontSize: 16,
                     color: '#fff',
-                    //borderRightColor: '#eef5d8',
                   }}
                   styleDropdownMenuSubsection={{
-                    backgroundColor: '#eef5d8',
-                    borderColor: '#eef5d8',
+                    backgroundColor: 'transparent',
+                    borderColor: 'transparent',
                   }}
                   styleTextDropdown={{
-                    backgroundColor: '#eef5d8',
                     color: '#4f6367',
                     fontSize: 16,
                   }}
                   textInputProps={{editable: false}}
                   searchInputStyle={{
-                    //backgroundColor: '#eef5d8',
                     fontSize: 16,
                     width: '85%',
                     maxWidth: '80%',

@@ -14,11 +14,11 @@ import ImagePicker from 'react-native-image-picker';
 import firebase from 'firebase';
 
 class UserProfile extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isLoading: true,
-      details: {},
+      details: [],
     };
   }
 
@@ -144,8 +144,8 @@ class UserProfile extends React.Component {
                     <Text
                       style={{color: '#eef5d8'}}
                       onPress={() =>
-                        this.props.navigation.navigate('PartnerProfile', {
-                          details,
+                        this.props.navigation.navigate('EditDetails', {
+                          ...this.state.details,
                         })
                       }>
                       Edit profile
@@ -154,9 +154,11 @@ class UserProfile extends React.Component {
                   <TouchableOpacity style={styles.buttonContainer}>
                     <Text
                       style={{color: '#eef5d8'}}
-                      onPress={() => {
-                        this.travelDetails();
-                      }}>
+                      onPress={() =>
+                        this.props.navigation.navigate('TravelingDetails', {
+                          ...this.state.details,
+                        })
+                      }>
                       Ideal hitchhiker
                     </Text>
                   </TouchableOpacity>

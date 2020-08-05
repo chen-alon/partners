@@ -19,17 +19,6 @@ class PartnerProfile extends React.Component {
       choice: '',
     };
   }
-  onClickInformation() {
-    return (
-      <View style={styles.boxDetails}>
-        <Text
-          style={styles.inputBox}
-          placeholder={'languages i know'}
-          autoCapitalize="none"
-        />
-      </View>
-    );
-  }
 
   displayRequestedDetails() {
     if (this.state.choice === 'moreDetails') {

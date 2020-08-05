@@ -14,8 +14,9 @@ import Matches from './scenes/Matches';
 import Chat from './scenes/Chat';
 import UserProfile from './scenes/UserProfile';
 import PartnerProfile from './scenes/PartnerProfile';
-import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 import Messages from './scenes/Messages';
+import EditDetails from './scenes/EditDetails';
+import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 
 const Navigation = createMaterialBottomTabNavigator(
   {
@@ -83,6 +84,9 @@ const MainNavigator = createStackNavigator(
     },
     Messages: {
       screen: Messages,
+    },
+    EditDetails: {
+      screen: EditDetails,
     },
   },
 

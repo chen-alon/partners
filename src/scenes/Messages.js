@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {Footer, Container, Icon, View} from 'native-base';
 import firebase from 'firebase';
@@ -17,7 +18,6 @@ import firebase from 'firebase';
 class Messages extends Component {
   constructor(props) {
     super(props);
-    console.log(props.navigation.state.params);
 
     this.messagesRef = firebase.firestore().collection('Messages');
     //.where('Uid1', 'array-contains', 'hfc');
@@ -25,11 +25,9 @@ class Messages extends Component {
     this.newUid =
       firebase.auth().currentUser.uid +
       this.props.navigation.state.params.partnerUid;
-    console.log(this.newUid);
     this.state = {
       oldMessages: [],
       message: '',
-      username: '',
     };
   }
 
@@ -73,7 +71,6 @@ class Messages extends Component {
           containerStyle={styles.containerStyle1}
           key={i}
           title={message.Message}
-          subtitle={<Text>{message.Username}</Text>}
         />
       ) : (
         <ListItem
@@ -81,7 +78,6 @@ class Messages extends Component {
           containerStyle={styles.containerStyle2}
           key={i}
           title={message.Message}
-          subtitle={<Text>{message.Username}</Text>}
         />
       ),
     );
@@ -103,8 +99,8 @@ class Messages extends Component {
         Message: message,
         Date: Date(),
         Uid: this.userid,
+        UidPartner: partnerUid,
         Uid1: [this.userid + partnerUid, partnerUid + this.userid],
-        Username: this.state.username,
       })
       .then(function(docRef) {
         this.setState({
@@ -112,16 +108,6 @@ class Messages extends Component {
         });
       })
       .catch(function(docRef) {});
-  }
-
-  onLogOut() {
-    firebase
-      .auth()
-      .signOut()
-      .then(function() {
-        alert('You have been successfully logged out');
-      })
-      .catch(function(error) {});
   }
 
   render() {
@@ -169,51 +155,50 @@ class Messages extends Component {
           </View>
         </Header>
 
-        <View style={{flex: 1}}>
-          <ImageBackground
-            source={require('../images/imagebackgroundchat.jpeg')}
-            imageStyle={{opacity: 0.5}}
-            style={{resizeMode: 'cover', flex: 1}}>
-            <ScrollView style={{flex: 1, margin: 10}}>
-              <View>{this.displayMessages(this.state.oldMessages)}</View>
-            </ScrollView>
+        <ImageBackground
+          source={require('../images/imagebackgroundchat.jpeg')}
+          imageStyle={{opacity: 0.5}}
+          style={{resizeMode: 'cover', flex: 1}}>
+          <ScrollView
+            style={{flex: 1, margin: 10}}
+            ref="flatList"
+            onContentSizeChange={() => this.refs.flatList.scrollToEnd()}>
+            <View>{this.displayMessages(this.state.oldMessages)}</View>
+          </ScrollView>
 
-            <Footer
-              style={{
-                backgroundColor: '#fff',
-                height: 70,
-                justifyContent: 'space-between',
-                paddingLeft: 20,
-                paddingRight: 15,
+          <Footer
+            style={{
+              backgroundColor: '#fff',
+              height: 50,
+              justifyContent: 'space-between',
+              paddingLeft: 20,
+              paddingRight: 15,
+            }}>
+            <TextInput
+              style={styles.input}
+              placeholder={'Write your message here...'}
+              height={45}
+              autoCorrect={false}
+              ref={ref => (this.textInputRef = ref)}
+              onChangeText={message => this.setState({message})}
+              value={this.state.message}
+            />
+            <TouchableOpacity
+              style={{alignSelf: 'center'}}
+              onPress={() => {
+                this.onPressOut(
+                  this.state.message,
+                  this.props.navigation.state.params.partnerUid,
+                );
+                Keyboard.dismiss();
               }}>
-              <TextInput
-                style={styles.input}
-                placeholder={'Write your message here...'}
-                //placeholderTextColor="#BCBCBC"
-                height={45}
-                autoCorrect={false}
-                ref={ref => (this.textInputRef = ref)}
-                onChangeText={message => this.setState({message})}
-                value={this.state.message}
+              <Image
+                style={styles.icon}
+                source={require('../images/send.png')}
               />
-
-              <TouchableOpacity
-                style={{alignSelf: 'center'}}
-                onPress={() => {
-                  this.onPressOut(
-                    this.state.message,
-                    this.props.navigation.state.params.partnerUid,
-                  );
-                  Keyboard.dismiss();
-                }}>
-                <Image
-                  style={styles.icon}
-                  source={require('../images/send.png')}
-                />
-              </TouchableOpacity>
-            </Footer>
-          </ImageBackground>
-        </View>
+            </TouchableOpacity>
+          </Footer>
+        </ImageBackground>
       </Container>
     );
   }
@@ -232,7 +217,7 @@ const styles = StyleSheet.create({
   input: {
     marginRight: 10,
     backgroundColor: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     alignSelf: 'center',
   },
   buttonText: {
@@ -272,8 +257,8 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   icon: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     alignSelf: 'center',
   },
 });

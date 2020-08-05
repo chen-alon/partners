@@ -1,66 +1,56 @@
-// import React from 'react';
-// import {AppRegistry, Text, View, Button} from 'react-native';
-// import {StackNavigator} from 'react-navigation';
-
-// class HomeScreen extends React.Component {
-//   static navigationOptions = {
-//     title: 'Welcome',
-//   };
-//   render() {
-//     const {navigate} = this.props.navigation;
-//     return (
-//       <View>
-//         <Text>Hello, Chat App!</Text>
-//         <Button
-//           onPress={() => navigate('Chat', {user: 'Lucy'})}
-//           title="Chat with Lucy"
-//         />
-//       </View>
-//     );
-//   }
-// }
-
-// class ChatScreen extends React.Component {
-//   // Nav options can be defined as a function of the screen's props:
-//   static navigationOptions = ({navigation}) => ({
-//     title: `Chat with ${navigation.state.params.user}`,
-//   });
-//   render() {
-//     // The screen's current route is passed in to `props.navigation.state`:
-//     const {params} = this.props.navigation.state;
-//     return (
-//       <View>
-//         <Text>Chat with {params.user}</Text>
-//       </View>
-//     );
-//   }
-// }
-
-// const SimpleAppNavigator = StackNavigator({
-//   Home: {screen: HomeScreen},
-//   Chat: {screen: ChatScreen},
-// });
-
-// const AppNavigation = () => <SimpleAppNavigator />;
-
-// export default class App extends React.Component {
-//   render() {
-//     return <AppNavigation />;
-//   }
-// }
-
 import React, {Component} from 'react';
-import {DotIndicator} from 'react-native-indicators';
-import {View, ImageBackground, StyleSheet} from 'react-native';
-import {Title} from 'react-native-paper';
-
-// import {GiftedChat} from 'react-native-gifted-chat';
-// import Backend from '../Backend';
+import {
+  View,
+  ImageBackground,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+} from 'react-native';
+import {Title, ThemeProvider} from 'react-native-paper';
+import firebase from 'firebase';
 
 class Chat extends Component {
+  constructor(props) {
+    super(props);
+    this.ref = firebase.firestore().collection('users');
+    this.unsubscribe = null;
+
+    this.state = {
+      loading: false,
+      percentage: {},
+      uid: firebase.auth().currentUser.uid,
+      partnersDetails: [],
+      images: {},
+    };
+  }
+
+  componentDidMount() {
+    // this.unsubscribe = firebase
+    //   .firestore()
+    //   .collection('Messages')
+    //   .orderBy('Date')
+    //   .where('Uid', '==', this.state.uid || 'UidPartner', '==', this.state.uid)
+    //   .onSnapshot(this.onCollectionUpdate);
+    // firebase
+    //   .firestore()
+    //   .collection('Messages')
+    //   .where('Uid' === this.state.uid || 'UidPartner' === this.state.uid)
+    //   .orderBy('Date')
+    //   .get()
+    //   .then(querySnapshot => {
+    //     if (this.state.oldMessages.length < 1) {
+    //       querySnapshot.forEach(doc => {
+    //         this.setState({
+    //           oldMessages: [...this.state.oldMessages, doc.data()],
+    //         });
+    //       });
+    //     }
+    //   });
+  }
+
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: 'transparent'}}>
         <ImageBackground
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.5}}
@@ -68,53 +58,63 @@ class Chat extends Component {
           {/* <DotIndicator color="#fe5f55" /> */}
           <View style={styles.container}>
             <Title style={{color: '#4f6367'}}>conversations</Title>
+
+            <ScrollView style={{flex: 1}}>
+              {/*   <FlatList
+                style={styles.list}
+                data={this.state.partnersDetails
+                  .filter(partner => this.state.percentage[partner.uid])
+                  .sort(
+                    (a, b) =>
+                      this.state.percentage[b.uid] -
+                      this.state.percentage[a.uid],
+                  )}
+                horizontal={false}
+                numColumns={2}
+                keyExtractor={item => item.uid}
+                ItemSeparatorComponent={() => {
+                  return <View style={styles.separator} />;
+                }}
+                renderItem={post => {
+                  const item = post.item;
+                  return (
+                    <TouchableOpacity
+                      style={styles.card}
+                      onPress={() =>
+                        this.props.navigation.navigate('PartnerProfile', {
+                          ...item,
+                          percentage: this.state.percentage[item.uid],
+                          image: this.state.images[item.uid],
+                        })
+                      }>
+                      <View style={styles.imageContainer}>
+                        <Image
+                          style={styles.cardImage}
+                          source={
+                            this.state.images[item.uid]
+                              ? {uri: this.state.images[item.uid]}
+                              : require('../images/user.png')
+                          }
+                        />
+                      </View>
+                      <View style={styles.cardContent}>
+                        <Text style={styles.details}>
+                          {item.firstName + ' ' + item.lastName}, {item.age}
+                        </Text>
+                        <Text style={styles.percentage}>
+                          {this.state.percentage[item.uid] + '%'}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }}
+              />*/}
+            </ScrollView>
           </View>
         </ImageBackground>
       </View>
     );
   }
-  //   constructor(props) {
-  //     super(props);
-  //     this.statestate = {
-  //       messages: [],
-  //     };
-  //   }
-  //   componentWillMount() {}
-  //   render() {
-  //     return (
-  //       <GiftedChat
-  //         messages={this.state.messages}
-  //         onSend={message => {
-  //           Backend.sendMessage(message);
-  //         }}
-  //         user={{
-  //           _id: Backend.getUid(),
-  //           name: this.props.name,
-  //         }}
-  //       />
-  //     );
-  //   }
-  //   componentDidMount() {
-  //     Backend.loadMessages(message => {
-  //       this.setState(previousState => {
-  //         return {
-  //           messages: GiftedChat.append(previousState.messages, message),
-  //         };
-  //       });
-  //     });
-  //   }
-  //   componentWillUnmount() {
-  //     Backend.closeChat();
-  //   }
-  // }
-
-  // Chat.defaultProps = {
-  //   name: 'John Smith',
-  // };
-
-  // Chat.propTypes = {
-  //   name: React.PropTypes.string,
-  // };
 }
 
 const styles = StyleSheet.create({
