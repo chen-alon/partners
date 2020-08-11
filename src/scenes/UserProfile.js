@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
 import ImagePicker from 'react-native-image-picker';
+//to refresh component when any change
+import {NavigationEvents} from 'react-navigation';
 import firebase from 'firebase';
 
 class UserProfile extends React.Component {
@@ -58,7 +60,7 @@ class UserProfile extends React.Component {
     });
   }
 
-  componentDidMount() {
+  renderDetails() {
     let imageRef = firebase
       .storage()
       .ref('images')
@@ -88,9 +90,21 @@ class UserProfile extends React.Component {
       });
   }
 
+  componentDidMount() {
+    this.renderDetails();
+
+    this.unsubscribe = firebase
+      .firestore()
+      .collection('users')
+      .onSnapshot(this.renderDetails);
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
+        <NavigationEvents
+          onDidFocus={() => this.setState({details: this.state.details})}
+        />
         <ImageBackground
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.55}}

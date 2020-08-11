@@ -10,24 +10,19 @@ import {
   Dimensions,
 } from 'react-native';
 import {Icon} from 'native-base';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 import Button from '../components/common/Button';
 import {DotIndicator} from 'react-native-indicators';
 
-class ForgotPasswordController extends React.Component {
-  static defaultProps = {
-    submitText: 'send',
-    placeHolderText: 'example@domain.com',
-  };
-
+export default class ResetPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email: firebase.auth().currentUser.email,
+      Password: '',
       spinner: false,
     };
   }
-
   renderButton() {
     if (this.state.spinner) {
       return <DotIndicator color="#fe5f55" />;
@@ -38,7 +33,7 @@ class ForgotPasswordController extends React.Component {
           this.btnSubmitPress();
           this.setState({spinner: true});
         }}>
-        send
+        Reset
       </Button>
     );
   }
@@ -70,7 +65,7 @@ class ForgotPasswordController extends React.Component {
     }
   }
 
-  //Forgot pasword function
+  //forgot pasword function
   callForgotPassword() {
     firebase
       .auth()
@@ -78,7 +73,7 @@ class ForgotPasswordController extends React.Component {
       .then(function(username) {
         Alert.alert(
           'Reset Password',
-          'A password renewal email has been sent to the email address you entered',
+          'A password renewal message has been sent to the email account you have successfully entered',
           [{text: 'OK', onPress: () => this.setState({spinner: false})}],
           {cancelable: false},
         );
@@ -102,8 +97,8 @@ class ForgotPasswordController extends React.Component {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('../images/vanishing_hitchhiker2.jpg')}
-          imageStyle={{opacity: 0.3}}
+          source={require('../images/background.jpg')}
+          imageStyle={{opacity: 0.4}}
           style={styles.backgroundImage}>
           <ScrollView style={{flex: 1, padding: 20}}>
             <Icon
@@ -116,25 +111,10 @@ class ForgotPasswordController extends React.Component {
               }}
               onPress={() => goBack(params.go_back_key)}
             />
-            <Text style={styles.header}>Forgot Password</Text>
 
-            <View style={{paddingTop: 80}}>
-              <TextInput
-                style={styles.inputBox}
-                autoCorrect={false}
-                keyboardType={'email-address'}
-                textAlign="center"
-                placeholder={this.props.placeHolderText}
-                placeholderStyle={{
-                  fontFamily: 'AmaticSC-Bold',
-                }}
-                placeholderTextColor="#4f6367"
-                height={45}
-                autoCorrect={false}
-                onChangeText={email => this.setState({email})}
-                value={this.state.email}
-              />
-              <View style={{paddingTop: 20}}>{this.renderButton()}</View>
+            <View style={{alignContent: 'center', paddingTop: '50%'}}>
+              <Text style={styles.email}>{this.state.email}</Text>
+              <View style={styles.button}>{this.renderButton()}</View>
             </View>
           </ScrollView>
         </ImageBackground>
@@ -144,18 +124,11 @@ class ForgotPasswordController extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  inputBox: {
-    borderColor: '#000',
-    borderRadius: 10,
-    position: 'relative',
-    borderWidth: 0.2,
-    fontSize: 16,
-    width: '85%',
-    alignItems: 'center',
-    justifyContent: 'center',
+  email: {
     alignSelf: 'center',
-    backgroundColor: 'transparent',
-    fontFamily: 'AmaticSC-Bold',
+    fontSize: 30,
+    color: '#4f6367',
+    padding: 10,
   },
   backgroundImage: {
     resizeMode: 'cover',
@@ -163,13 +136,4 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width, //for full screen
     height: Dimensions.get('window').height, //for full screen
   },
-  header: {
-    color: '#7a9e9f',
-    fontSize: 40,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    padding: 10,
-  },
 });
-
-export default ForgotPasswordController;

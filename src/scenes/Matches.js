@@ -20,7 +20,6 @@ class Matches extends React.Component {
     this.unsubscribe = null;
 
     this.state = {
-      loading: false,
       percentage: {},
       uid: firebase.auth().currentUser.uid,
       partnersDetails: [],
@@ -127,7 +126,7 @@ class Matches extends React.Component {
     }
   }
 
-  componentDidMount() {
+  renderDetails() {
     const partnersDetails = [];
 
     firebase
@@ -139,7 +138,6 @@ class Matches extends React.Component {
         if (doc.exists) {
           this.setState({
             currentUserDetails: doc.data(),
-            isLoading: false,
           });
         } else {
           console.log('No such document!');
@@ -199,11 +197,14 @@ class Matches extends React.Component {
           });
           this.setState({
             partnersDetails,
-            loading: false,
           });
         }
       });
     });
+  }
+
+  componentDidMount() {
+    this.renderDetails();
   }
 
   render() {
@@ -214,57 +215,55 @@ class Matches extends React.Component {
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.5}}
           style={{resizeMode: 'cover', flex: 1}}>
-          <ScrollView style={{flex: 1}}>
-            <FlatList
-              style={styles.list}
-              //contentContainerStyle={styles.listContainer}
-              data={this.state.partnersDetails
-                .filter(partner => this.state.percentage[partner.uid])
-                .sort(
-                  (a, b) =>
-                    this.state.percentage[b.uid] - this.state.percentage[a.uid],
-                )}
-              horizontal={false}
-              numColumns={2}
-              keyExtractor={item => item.uid}
-              ItemSeparatorComponent={() => {
-                return <View style={styles.separator} />;
-              }}
-              renderItem={post => {
-                const item = post.item;
-                return (
-                  <TouchableOpacity
-                    style={styles.card}
-                    onPress={() =>
-                      this.props.navigation.navigate('PartnerProfile', {
-                        ...item,
-                        percentage: this.state.percentage[item.uid],
-                        image: this.state.images[item.uid],
-                      })
-                    }>
-                    <View style={styles.imageContainer}>
-                      <Image
-                        style={styles.cardImage}
-                        source={
-                          this.state.images[item.uid]
-                            ? {uri: this.state.images[item.uid]}
-                            : require('../images/user.png')
-                        }
-                      />
-                    </View>
-                    <View style={styles.cardContent}>
-                      <Text style={styles.details}>
-                        {item.firstName + ' ' + item.lastName}, {item.age}
-                      </Text>
-                      <Text style={styles.percentage}>
-                        {this.state.percentage[item.uid] + '%'}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </ScrollView>
+          <FlatList
+            style={styles.list}
+            //contentContainerStyle={styles.listContainer}
+            data={this.state.partnersDetails
+              .filter(partner => this.state.percentage[partner.uid])
+              .sort(
+                (a, b) =>
+                  this.state.percentage[b.uid] - this.state.percentage[a.uid],
+              )}
+            horizontal={false}
+            numColumns={2}
+            keyExtractor={item => item.uid}
+            ItemSeparatorComponent={() => {
+              return <View style={styles.separator} />;
+            }}
+            renderItem={post => {
+              const item = post.item;
+              return (
+                <TouchableOpacity
+                  style={styles.card}
+                  onPress={() =>
+                    this.props.navigation.navigate('PartnerProfile', {
+                      ...item,
+                      percentage: this.state.percentage[item.uid],
+                      image: this.state.images[item.uid],
+                    })
+                  }>
+                  <View style={styles.imageContainer}>
+                    <Image
+                      style={styles.cardImage}
+                      source={
+                        this.state.images[item.uid]
+                          ? {uri: this.state.images[item.uid]}
+                          : require('../images/user.png')
+                      }
+                    />
+                  </View>
+                  <View style={styles.cardContent}>
+                    <Text style={styles.details}>
+                      {item.firstName + ' ' + item.lastName}, {item.age}
+                    </Text>
+                    <Text style={styles.percentage}>
+                      {this.state.percentage[item.uid] + '%'}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+          />
         </ImageBackground>
       </View>
     );

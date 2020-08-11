@@ -17,6 +17,8 @@ import PartnerProfile from './scenes/PartnerProfile';
 import Messages from './scenes/Messages';
 import EditDetails from './scenes/EditDetails';
 import AccountSettings from './scenes/AccountSettings';
+import ResetPassword from './scenes/ResetPassword';
+import ChangePassword from './scenes/ChangePassword';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 
 const Navigation = createMaterialBottomTabNavigator(
@@ -91,6 +93,12 @@ const MainNavigator = createStackNavigator(
     },
     AccountSettings: {
       screen: AccountSettings,
+    },
+    ResetPassword: {
+      screen: ResetPassword,
+    },
+    ChangePassword: {
+      screen: ChangePassword,
     },
   },
 

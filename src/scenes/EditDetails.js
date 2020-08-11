@@ -132,7 +132,10 @@ class EditDeatils extends React.Component {
                   marginTop: 10,
                   marginBottom: 10,
                 }}
-                onPress={() => goBack(params.go_back_key)}
+                onPress={() => {
+                  goBack(params.go_back_key),
+                    this.props.navigation.state.params.onGoBack();
+                }}
               />
               <View style={{flex: 1}}>
                 <View style={styles.boxText}>

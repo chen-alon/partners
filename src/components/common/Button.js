@@ -8,12 +8,9 @@ const Button = ({onPress, children}) => {
     <TouchableOpacity onPress={onPress} style={buttonStyle}>
       <Text
         style={{
-          fontFamily: 'AmaticSC-Bold',
-          alignSelf: 'center',
-          color: '#fff',
           fontSize: 20,
-          paddingTop: 10,
-          paddingBottom: 10,
+          fontWeight: 'bold',
+          color: '#bbd8d8',
         }}>
         {children}
       </Text>
@@ -23,13 +20,15 @@ const Button = ({onPress, children}) => {
 
 const styles = {
   buttonStyle: {
-    borderRadius: 10,
-    width: '30%',
+    justifyContent: 'flex-end',
+    paddingVertical: 5,
+    alignItems: 'center',
     alignSelf: 'center',
-    color: '#eef5d8',
-    fontWeight: 'bold',
-    backgroundColor: '#fe5f55',
-    marginBottom: 15,
+    backgroundColor: '#FE5F55',
+    borderColor: '#fff',
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 200,
   },
 };
 
