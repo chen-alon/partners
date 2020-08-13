@@ -72,19 +72,19 @@ const months = [
   },
 ];
 
-class TravelingDetails extends React.Component {
+class EditTravelingDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      area: '',
-      mainland: '',
-      country: '',
-      partnerAge: '',
-      partnerGender: '',
-      theme: '',
-      mode: 'israel',
       checked: false,
-      selectedItems: [],
+      mode: this.props.navigation.state.params.mode,
+      mainland: this.props.navigation.state.params.mainland,
+      country: this.props.navigation.state.params.country,
+      area: this.props.navigation.state.params.area,
+      theme: this.props.navigation.state.params.theme,
+      partnerAge: this.props.navigation.state.params.partnerAge,
+      partnerGender: this.props.navigation.state.params.partnerGender,
+      selectedItems: this.props.navigation.state.params.selectedItems,
     };
   }
 
@@ -136,7 +136,7 @@ class TravelingDetails extends React.Component {
             selectedItems: this.state.selectedItems,
           })
           .then(
-            this.props.navigation.navigate('Questions'),
+            Alert.alert('details updated successfully'),
             this.setState({
               area: '',
               mainland: '',
@@ -354,12 +354,7 @@ class TravelingDetails extends React.Component {
     return (
       <View style={{flex: 1}}>
         <ImageBackground
-          source={require('../images/vanishing_hitchhiker2.jpg')}
-          // source={
-          //   this.props.navigation.state.params.finished
-          //     ? require('../images/background.jpg')
-          //     : '../images/vanishing_hitchhiker2.jpg'
-          // }
+          source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>
@@ -370,77 +365,29 @@ class TravelingDetails extends React.Component {
                 marginLeft: 10,
                 marginBottom: 10,
               }}
-              // onPress={() => navigate('ExstraInformation')}
               onPress={() => goBack(params.go_back_key)}
             />
-            <Header
-              centerComponent={{
-                text: 'Lets find your partner',
-                style: {
-                  color: '#bbd8d8',
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  paddingBottom: 20,
-                },
-              }}
-              containerStyle={{
-                backgroundColor: '#FE5F55',
-                justifyContent: 'space-around',
-                marginBottom: 10,
-                borderRadius: 10,
-                borderWidth: 4,
-                borderColor: '#eef5d8',
-              }}
-            />
-            <View style={styles.container}>
-              {/* {this.props.navigation.state.params.finished ? (
-                <View></View>
-              ) : (
-                <Header
-                  centerComponent={{
-                    text: 'Lets find your partner',
-                    style: {
-                      color: '#bbd8d8',
-                      fontSize: 18,
-                      fontWeight: 'bold',
-                      paddingBottom: 20,
-                    },
-                  }}
-                  containerStyle={{
-                    backgroundColor: '#FE5F55',
-                    justifyContent: 'space-around',
-                    marginBottom: 10,
-                    borderRadius: 10,
-                    borderWidth: 4,
-                    borderColor: '#eef5d8',
-                  }}
-                />
-              )}
 
-              <View
-                style={
-                  this.props.navigation.state.params.finished
-                    ? null
-                    : styles.container
-                }></View> */}
+            <View>
               <View style={styles.card}>
                 <View>
                   <TouchableHighlight
                     style={
                       this.state.mode === 'israel'
                         ? styles.buttonPress
-                        : styles.button
+                        : styles.buttonMode
                     }
                     onPress={() => this.setState({mode: 'israel'})}>
                     <Text>ISRAEL</Text>
                   </TouchableHighlight>
                 </View>
+
                 <View>
                   <TouchableHighlight
                     style={
                       this.state.mode === 'worldwide'
                         ? styles.buttonPress
-                        : styles.button
+                        : styles.buttonMode
                     }
                     onPress={() => this.setState({mode: 'worldwide'})}>
                     <Text>WORLDWIDE</Text>
@@ -537,35 +484,28 @@ class TravelingDetails extends React.Component {
                 <Picker.Item label="56-65" value="56-65" />
                 <Picker.Item label="up 66" value="up 66" />
               </Picker>
+
               <Text style={styles.text}>period</Text>
               <View style={styles.pickerStyle}>
                 <MultiSelect
                   styleMainWrapper={{
-                    backgroundColor: '#eef5d8',
-                    borderBottomColor: '#eef5d8',
-                    // backgroundColor: 'transparent',
+                    backgroundColor: 'transparent',
                     borderEndColor: '#eef5d8',
-                    // borderStartColor: '#eef5d8',
                     width: '104%',
                     paddingLeft: 9,
                     fontSize: 16,
                     color: '#fff',
-                    //borderRightColor: '#eef5d8',
                   }}
                   styleDropdownMenuSubsection={{
-                    backgroundColor: '#eef5d8',
-                    borderColor: '#eef5d8',
-                    // backgroundColor: 'transparent',
-                    // borderColor: 'transparent',
+                    backgroundColor: 'transparent',
+                    borderColor: 'transparent',
                   }}
                   styleTextDropdown={{
-                    backgroundColor: '#eef5d8',
                     color: '#4f6367',
                     fontSize: 16,
                   }}
                   textInputProps={{editable: false}}
                   searchInputStyle={{
-                    //backgroundColor: '#eef5d8',
                     fontSize: 16,
                     width: '85%',
                     maxWidth: '80%',
@@ -593,6 +533,7 @@ class TravelingDetails extends React.Component {
                   flatListProps
                 />
               </View>
+
               {this.state.mode === 'worldwide' ? (
                 <View>
                   <Text style={styles.text}>the theme of the trip</Text>
@@ -639,11 +580,15 @@ class TravelingDetails extends React.Component {
                 </View>
               )}
             </View>
-            <TouchableOpacity
-              style={styles.buttonSave}
-              onPress={this.handleDetails}>
-              <Text style={styles.buttonText}>Save</Text>
-            </TouchableOpacity>
+
+            <TouchableHighlight
+              style={styles.button}
+              onPress={this.handleDetails.bind(this)}>
+              <Image
+                style={{width: 40, height: 40}}
+                source={require('../images/approval.png')}
+              />
+            </TouchableHighlight>
           </ScrollView>
         </ImageBackground>
       </View>
@@ -656,31 +601,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  container: {
-    flex: 1,
-    padding: 30,
-    backgroundColor: '#EEF5D8',
-    justifyContent: 'center',
-    borderWidth: 4,
-    borderRadius: 5,
-    borderColor: '#fff',
-  },
   text: {
     fontSize: 20,
     color: '#4f6367',
     paddingBottom: 5,
     fontWeight: 'bold',
     paddingTop: 10,
-  },
-  inputBox: {
-    width: '85%',
-    margin: 10,
-    padding: 15,
-    fontSize: 16,
-    borderColor: '#d3d3d3',
-    borderBottomWidth: 1,
-    color: '#4f6367',
-    backgroundColor: '#eef5d8',
   },
   card: {
     flexDirection: 'row',
@@ -698,14 +624,19 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    margin: 10,
+    width: 70,
+    height: 70,
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#fe5f55',
+    borderRadius: 40,
+    shadowColor: 'black',
+    elevation: 13,
+    borderWidth: 2,
     borderColor: '#fff',
-    borderWidth: 1,
-    borderRadius: 5,
-    width: 130,
-    padding: 10,
+    alignSelf: 'center',
+    marginBottom: 40,
+    marginTop: 15,
   },
   buttonPress: {
     backgroundColor: '#b8d8d8',
@@ -717,29 +648,11 @@ const styles = StyleSheet.create({
     width: 130,
     padding: 10,
   },
-  buttonSave: {
-    position: 'relative',
-    marginTop: 20,
-    marginBottom: 30,
-    paddingVertical: 5,
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: '#FE5F55',
-    borderColor: '#fff',
-    borderWidth: 1,
-    borderRadius: 5,
-    width: 200,
-  },
   pickerStyle: {
     width: '100%',
     color: '#344953',
     justifyContent: 'center',
   },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#bbd8d8',
-  },
 });
 
-export default TravelingDetails;
+export default EditTravelingDetails;

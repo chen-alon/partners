@@ -7,21 +7,44 @@ import {
   ImageBackground,
   Alert,
 } from 'react-native';
+import {Button} from 'react-native-elements';
 import {Icon} from 'native-base';
+import firebase from 'firebase';
 
 class AccountSettings extends React.Component {
-  deleteAccount() {
-    firebase
-      .auth()
-      .currentUser.delete()
-      .then(function() {
-        console.log('delete successful?');
-        console.log(app.auth().currentUser);
-      })
-      .catch(function(error) {
-        console.error({error});
-      });
-  }
+  deleteAccount = () => {
+    Alert.alert(
+      //title
+      'Delete account',
+      //body
+      'Are you sure you want to delete your account?',
+      [
+        {
+          text: 'Yes',
+          onPress: () =>
+            firebase
+              .auth()
+              .currentUser.delete()
+              .then(function() {
+                console.log('delete successful');
+                let userRef = this.database.ref('users/' + userId);
+                userRef.remove();
+                this.props.navigation.navigate('LoginForm');
+              })
+              .catch(function(error) {
+                //console.error({error});
+              }),
+        },
+        {
+          text: 'No',
+          onPress: () => console.log('No Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+      //clicking out side of alert will not cancel
+    );
+  };
 
   render() {
     const {state, goBack} = this.props.navigation;
@@ -76,13 +99,17 @@ class AccountSettings extends React.Component {
               </View>
 
               <View style={styles.boxText}>
-                <Text
-                  style={styles.text}
-                  onPress={() =>
-                    this.props.navigation.navigate('ForgotPasswordController')
-                  }>
-                  Delete your account
-                </Text>
+                <Button
+                  buttonStyle={styles.deleteButton}
+                  titleStyle={styles.deleteText}
+                  title="Delete your account"
+                  onPress={this.deleteAccount.bind(this)}></Button>
+                {/* <Button title={" Delete your account"} onPress={() => deleteAccount()} />
+                  <Text
+                    style={styles.text}
+                    onPress={() => this.deleteAccount()}>
+                   
+                  </Text> */}
               </View>
             </ScrollView>
           </View>
@@ -97,11 +124,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  deleteButton: {
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
+    padding: 10,
+  },
+  deleteText: {
+    fontSize: 20,
+    color: '#4f6367',
+  },
   text: {
     fontSize: 20,
     color: '#4f6367',
     fontWeight: 'bold',
-    //alignSelf: 'center',
     padding: 10,
   },
   boxText: {

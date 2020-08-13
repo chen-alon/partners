@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Text,
   View,
-  TextInput,
   Alert,
   ImageBackground,
   ScrollView,
@@ -19,10 +18,10 @@ export default class ResetPassword extends React.Component {
     super(props);
     this.state = {
       email: firebase.auth().currentUser.email,
-      Password: '',
       spinner: false,
     };
   }
+
   renderButton() {
     if (this.state.spinner) {
       return <DotIndicator color="#fe5f55" />;
@@ -30,39 +29,12 @@ export default class ResetPassword extends React.Component {
     return (
       <Button
         onPress={() => {
-          this.btnSubmitPress();
+          this.callForgotPassword();
           this.setState({spinner: true});
         }}>
         Reset
       </Button>
     );
-  }
-
-  //Validate email
-  validateEmail = function(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  };
-
-  //Button submit pressed
-  btnSubmitPress() {
-    if (this.state.email.trim().length == 0) {
-      Alert.alert(
-        'Reset Password',
-        'Please enter the email address',
-        [{text: 'OK', onPress: () => this.setState({spinner: false})}],
-        {cancelable: false},
-      );
-    } else if (this.validateEmail(this.state.email) == false) {
-      Alert.alert(
-        'Reset Password',
-        'The email address does not exist in the system',
-        [{text: 'OK', onPress: () => this.setState({spinner: false})}],
-        {cancelable: false},
-      );
-    } else {
-      this.callForgotPassword();
-    }
   }
 
   //forgot pasword function
@@ -73,21 +45,16 @@ export default class ResetPassword extends React.Component {
       .then(function(username) {
         Alert.alert(
           'Reset Password',
-          'A password renewal message has been sent to the email account you have successfully entered',
+          'A password renewal message has been sent to the email account you have successfully entered.',
           [{text: 'OK', onPress: () => this.setState({spinner: false})}],
           {cancelable: false},
         );
         username.sendEmailVerification();
       })
-      .catch(e => {
-        alert(e);
+      .catch(() => {
+        // alert(e);
         this.setState({spinner: false});
       });
-  }
-
-  //Button close pressed
-  btnClosePress() {
-    this.props.callbackAfterForgotPassword(0, this.props.otherParamsToSend);
   }
 
   render() {
@@ -114,7 +81,7 @@ export default class ResetPassword extends React.Component {
 
             <View style={{alignContent: 'center', paddingTop: '50%'}}>
               <Text style={styles.email}>{this.state.email}</Text>
-              <View style={styles.button}>{this.renderButton()}</View>
+              <View>{this.renderButton()}</View>
             </View>
           </ScrollView>
         </ImageBackground>

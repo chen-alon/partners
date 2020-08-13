@@ -16,6 +16,7 @@ import UserProfile from './scenes/UserProfile';
 import PartnerProfile from './scenes/PartnerProfile';
 import Messages from './scenes/Messages';
 import EditDetails from './scenes/EditDetails';
+import EditTravelingDetails from './scenes/EditTravelingDetails';
 import AccountSettings from './scenes/AccountSettings';
 import ResetPassword from './scenes/ResetPassword';
 import ChangePassword from './scenes/ChangePassword';
@@ -99,6 +100,9 @@ const MainNavigator = createStackNavigator(
     },
     ChangePassword: {
       screen: ChangePassword,
+    },
+    EditTravelingDetails: {
+      screen: EditTravelingDetails,
     },
   },
 

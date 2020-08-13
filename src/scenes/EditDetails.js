@@ -63,7 +63,7 @@ class EditDeatils extends React.Component {
                     age: this.state.age,
                     dateOfBirth: this.state.dateOfBirth,
                     rangeAge: this.calculateRangeAge(this.state.age),
-                    dateOfBirth: new Date(),
+                    dateOfBirth: this.state.dateOfBirth,
                     more: this.state.more,
                     languages: this.state.languages,
                     countries: this.state.countries,

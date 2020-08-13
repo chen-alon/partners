@@ -12,7 +12,6 @@ import {
 import {DotIndicator} from 'react-native-indicators';
 import ImagePicker from 'react-native-image-picker';
 //to refresh component when any change
-import {NavigationEvents} from 'react-navigation';
 import firebase from 'firebase';
 
 class UserProfile extends React.Component {
@@ -102,53 +101,49 @@ class UserProfile extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <NavigationEvents
-          onDidFocus={() => this.setState({details: this.state.details})}
-        />
         <ImageBackground
           source={require('../images/background.jpg')}
-          imageStyle={{opacity: 0.55}}
+          imageStyle={{opacity: 0.5}}
           style={{resizeMode: 'cover', flex: 1}}>
-          <ScrollView style={styles.scroll}>
-            {this.state.profileImageUrl ? (
-              <View>
-                <Image
-                  style={styles.avatar}
-                  source={{uri: this.state.profileImageUrl}}
-                />
-                <TouchableOpacity onPress={() => this.editImage()}>
-                  <View style={styles.uploadIcon}>
-                    <Image
-                      style={styles.icon}
-                      source={require('../images/edit.png')}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View>
-                <Image
-                  style={styles.avatar}
-                  source={require('../images/user.png')}
-                />
-                <TouchableOpacity onPress={() => this.editImage()}>
-                  <View style={styles.uploadIcon}>
-                    <Image
-                      style={styles.icon}
-                      source={require('../images/edit.png')}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            )}
-
+          <ScrollView style={{flex: 1}}>
             <View style={styles.bodyContent}>
               {this.state.details.firstName === undefined ? (
-                <View>
+                <View style={{flex: 1, paddingVertical: '70%'}}>
                   <DotIndicator color="#fe5f55" />
                 </View>
               ) : (
-                <View style={{alignItems: 'center'}}>
+                <View style={{alignItems: 'center', marginTop: 30}}>
+                  {this.state.profileImageUrl ? (
+                    <View>
+                      <Image
+                        style={styles.avatar}
+                        source={{uri: this.state.profileImageUrl}}
+                      />
+                      <TouchableOpacity onPress={() => this.editImage()}>
+                        <View style={styles.uploadIcon}>
+                          <Image
+                            style={styles.icon}
+                            source={require('../images/edit.png')}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  ) : (
+                    <View>
+                      <Image
+                        style={styles.avatar}
+                        source={require('../images/user.png')}
+                      />
+                      <TouchableOpacity onPress={() => this.editImage()}>
+                        <View style={styles.uploadIcon}>
+                          <Image
+                            style={styles.icon}
+                            source={require('../images/edit.png')}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  )}
                   <Text style={styles.name}>
                     {this.state.details.firstName +
                       ' ' +
@@ -160,6 +155,7 @@ class UserProfile extends React.Component {
                       onPress={() =>
                         this.props.navigation.navigate('EditDetails', {
                           ...this.state.details,
+                          onGoBack: this.renderDetails.bind(this),
                         })
                       }>
                       Edit profile
@@ -169,7 +165,7 @@ class UserProfile extends React.Component {
                     <Text
                       style={{color: '#eef5d8'}}
                       onPress={() =>
-                        this.props.navigation.navigate('TravelingDetails', {
+                        this.props.navigation.navigate('EditTravelingDetails', {
                           ...this.state.details,
                         })
                       }>
@@ -226,10 +222,6 @@ class UserProfile extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-    padding: 10,
-  },
   avatar: {
     width: 250,
     height: 250,
@@ -238,12 +230,12 @@ const styles = StyleSheet.create({
     borderColor: '#fe5f55',
     alignSelf: 'center',
     position: 'absolute',
-    marginTop: 30,
+    marginTop: 20,
   },
   bodyContent: {
     flex: 1,
     alignItems: 'center',
-    padding: 30,
+    justifyContent: 'center',
   },
   name: {
     fontSize: 32,
@@ -256,7 +248,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 10,
     color: '#eef5d8',
-    //flexDirection: 'row-reverse',
   },
   description: {
     fontSize: 13,

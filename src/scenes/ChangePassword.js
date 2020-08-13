@@ -19,7 +19,7 @@ class CreateUser extends React.Component {
     super(props);
     this.state = {
       email: firebase.auth().currentUser.email,
-      currentPassword: firebase.auth().currentUser.password,
+      currentPassword: firebase.auth().currentPassword,
       password: '',
       newPassword: '',
       confirmNewPassword: '',
@@ -34,6 +34,8 @@ class CreateUser extends React.Component {
     });
 
   checkDetails = () => {
+    Alert.alert(this.state.currentPassword);
+
     if (
       this.state.password === '' ||
       this.state.newPassword === '' ||
