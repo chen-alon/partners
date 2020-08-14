@@ -20,20 +20,39 @@ class UserProfile extends React.Component {
     this.state = {
       isLoading: true,
       details: [],
+      resourcePath: {},
     };
   }
 
-  editImage() {
-    this.setState({uploadURL: ''});
+  alertDeleteImage = () => {
+    Alert.alert(
+      //title
+      'Remove Image',
+      //body
+      'Are you sure you want to remove your profile picture?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => this.deleteImage(),
+        },
+        {
+          text: 'No',
+          onPress: () => console.log('No Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+      //clicking out side of alert will not cancel
+    );
+  };
 
-    ImagePicker.launchImageLibrary({}, response => {
-      this.uploadImage(response.uri)
-        .then(url => {
-          console.log('chechurlt', url);
-          this.setState({uploadURL: uri});
-        })
-        .catch(error => console.log(error));
-    });
+  deleteImage() {
+    firebase
+      .storage()
+      .ref('images')
+      .child(`${firebase.auth().currentUser.uid}`)
+      .delete();
+    return;
   }
 
   async uploadImage(uri = 'application/octet-stream') {
@@ -98,6 +117,40 @@ class UserProfile extends React.Component {
       .onSnapshot(this.renderDetails);
   }
 
+  editImage = () => {
+    var options = {
+      title: 'Select Image',
+
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    ImagePicker.showImagePicker(options, res => {
+      console.log('Response = ', res);
+
+      if (res.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (res.error) {
+        console.log('ImagePicker Error: ', res.error);
+      } else if (res.customButton) {
+        console.log('User tapped custom button: ', res.customButton);
+        alert(res.customButton);
+      } else {
+        let source = res;
+        this.setState({uploadURL: '', resourcePath: source});
+
+        this.uploadImage(res.uri)
+          .then(url => {
+            console.log('chechurlt', url);
+            this.setState({uploadURL: resourcePath.data});
+          })
+          .catch(error => console.log(error));
+      }
+    });
+  };
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -112,15 +165,23 @@ class UserProfile extends React.Component {
                   <DotIndicator color="#fe5f55" />
                 </View>
               ) : (
-                <View style={{alignItems: 'center', marginTop: 30}}>
+                <View style={{marginTop: 30, alignItems: 'center'}}>
                   {this.state.profileImageUrl ? (
                     <View>
                       <Image
                         style={styles.avatar}
                         source={{uri: this.state.profileImageUrl}}
                       />
-                      <TouchableOpacity onPress={() => this.editImage()}>
-                        <View style={styles.uploadIcon}>
+                      <TouchableOpacity onPress={this.alertDeleteImage}>
+                        <View style={styles.deleteIcon}>
+                          <Image
+                            style={styles.icon}
+                            source={require('../images/delete.png')}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={this.editImage}>
+                        <View style={styles.uploadIcon1}>
                           <Image
                             style={styles.icon}
                             source={require('../images/edit.png')}
@@ -134,8 +195,8 @@ class UserProfile extends React.Component {
                         style={styles.avatar}
                         source={require('../images/user.png')}
                       />
-                      <TouchableOpacity onPress={() => this.editImage()}>
-                        <View style={styles.uploadIcon}>
+                      <TouchableOpacity onPress={this.editImage}>
+                        <View style={styles.uploadIcon2}>
                           <Image
                             style={styles.icon}
                             source={require('../images/edit.png')}
@@ -190,6 +251,7 @@ class UserProfile extends React.Component {
                         fontSize: 20,
                         fontWeight: 'bold',
                         paddingBottom: 10,
+                        alignSelf: 'center',
                       }}
                       onPress={() =>
                         firebase
@@ -243,11 +305,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontWeight: 'bold',
     paddingBottom: 10,
+    marginTop: 17,
   },
   info: {
     fontSize: 13,
     marginTop: 10,
     color: '#eef5d8',
+    alignSelf: 'center',
   },
   description: {
     fontSize: 13,
@@ -268,7 +332,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: '#fe5f55',
   },
-  uploadIcon: {
+  uploadIcon1: {
     width: 60,
     height: 60,
     justifyContent: 'center',
@@ -277,10 +341,32 @@ const styles = StyleSheet.create({
     elevation: 15,
     borderWidth: 2,
     borderColor: '#fff',
-    color: '#4f6367',
     alignSelf: 'center',
-    marginLeft: 180,
-    marginTop: 220,
+    marginLeft: 170,
+    marginTop: 170,
+  },
+  uploadIcon2: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    backgroundColor: '#dcdcdc',
+    borderRadius: 40,
+    elevation: 15,
+    borderWidth: 2,
+    borderColor: '#fff',
+    alignSelf: 'center',
+    marginLeft: 170,
+    marginTop: 210,
+  },
+  deleteIcon: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    backgroundColor: '#dcdcdc',
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#fff',
+    alignSelf: 'center',
   },
   icon: {
     width: 40,

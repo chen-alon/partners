@@ -12,7 +12,29 @@ import {Icon} from 'native-base';
 import firebase from 'firebase';
 
 class AccountSettings extends React.Component {
-  deleteAccount = () => {
+  deleteAccount() {
+    firebase
+      .auth()
+      .currentUser.delete()
+      .then(function() {
+        console.log('delete successful');
+
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(firebase.auth().currentUser.uid)
+          .delete();
+
+        let userRef = this.database.ref(userId);
+        userRef.remove();
+        this.props.navigation.navigate('LoginForm');
+      })
+      .catch(function(error) {
+        //console.error({error});
+      });
+  }
+
+  alertDeleteAccount = () => {
     Alert.alert(
       //title
       'Delete account',
@@ -21,19 +43,7 @@ class AccountSettings extends React.Component {
       [
         {
           text: 'Yes',
-          onPress: () =>
-            firebase
-              .auth()
-              .currentUser.delete()
-              .then(function() {
-                console.log('delete successful');
-                let userRef = this.database.ref('users/' + userId);
-                userRef.remove();
-                this.props.navigation.navigate('LoginForm');
-              })
-              .catch(function(error) {
-                //console.error({error});
-              }),
+          onPress: () => this.deleteAccount(),
         },
         {
           text: 'No',
@@ -103,7 +113,7 @@ class AccountSettings extends React.Component {
                   buttonStyle={styles.deleteButton}
                   titleStyle={styles.deleteText}
                   title="Delete your account"
-                  onPress={this.deleteAccount.bind(this)}></Button>
+                  onPress={this.alertDeleteAccount.bind(this)}></Button>
                 {/* <Button title={" Delete your account"} onPress={() => deleteAccount()} />
                   <Text
                     style={styles.text}
