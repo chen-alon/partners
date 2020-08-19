@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   button: {
     position: 'relative',
-    marginTop: 20,
+    marginTop: 60,
     marginBottom: 30,
     paddingVertical: 5,
     alignItems: 'center',

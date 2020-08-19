@@ -30,18 +30,17 @@ class UserInformation extends React.Component {
       maximumDate: new Date(),
       check: false,
       isLoading: false,
-      uploadURL: null,
     };
   }
 
   selectImage() {
-    this.setState({uploadURL: ''});
+    this.setState({profileImageUrl: ''});
 
     ImagePicker.launchImageLibrary({}, response => {
       this.uploadImage(response.uri)
         .then(url => {
           console.log('chechurlt', url);
-          this.setState({uploadURL: uri});
+          this.setState({profileImageUrl: uri});
         })
         .catch(error => console.log(error));
     });
@@ -100,7 +99,6 @@ class UserInformation extends React.Component {
           dateOfBirth: this.state.dateOfBirth,
           age: this.state.age,
           rangeAge: this.calculateRangeAge(this.state.age),
-          uploadURL: this.state.uploadURL,
         })
         .then(
           this.props.navigation.navigate('ExstraInformation'),
@@ -111,7 +109,6 @@ class UserInformation extends React.Component {
             age: 0,
             rangeAge: 0,
             dateOfBirth: new Date(),
-            uploadURL: null,
             isLoading: false,
           }),
         )

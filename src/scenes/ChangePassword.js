@@ -59,7 +59,7 @@ class CreateUser extends React.Component {
     } else {
       firebase
         .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .confirmPasswordReset(this.state.email, this.state.password)
         .then(this.onLoginSuccess.bind(this))
         .catch(error => {
           let errorCode = error.code;

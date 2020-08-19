@@ -19,6 +19,7 @@ class UserProfile extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+      profileImageUrl: null,
       details: [],
       resourcePath: {},
     };
@@ -26,9 +27,7 @@ class UserProfile extends React.Component {
 
   alertDeleteImage = () => {
     Alert.alert(
-      //title
       'Remove Image',
-      //body
       'Are you sure you want to remove your profile picture?',
       [
         {
@@ -42,7 +41,6 @@ class UserProfile extends React.Component {
         },
       ],
       {cancelable: false},
-      //clicking out side of alert will not cancel
     );
   };
 
@@ -51,70 +49,10 @@ class UserProfile extends React.Component {
       .storage()
       .ref('images')
       .child(`${firebase.auth().currentUser.uid}`)
-      .delete();
+      .delete()
+      .then(() => this.setState({profileImageUrl: null}));
+
     return;
-  }
-
-  async uploadImage(uri = 'application/octet-stream') {
-    return new Promise(async (resolve, reject) => {
-      const response = await fetch(uri);
-      const file = await response.blob();
-      let upload = firebase
-        .storage()
-        .ref('images')
-        .child(`${firebase.auth().currentUser.uid}`)
-        .put(file);
-      upload.on(
-        'state_changed',
-        //snapshot => {},
-        err => {
-          reject(err);
-        },
-        async () => {
-          const url = await upload.snapshot.ref.getDownloadURL();
-          resolve(url);
-        },
-      );
-    });
-  }
-
-  renderDetails() {
-    let imageRef = firebase
-      .storage()
-      .ref('images')
-      .child(firebase.auth().currentUser.uid);
-    imageRef
-      .getDownloadURL()
-      .then(url => {
-        //from url you can fetched the uploaded image easily
-        this.setState({profileImageUrl: url});
-      })
-      .catch(e => console.log('getting downloadURL of image error => ', e));
-
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(firebase.auth().currentUser.uid)
-      .get()
-      .then(doc => {
-        if (doc.exists) {
-          this.setState({
-            details: doc.data(),
-            isLoading: false,
-          });
-        } else {
-          console.log('No such document!');
-        }
-      });
-  }
-
-  componentDidMount() {
-    this.renderDetails();
-
-    this.unsubscribe = firebase
-      .firestore()
-      .collection('users')
-      .onSnapshot(this.renderDetails);
   }
 
   editImage = () => {
@@ -128,7 +66,7 @@ class UserProfile extends React.Component {
     };
 
     ImagePicker.showImagePicker(options, res => {
-      console.log('Response = ', res);
+      //console.log('Response = ', res);
 
       if (res.didCancel) {
         console.log('User cancelled image picker');
@@ -139,17 +77,78 @@ class UserProfile extends React.Component {
         alert(res.customButton);
       } else {
         let source = res;
-        this.setState({uploadURL: '', resourcePath: source});
+
+        this.setState({
+          profileImageUrl: res.uri,
+        });
 
         this.uploadImage(res.uri)
-          .then(url => {
-            console.log('chechurlt', url);
-            this.setState({uploadURL: resourcePath.data});
-          })
+          .then(() => this.setState({profileImageUrl: uri}))
           .catch(error => console.log(error));
       }
     });
   };
+
+  async uploadImage(uri = 'application/octet-stream') {
+    return new Promise(async (resolve, reject) => {
+      const response = await fetch(uri);
+      const file = await response.blob();
+      let upload = firebase
+        .storage()
+        .ref('images')
+        .child(`${firebase.auth().currentUser.uid}`)
+        .put(file);
+      console.log(file);
+      upload.on(
+        'state_changed',
+        err => {
+          reject(err);
+        },
+        async () => {
+          const url = await upload.snapshot.ref.getDownloadURL();
+          resolve(url);
+        },
+      );
+    });
+  }
+
+  renderDetails() {
+    firebase
+      .storage()
+      .ref('images')
+      .child(firebase.auth().currentUser.uid)
+      .getDownloadURL()
+      .then(url => {
+        //from url you can fetched the uploaded image easily
+        this.setState({profileImageUrl: url});
+      })
+      .catch(() => console.log('No such image'));
+
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          this.setState({
+            details: doc.data(),
+            isLoading: false,
+          });
+        } else {
+          console.log('No such document');
+        }
+      });
+  }
+
+  componentDidMount() {
+    this.renderDetails();
+
+    this.unsubscribe = firebase
+      .firestore()
+      .collection('users')
+      .onSnapshot(this.renderDetails);
+  }
 
   render() {
     return (
@@ -172,22 +171,24 @@ class UserProfile extends React.Component {
                         style={styles.avatar}
                         source={{uri: this.state.profileImageUrl}}
                       />
-                      <TouchableOpacity onPress={this.alertDeleteImage}>
-                        <View style={styles.deleteIcon}>
-                          <Image
-                            style={styles.icon}
-                            source={require('../images/delete.png')}
-                          />
-                        </View>
-                      </TouchableOpacity>
-                      <TouchableOpacity onPress={this.editImage}>
-                        <View style={styles.uploadIcon1}>
-                          <Image
-                            style={styles.icon}
-                            source={require('../images/edit.png')}
-                          />
-                        </View>
-                      </TouchableOpacity>
+                      <View style={styles.buttons}>
+                        <TouchableOpacity onPress={this.alertDeleteImage}>
+                          <View style={styles.deleteIcon}>
+                            <Image
+                              style={styles.icon}
+                              source={require('../images/delete.png')}
+                            />
+                          </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.editImage}>
+                          <View style={styles.uploadIcon1}>
+                            <Image
+                              style={styles.icon}
+                              source={require('../images/edit.png')}
+                            />
+                          </View>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   ) : (
                     <View>
@@ -261,9 +262,7 @@ class UserProfile extends React.Component {
                             this.setState({details: []});
                             this.props.navigation.navigate('LoginForm');
                           })
-                          .catch(error =>
-                            this.setState({errorMessage: error.message}),
-                          )
+                          .catch(console.log('Someting worng'))
                       }>
                       Sign Out
                     </Text>
@@ -284,6 +283,11 @@ class UserProfile extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  buttons: {
+    flexDirection: 'row',
+    marginTop: 200,
+    alignSelf: 'center',
+  },
   avatar: {
     width: 250,
     height: 250,
@@ -342,8 +346,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#fff',
     alignSelf: 'center',
-    marginLeft: 170,
-    marginTop: 170,
+    marginTop: 10,
   },
   uploadIcon2: {
     width: 60,
@@ -367,6 +370,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#fff',
     alignSelf: 'center',
+    marginLeft: 120,
+    marginTop: 45,
   },
   icon: {
     width: 40,

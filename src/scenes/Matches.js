@@ -16,15 +16,17 @@ import firebase from 'firebase';
 class Matches extends React.Component {
   constructor(props) {
     super(props);
-    this.ref = firebase.firestore().collection('users');
+    // this.ref = firebase.firestore().collection('users');
     this.unsubscribe = null;
 
-    this.state = {
-      percentage: {},
-      uid: firebase.auth().currentUser.uid,
-      partnersDetails: [],
-      images: {},
-    };
+    if (firebase.auth().currentUser != null) {
+      this.state = {
+        percentage: {},
+        uid: firebase.auth().currentUser.uid,
+        partnersDetails: [],
+        images: {},
+      };
+    }
   }
 
   retrieveImage(doc) {
@@ -107,7 +109,7 @@ class Matches extends React.Component {
       }
     }
 
-    var perIdealHitch = Math.round(((idealHitch + similarMonths) / 4) * 60);
+    var perIdealHitch = Math.round((idealHitch / 4) * 60);
     var perSimilarAnswer = Math.round((similarAnswers / 15) * 40);
     var percent = perIdealHitch + perSimilarAnswer;
     if (percent >= 60) {
@@ -144,71 +146,80 @@ class Matches extends React.Component {
         }
       });
 
-    this.ref.get().then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        if (
-          this.state.uid != doc.data().uid &&
-          this.state.currentUserDetails.mode === doc.data().mode &&
-          (this.state.currentUserDetails.area === doc.data().area ||
-            this.state.currentUserDetails.country === doc.data().country ||
-            this.state.currentUserDetails.area === 'no matter' ||
-            doc.data().area === 'no matter' ||
-            this.state.currentUserDetails.country === 'all country' ||
-            doc.data().country === 'all country') &&
-          this.checkMatch(doc, this.state.currentUserDetails)
-        ) {
-          const {
-            uid,
-            firstName,
-            lastName,
-            age,
-            rangeAge,
-            gender,
-            dateOfBirth,
-            countries,
-            languages,
-            more,
-            ListOfQandA,
-            mode,
-            area,
-            country,
-            theme,
-            selectedItems,
-          } = doc.data();
-          partnersDetails.push({
-            key: doc.id,
-            doc,
-            uid,
-            firstName,
-            lastName,
-            age,
-            rangeAge,
-            gender,
-            dateOfBirth,
-            countries,
-            languages,
-            more,
-            ListOfQandA,
-            mode,
-            area,
-            country,
-            theme,
-            selectedItems,
-          });
-          this.setState({
-            partnersDetails,
-          });
-        }
+    firebase
+      .firestore()
+      .collection('users')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          if (
+            this.state.uid != doc.data().uid &&
+            !doc.data().disable &&
+            this.state.currentUserDetails.mode === doc.data().mode &&
+            (this.state.currentUserDetails.area === doc.data().area ||
+              this.state.currentUserDetails.country === doc.data().country ||
+              this.state.currentUserDetails.area === 'no matter' ||
+              doc.data().area === 'no matter' ||
+              this.state.currentUserDetails.country === 'all country' ||
+              doc.data().country === 'all country') &&
+            this.checkMatch(doc, this.state.currentUserDetails)
+          ) {
+            const {
+              uid,
+              firstName,
+              lastName,
+              age,
+              rangeAge,
+              gender,
+              dateOfBirth,
+              countries,
+              languages,
+              more,
+              ListOfQandA,
+              mode,
+              area,
+              country,
+              theme,
+              selectedItems,
+            } = doc.data();
+            partnersDetails.push({
+              key: doc.id,
+              doc,
+              uid,
+              firstName,
+              lastName,
+              age,
+              rangeAge,
+              gender,
+              dateOfBirth,
+              countries,
+              languages,
+              more,
+              ListOfQandA,
+              mode,
+              area,
+              country,
+              theme,
+              selectedItems,
+            });
+            this.setState({
+              partnersDetails,
+            });
+          }
+        });
       });
-    });
   }
 
   componentDidMount() {
     this.renderDetails();
+
+    this.unsubscribe = firebase
+      .firestore()
+      .collection('users')
+      .onSnapshot(this.renderDetails);
   }
 
   render() {
-    console.log(this.state.images);
     return (
       <View style={{flex: 1, backgroundColor: 'transparent'}}>
         <ImageBackground
@@ -311,9 +322,8 @@ const styles = StyleSheet.create({
   },
   /******** card components **************/
   details: {
-    fontSize: 20,
+    //fontSize: 20,
     flex: 1,
-    //color: '#eef5db',
     color: '#4f6367',
     alignSelf: 'center',
   },
@@ -321,7 +331,6 @@ const styles = StyleSheet.create({
   percentage: {
     fontSize: 20,
     flex: 1,
-    //color: '#eef5db',
     color: '#4f6367',
     alignSelf: 'center',
     fontWeight: 'bold',

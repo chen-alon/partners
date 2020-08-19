@@ -67,7 +67,7 @@ class LoginForm extends React.Component {
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
-          imageStyle={{opacity: 0.4}}
+          imageStyle={{opacity: 0.3}}
           style={styles.backgroundImage}>
           <View
             style={{
@@ -113,21 +113,21 @@ class LoginForm extends React.Component {
                 </Text>
               </View>
               <View>{this.renderButton()}</View>
-              <View>
-                <Text style={styles.signIn}> Don't have an account yet?</Text>
-                <Text
-                  onPress={() => navigate('CreateUser')}
-                  style={{
-                    color: '#fe5f55',
-                    fontSize: 18,
-                    textAlign: 'center',
-                    fontWeight: 'bold',
-                    position: 'relative',
-                  }}>
-                  Create
-                </Text>
-              </View>
             </KeyboardAvoidingView>
+            <View>
+              <Text style={styles.signIn}> Don't have an account yet?</Text>
+              <Text
+                onPress={() => navigate('CreateUser')}
+                style={{
+                  color: '#fe5f55',
+                  fontSize: 18,
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                  position: 'relative',
+                }}>
+                Create
+              </Text>
+            </View>
           </View>
         </ImageBackground>
       </View>

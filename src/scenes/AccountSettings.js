@@ -16,21 +16,17 @@ class AccountSettings extends React.Component {
     firebase
       .auth()
       .currentUser.delete()
-      .then(function() {
+      .then(() => {
         console.log('delete successful');
 
         firebase
           .firestore()
           .collection('users')
-          .doc(firebase.auth().currentUser.uid)
+          .doc(this.props.navigation.state.params.uid)
           .delete();
-
-        let userRef = this.database.ref(userId);
-        userRef.remove();
-        this.props.navigation.navigate('LoginForm');
       })
-      .catch(function(error) {
-        //console.error({error});
+      .catch(() => {
+        console.log('delete unsuccessful');
       });
   }
 
@@ -44,6 +40,45 @@ class AccountSettings extends React.Component {
         {
           text: 'Yes',
           onPress: () => this.deleteAccount(),
+        },
+        {
+          text: 'No',
+          onPress: () => console.log('No Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+      //clicking out side of alert will not cancel
+    );
+  };
+
+  disableAccount() {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .update({
+        disable: true,
+      })
+      .then(
+        this.props.navigation.navigate('LoginForm'),
+        this.setState({
+          disable: false,
+        }),
+      )
+      .catch(console.log('Something worng'));
+  }
+
+  alertDisableAccount = () => {
+    Alert.alert(
+      //title
+      'Disable account',
+      //body
+      'Are you sure you want to disable your account?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => this.disableAccount(),
         },
         {
           text: 'No',
@@ -101,25 +136,17 @@ class AccountSettings extends React.Component {
               <View style={styles.boxText}>
                 <Text
                   style={styles.text}
-                  onPress={() =>
-                    this.props.navigation.navigate('ForgotPasswordController')
-                  }>
+                  onPress={this.alertDisableAccount.bind(this)}>
                   Disable your account
                 </Text>
               </View>
 
               <View style={styles.boxText}>
-                <Button
-                  buttonStyle={styles.deleteButton}
-                  titleStyle={styles.deleteText}
-                  title="Delete your account"
-                  onPress={this.alertDeleteAccount.bind(this)}></Button>
-                {/* <Button title={" Delete your account"} onPress={() => deleteAccount()} />
-                  <Text
-                    style={styles.text}
-                    onPress={() => this.deleteAccount()}>
-                   
-                  </Text> */}
+                <Text
+                  style={styles.text}
+                  onPress={this.alertDeleteAccount.bind(this)}>
+                  Delete your account
+                </Text>
               </View>
             </ScrollView>
           </View>
@@ -133,15 +160,6 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     padding: 20,
-  },
-  deleteButton: {
-    alignSelf: 'center',
-    backgroundColor: 'transparent',
-    padding: 10,
-  },
-  deleteText: {
-    fontSize: 20,
-    color: '#4f6367',
   },
   text: {
     fontSize: 20,

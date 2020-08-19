@@ -139,7 +139,7 @@ class EditDeatils extends React.Component {
               />
               <View style={{flex: 1}}>
                 <View style={styles.boxText}>
-                  <Text style={styles.text}>{'first name: '}</Text>
+                  <Text style={styles.text}>{'first name:'}</Text>
                   <TextInput
                     style={{fontSize: 17}}
                     value={this.state.firstName}
@@ -150,7 +150,7 @@ class EditDeatils extends React.Component {
                 </View>
 
                 <View style={styles.boxText}>
-                  <Text style={styles.text}>{'last name: '}</Text>
+                  <Text style={styles.text}>{'last name:'}</Text>
                   <TextInput
                     style={{fontSize: 17}}
                     value={this.state.lastName}
@@ -161,7 +161,7 @@ class EditDeatils extends React.Component {
                 </View>
 
                 <View style={styles.boxText}>
-                  <Text style={styles.text}>{'gender: '}</Text>
+                  <Text style={styles.text}>{'gender:'}</Text>
                   <Picker
                     style={styles.pickerStyle}
                     selectedValue={this.state.gender}
@@ -212,7 +212,7 @@ class EditDeatils extends React.Component {
                 </View>
 
                 <View style={styles.boxText}>
-                  <Text style={styles.text}>{'summary: '}</Text>
+                  <Text style={styles.text}>{'summary:'}</Text>
                   <TextInput
                     style={{fontSize: 17}}
                     value={this.state.more}
@@ -227,7 +227,7 @@ class EditDeatils extends React.Component {
                 </View>
 
                 <View style={styles.boxText}>
-                  <Text style={styles.text}>{'countries: '}</Text>
+                  <Text style={styles.text}>{'countries:'}</Text>
                   <TextInput
                     style={{fontSize: 17}}
                     value={this.state.countries}
@@ -242,7 +242,7 @@ class EditDeatils extends React.Component {
                 </View>
 
                 <View style={styles.boxText}>
-                  <Text style={styles.text}>{'languages: '}</Text>
+                  <Text style={styles.text}>{'languages:'}</Text>
                   <TextInput
                     style={{fontSize: 17}}
                     value={this.state.languages}
