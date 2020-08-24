@@ -63,6 +63,7 @@ class CreateUser extends React.Component {
   };
 
   onLoginSuccess() {
+    this.props.navigation.navigate('UserInformation');
     this.setState({
       email: '',
       password: '',
@@ -70,7 +71,6 @@ class CreateUser extends React.Component {
       error: '',
       loading: false,
     });
-    this.props.navigation.navigate('UserInformation');
   }
 
   onLoginFailure(errorMessage) {

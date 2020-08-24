@@ -48,7 +48,8 @@ class Matches extends React.Component {
     var similarMonths = 0;
     if (
       currentUser.partnerGender === doc.data().gender ||
-      currentUser.partnerGender === 'all'
+      currentUser.partnerGender === 'all' ||
+      (currentUser.partnerGender != 'all' && doc.data().partnerGender === 'all')
     ) {
       idealHitch++;
     }
@@ -63,7 +64,8 @@ class Matches extends React.Component {
 
     if (
       currentUser.partnerAge === doc.data().rangeAge ||
-      currentUser.partnerAge === 'all'
+      currentUser.partnerAge === 'all' ||
+      (currentUser.partnerAge != 'all' && doc.data().partnerAge === 'all')
     ) {
       idealHitch++;
     }
@@ -213,10 +215,10 @@ class Matches extends React.Component {
   componentDidMount() {
     this.renderDetails();
 
-    this.unsubscribe = firebase
-      .firestore()
-      .collection('users')
-      .onSnapshot(this.renderDetails);
+    // this.unsubscribe = firebase
+    //   .firestore()
+    //   .collection('users')
+    //   .onSnapshot(this.renderDetails);
   }
 
   render() {

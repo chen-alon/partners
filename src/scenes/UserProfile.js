@@ -142,12 +142,16 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-    this.renderDetails();
+    if (firebase.auth().currentUser) {
+      this.renderDetails();
 
-    this.unsubscribe = firebase
-      .firestore()
-      .collection('users')
-      .onSnapshot(this.renderDetails);
+      this.unsubscribe = firebase
+        .firestore()
+        .collection('users')
+        .onSnapshot(this.renderDetails);
+    } else {
+      this.props.navigation.navigate('LoginForm');
+    }
   }
 
   render() {

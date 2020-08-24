@@ -19,8 +19,7 @@ class Messages extends Component {
   constructor(props) {
     super(props);
 
-    this.messagesRef = firebase.firestore().collection('Messages');
-    //.where('Uid1', 'array-contains', 'hfc');
+    this.messagesRef = firebase.firestore().collection('messages');
     this.userid = firebase.auth().currentUser.uid;
     this.newUid =
       firebase.auth().currentUser.uid +
@@ -34,15 +33,15 @@ class Messages extends Component {
   componentDidMount() {
     this.unsubscribe = firebase
       .firestore()
-      .collection('Messages')
+      .collection('messages')
       .orderBy('Date')
-      .where('Uid1', 'array-contains-any', [this.newUid])
+      .where('UidConcatenate', 'array-contains-any', [this.newUid])
       .onSnapshot(this.onCollectionUpdate);
 
     firebase
       .firestore()
-      .collection('Messages')
-      .where('Uid1', 'array-contains-any', [this.newUid])
+      .collection('messages')
+      .where('UidConcatenate', 'array-contains-any', [this.newUid])
       .orderBy('Date')
       .get()
       .then(querySnapshot => {
@@ -93,6 +92,7 @@ class Messages extends Component {
       this.addMessageToFirebase(message, partnerUid);
     }
   }
+
   addMessageToFirebase(message, partnerUid) {
     this.messagesRef
       .add({
@@ -100,7 +100,7 @@ class Messages extends Component {
         Date: Date(),
         Uid: this.userid,
         UidPartner: partnerUid,
-        Uid1: [this.userid + partnerUid, partnerUid + this.userid],
+        UidConcatenate: [this.userid + partnerUid, partnerUid + this.userid],
       })
       .then(function(docRef) {
         this.setState({

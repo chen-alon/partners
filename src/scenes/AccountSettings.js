@@ -7,7 +7,6 @@ import {
   ImageBackground,
   Alert,
 } from 'react-native';
-import {Button} from 'react-native-elements';
 import {Icon} from 'native-base';
 import firebase from 'firebase';
 
@@ -23,7 +22,8 @@ class AccountSettings extends React.Component {
           .firestore()
           .collection('users')
           .doc(this.props.navigation.state.params.uid)
-          .delete();
+          .delete()
+          .then(this.props.navigation.navigate('LoginForm'));
       })
       .catch(() => {
         console.log('delete unsuccessful');
