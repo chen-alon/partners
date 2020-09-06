@@ -46,12 +46,13 @@ class Matches extends React.Component {
   checkMatch(doc, currentUser) {
     var idealHitch = 0;
     var similarMonths = 0;
-    if (
-      currentUser.partnerGender === doc.data().gender ||
-      currentUser.partnerGender === 'all' ||
-      (currentUser.partnerGender != 'all' && doc.data().partnerGender === 'all')
-    ) {
+    if (currentUser.partnerGender === doc.data().gender) {
       idealHitch++;
+    } else if (
+      currentUser.partnerGender === 'all' ||
+      doc.data().partnerGender === 'all'
+    ) {
+      idealHitch = idealHitch + 0.5;
     }
 
     if (
@@ -62,12 +63,13 @@ class Matches extends React.Component {
       idealHitch++;
     }
 
-    if (
-      currentUser.partnerAge === doc.data().rangeAge ||
-      currentUser.partnerAge === 'all' ||
-      (currentUser.partnerAge != 'all' && doc.data().partnerAge === 'all')
-    ) {
+    if (currentUser.partnerAge === doc.data().rangeAge) {
       idealHitch++;
+    } else if (
+      currentUser.partnerAge === 'all' ||
+      doc.data().partnerAge === 'all'
+    ) {
+      idealHitch = idealHitch + 0.5;
     }
 
     if (
@@ -157,6 +159,7 @@ class Matches extends React.Component {
           if (
             this.state.uid != doc.data().uid &&
             !doc.data().disable &&
+            !doc.data().delete &&
             this.state.currentUserDetails.mode === doc.data().mode &&
             (this.state.currentUserDetails.area === doc.data().area ||
               this.state.currentUserDetails.country === doc.data().country ||
@@ -253,6 +256,7 @@ class Matches extends React.Component {
                       ...item,
                       percentage: this.state.percentage[item.uid],
                       image: this.state.images[item.uid],
+                      months: item.selectedItems,
                     })
                   }>
                   <View style={styles.imageContainer}>
@@ -324,12 +328,11 @@ const styles = StyleSheet.create({
   },
   /******** card components **************/
   details: {
-    //fontSize: 20,
+    fontSize: 18,
     flex: 1,
     color: '#4f6367',
     alignSelf: 'center',
   },
-
   percentage: {
     fontSize: 20,
     flex: 1,

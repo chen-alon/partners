@@ -13,21 +13,14 @@ import firebase from 'firebase';
 class AccountSettings extends React.Component {
   deleteAccount() {
     firebase
-      .auth()
-      .currentUser.delete()
-      .then(() => {
-        console.log('delete successful');
-
-        firebase
-          .firestore()
-          .collection('users')
-          .doc(this.props.navigation.state.params.uid)
-          .delete()
-          .then(this.props.navigation.navigate('LoginForm'));
+      .firestore()
+      .collection('users')
+      .doc(this.props.navigation.state.params.uid)
+      .update({
+        delete: true,
       })
-      .catch(() => {
-        console.log('delete unsuccessful');
-      });
+      .then(firebase.auth().currentUser.delete())
+      .catch(this.props.navigation.navigate('LoginForm'));
   }
 
   alertDeleteAccount = () => {

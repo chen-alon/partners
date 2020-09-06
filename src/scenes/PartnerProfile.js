@@ -5,18 +5,18 @@ import {
   View,
   TouchableHighlight,
   Image,
-  Alert,
   ScrollView,
   ImageBackground,
+  FlatList,
 } from 'react-native';
 import {Icon} from 'native-base';
 
 class PartnerProfile extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props.navigation.state.params);
     this.state = {
       choice: '',
+      months: this.props.navigation.state.params.months,
     };
   }
 
@@ -87,9 +87,17 @@ class PartnerProfile extends React.Component {
                 <Text style={{fontWeight: 'bold', fontSize: 19}}>
                   {'months: '}
                 </Text>
-                <Text style={{fontSize: 16}}>
-                  {this.props.navigation.state.params.selectedIteams}
-                </Text>
+
+                <FlatList
+                  data={this.state.months}
+                  keyExtractor={elem => elem.name}
+                  renderItem={elem => (
+                    <View>
+                      <Text style={{fontSize: 16}}>{elem.item}</Text>
+                    </View>
+                  )}
+                />
+                {/* <Text style={{fontSize: 16}}>{this.returnMonths()}</Text> */}
               </View>
 
               <View style={styles.boxText}>
@@ -166,7 +174,6 @@ class PartnerProfile extends React.Component {
                   <Image
                     style={styles.icon}
                     source={require('../images/information.png')}
-                    // source={require('../images/details.png')}
                   />
                 </TouchableHighlight>
 
@@ -238,7 +245,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fe5f55',
     marginBottom: 20,
     borderRadius: 40,
-    // margin: 8,
     margin: 15,
     shadowColor: 'black',
     elevation: 13,
@@ -272,9 +278,7 @@ const styles = StyleSheet.create({
   },
   detailstext: {
     fontSize: 25,
-    //color: '#4f6367',
     fontWeight: 'bold',
-    //paddingLeft: 40,
     paddingTop: 10,
     paddingBottom: 10,
   },
@@ -285,7 +289,6 @@ const styles = StyleSheet.create({
   },
   percentText: {
     fontSize: 25,
-    //color: '#4f6367',
     fontWeight: 'bold',
     alignSelf: 'center',
   },

@@ -76,7 +76,7 @@ class LoginForm extends React.Component {
             }}>
             <KeyboardAvoidingView behavior="padding">
               <Text style={styles.title}>hitchhiker</Text>
-              <View style={styles.Content2}>
+              <View style={styles.content}>
                 <TextInput
                   style={styles.inputContainer}
                   textAlign="center"
@@ -91,7 +91,7 @@ class LoginForm extends React.Component {
                   value={this.state.email}
                 />
               </View>
-              <View style={styles.Content2}>
+              <View style={styles.content}>
                 <TextInput
                   style={styles.inputContainer}
                   textAlign="center"
@@ -137,7 +137,6 @@ class LoginForm extends React.Component {
 
 const styles = StyleSheet.create({
   login: {
-    //borderWidth: 0.2,
     borderRadius: 10,
     width: '30%',
     alignSelf: 'center',
@@ -146,7 +145,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fe5f55',
     marginBottom: 15,
   },
-
   signIn: {
     textAlign: 'center',
     fontSize: 14,
@@ -155,7 +153,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     position: 'relative',
   },
-
   title: {
     alignSelf: 'center',
     fontFamily: 'LongCang-Regular',
@@ -164,7 +161,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: 'transparent',
   },
-
   forgetPassword: {
     color: '#7a9e9f',
     fontSize: 14,
@@ -172,7 +168,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'AmaticSC-Bold',
   },
-
   inputContainer: {
     borderColor: '#000',
     borderRadius: 10,
@@ -183,14 +178,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontFamily: 'AmaticSC-Bold',
   },
-
-  Content2: {
+  content: {
     paddingTop: 10,
     paddingBottom: 20,
     justifyContent: 'center',
-    // fontFamily: "AmaticSC-Bold"
   },
-
   backgroundImage: {
     resizeMode: 'cover',
     flex: 1,

@@ -128,20 +128,16 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'center',
   },
-
   RadioButtonStyle: {
     fontSize: 30,
     marginBottom: 60,
     marginTop: 40,
   },
-
   question: {
     fontSize: 20,
     marginBottom: 30,
     color: '#4f6367',
-    // fontWeight: 'bold',
   },
-
   textAnswers: {
     color: '#7a9e9f',
     fontSize: 20,
@@ -149,26 +145,21 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontWeight: 'bold',
   },
-
   note: {
     fontSize: 22,
     color: '#ef5f55',
-    // paddingBottom: 15,
     fontWeight: 'bold',
     alignSelf: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
   },
-
   counter: {
     fontSize: 30,
     color: '#4f6367',
     paddingBottom: 50,
     fontWeight: 'bold',
-    // paddingTop: 10,
     alignSelf: 'center',
   },
-
   buttonAnswer: {
     position: 'relative',
     marginTop: 20,
@@ -176,7 +167,6 @@ const styles = StyleSheet.create({
     color: '#ef5f55',
     fontSize: 23,
     fontWeight: 'bold',
-    //backgroundColor: '#eef5d8',
   },
 });
 

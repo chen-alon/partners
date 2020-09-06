@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
 import ImagePicker from 'react-native-image-picker';
-//to refresh component when any change
 import firebase from 'firebase';
 
 class UserProfile extends React.Component {
@@ -66,8 +65,6 @@ class UserProfile extends React.Component {
     };
 
     ImagePicker.showImagePicker(options, res => {
-      //console.log('Response = ', res);
-
       if (res.didCancel) {
         console.log('User cancelled image picker');
       } else if (res.error) {
@@ -142,16 +139,22 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-    if (firebase.auth().currentUser) {
-      this.renderDetails();
+    this.renderDetails();
 
-      this.unsubscribe = firebase
-        .firestore()
-        .collection('users')
-        .onSnapshot(this.renderDetails);
-    } else {
-      this.props.navigation.navigate('LoginForm');
-    }
+    this.unsubscribe = firebase
+      .firestore()
+      .collection('users')
+      .onSnapshot(this.renderDetails);
+    // if (firebase.auth().currentUser) {
+    //   this.renderDetails();
+
+    //   this.unsubscribe = firebase
+    //     .firestore()
+    //     .collection('users')
+    //     .onSnapshot(this.renderDetails);
+    // } else {
+    //   this.props.navigation.navigate('LoginForm');
+    // }
   }
 
   render() {

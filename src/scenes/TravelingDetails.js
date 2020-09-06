@@ -8,7 +8,6 @@ import {
   Text,
   Picker,
   Alert,
-  Image,
   ImageBackground,
 } from 'react-native';
 import {Icon} from 'native-base';
@@ -576,7 +575,7 @@ class TravelingDetails extends React.Component {
                   hideTags
                   hideDropdown
                   items={months}
-                  uniqueKey="id"
+                  uniqueKey="name"
                   ref={component => {
                     this.multiSelect = component;
                   }}

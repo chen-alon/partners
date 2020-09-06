@@ -11,7 +11,6 @@ import {
   Dimensions,
 } from 'react-native';
 import {Icon} from 'native-base';
-import Button from '../components/common/Button';
 import firebase from 'firebase';
 
 class CreateUser extends React.Component {
