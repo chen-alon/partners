@@ -5,19 +5,14 @@ import {
   View,
   TouchableOpacity,
   Image,
-  ScrollView,
   FlatList,
   ImageBackground,
-  Alert,
 } from 'react-native';
-import {DotIndicator} from 'react-native-indicators';
 import firebase from 'firebase';
 
 class Matches extends React.Component {
   constructor(props) {
     super(props);
-    // this.ref = firebase.firestore().collection('users');
-    this.unsubscribe = null;
 
     if (firebase.auth().currentUser != null) {
       this.state = {
@@ -27,6 +22,15 @@ class Matches extends React.Component {
         images: {},
       };
     }
+  }
+
+  componentDidMount() {
+    this.renderDetails();
+
+    this.unsubscribe = firebase
+      .firestore()
+      .collection('users')
+      .onSnapshot(this.renderDetails);
   }
 
   retrieveImage(doc) {
@@ -213,15 +217,6 @@ class Matches extends React.Component {
           }
         });
       });
-  }
-
-  componentDidMount() {
-    this.renderDetails();
-
-    // this.unsubscribe = firebase
-    //   .firestore()
-    //   .collection('users')
-    //   .onSnapshot(this.renderDetails);
   }
 
   render() {

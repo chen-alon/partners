@@ -10,7 +10,6 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  KeyboardAvoidingView,
 } from 'react-native';
 import {Footer, Container, Icon, View} from 'native-base';
 import firebase from 'firebase';
@@ -65,19 +64,29 @@ class Messages extends Component {
   displayMessages(oldMessages) {
     return oldMessages.map((message, i) =>
       this.userid === message.Uid ? (
-        <ListItem
-          titleStyle={styles.titleStyle1}
-          containerStyle={styles.containerStyle1}
-          key={i}
-          title={message.Message}
-        />
+        <View>
+          <Text style={{paddingTop: 10, alignSelf: 'flex-end'}}>
+            {message.Date.slice(4, 25)}
+          </Text>
+          <ListItem
+            titleStyle={styles.titleStyle1}
+            containerStyle={styles.containerStyle1}
+            key={i}
+            title={message.Message}
+          />
+        </View>
       ) : (
-        <ListItem
-          titleStyle={styles.titleStyle2}
-          containerStyle={styles.containerStyle2}
-          key={i}
-          title={message.Message}
-        />
+        <View>
+          <Text style={{paddingTop: 10, alignSelf: 'flex-start'}}>
+            {message.Date.slice(4, 25)}
+          </Text>
+          <ListItem
+            titleStyle={styles.titleStyle2}
+            containerStyle={styles.containerStyle2}
+            key={i}
+            title={message.Message}
+          />
+        </View>
       ),
     );
   }

@@ -70,7 +70,6 @@ class Chat extends Component {
         listOfUserCon: {...this.state.listOfUserCon, [refdoc]: refdoc},
       });
     }
-    console.log(this.state.listOfUserCon);
 
     firebase
       .firestore()

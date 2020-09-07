@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  TouchableOpacity,
   StyleSheet,
   ScrollView,
   View,
@@ -12,7 +11,6 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Icon} from 'native-base';
-import {Header} from 'react-native-elements';
 import MultiSelect from 'react-native-multiple-select';
 import firebase from 'firebase';
 import 'firebase/firestore';
@@ -138,16 +136,13 @@ class EditTravelingDetails extends React.Component {
           .then(
             Alert.alert('details updated successfully'),
             this.setState({
-              area: '',
-              mainland: '',
-              country: '',
-              partnerAge: '',
-              partnerGender: '',
-              theme: '',
-              mode: 'israel',
+              mode: this.state.mode,
+              area: this.state.area,
+              partnerAge: this.state.partnerAge,
+              partnerGender: this.state.partnerGender,
+              theme: this.state.theme,
+              selectedItems: this.state.selectedItems,
               checked: false,
-              selectedItems: [],
-              isLoading: false,
             }),
           )
           .catch(error => {
@@ -169,18 +164,16 @@ class EditTravelingDetails extends React.Component {
             theme: this.state.theme,
           })
           .then(
-            this.props.navigation.navigate('Questions'),
+            Alert.alert('details updated successfully'),
             this.setState({
-              area: '',
-              mainland: '',
-              country: '',
-              partnerAge: '',
-              partnerGender: '',
-              theme: '',
-              mode: 'israel',
+              mode: this.state.mode,
+              mainland: this.state.mainland,
+              country: this.state.country,
+              partnerAge: this.state.partnerAge,
+              partnerGender: this.state.partnerGender,
+              selectedItems: this.state.selectedItems,
+              theme: this.state.theme,
               checked: false,
-              selectedItems: [],
-              isLoading: false,
             }),
           )
           .catch(error => {
