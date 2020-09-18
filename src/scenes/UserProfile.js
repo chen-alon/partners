@@ -17,7 +17,6 @@ class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
       profileImageUrl: null,
       details: [],
       resourcePath: {},
@@ -109,7 +108,8 @@ class UserProfile extends React.Component {
     });
   }
 
-  renderDetails() {
+  readUserData() {
+    console.log('here');
     firebase
       .storage()
       .ref('images')
@@ -130,31 +130,19 @@ class UserProfile extends React.Component {
         if (doc.exists) {
           this.setState({
             details: doc.data(),
-            isLoading: false,
           });
         } else {
-          console.log('No such document');
+          console.log('No such document!');
         }
       });
   }
 
   componentDidMount() {
-    this.renderDetails();
-
-    this.unsubscribe = firebase
-      .firestore()
-      .collection('users')
-      .onSnapshot(this.renderDetails);
-    // if (firebase.auth().currentUser) {
-    //   this.renderDetails();
-
-    //   this.unsubscribe = firebase
-    //     .firestore()
-    //     .collection('users')
-    //     .onSnapshot(this.renderDetails);
-    // } else {
-    //   this.props.navigation.navigate('LoginForm');
-    // }
+    if (firebase.auth().currentUser) {
+      this.readUserData();
+    } else {
+      this.props.navigation.navigate('LoginForm');
+    }
   }
 
   render() {
@@ -224,7 +212,7 @@ class UserProfile extends React.Component {
                       onPress={() =>
                         this.props.navigation.navigate('EditDetails', {
                           ...this.state.details,
-                          onGoBack: this.renderDetails.bind(this),
+                          onGoBack: this.readUserData.bind(this),
                         })
                       }>
                       Edit profile
@@ -236,6 +224,7 @@ class UserProfile extends React.Component {
                       onPress={() =>
                         this.props.navigation.navigate('EditTravelingDetails', {
                           ...this.state.details,
+                          onGoBack: this.readUserData.bind(this),
                         })
                       }>
                       Ideal hitchhiker

@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   ImageBackground,
+  RefreshControl,
 } from 'react-native';
 import firebase from 'firebase';
 
@@ -14,14 +15,14 @@ class Matches extends React.Component {
   constructor(props) {
     super(props);
 
-    if (firebase.auth().currentUser != null) {
-      this.state = {
-        percentage: {},
-        uid: firebase.auth().currentUser.uid,
-        partnersDetails: [],
-        images: {},
-      };
-    }
+    this.unsubscribe = null;
+    this.state = {
+      percentage: {},
+      uid: firebase.auth().currentUser.uid,
+      partnersDetails: [],
+      images: {},
+      refreshing: false,
+    };
   }
 
   componentDidMount() {
@@ -31,6 +32,11 @@ class Matches extends React.Component {
       .firestore()
       .collection('users')
       .onSnapshot(this.renderDetails);
+  }
+
+  _onRefresh() {
+    this.setState({refreshing: true});
+    this.renderDetails().then(() => this.setState({refreshing: false}));
   }
 
   retrieveImage(doc) {
@@ -136,8 +142,9 @@ class Matches extends React.Component {
     }
   }
 
-  renderDetails() {
-    const partnersDetails = [];
+  renderDetails = async () => {
+    console.log('km here');
+    var partnersDetails = [];
 
     firebase
       .firestore()
@@ -164,14 +171,19 @@ class Matches extends React.Component {
             this.state.uid != doc.data().uid &&
             !doc.data().disable &&
             !doc.data().delete &&
-            this.state.currentUserDetails.mode === doc.data().mode &&
-            (this.state.currentUserDetails.area === doc.data().area ||
-              this.state.currentUserDetails.country === doc.data().country ||
-              this.state.currentUserDetails.area === 'no matter' ||
-              doc.data().area === 'no matter' ||
-              this.state.currentUserDetails.country === 'all country' ||
-              doc.data().country === 'all country') &&
-            this.checkMatch(doc, this.state.currentUserDetails)
+            ((((this.state.currentUserDetails.mode === doc.data().mode &&
+              doc.data().mode === 'israel' &&
+              this.state.currentUserDetails.area === doc.data().area) ||
+              (this.state.currentUserDetails.mode === doc.data().mode &&
+                doc.data().mode === 'worldwide' &&
+                this.state.currentUserDetails.country ===
+                  doc.data().country)) &&
+              this.checkMatch(doc, this.state.currentUserDetails)) ||
+              ((this.state.currentUserDetails.area === 'no matter' ||
+                doc.data().area === 'no matter' ||
+                this.state.currentUserDetails.country === 'all country' ||
+                doc.data().country === 'all country') &&
+                this.checkMatch(doc, this.state.currentUserDetails)))
           ) {
             const {
               uid,
@@ -190,6 +202,8 @@ class Matches extends React.Component {
               country,
               theme,
               selectedItems,
+              partnerGender,
+              partnerAge,
             } = doc.data();
             partnersDetails.push({
               key: doc.id,
@@ -210,6 +224,8 @@ class Matches extends React.Component {
               country,
               theme,
               selectedItems,
+              partnerGender,
+              partnerAge,
             });
             this.setState({
               partnersDetails,
@@ -217,7 +233,7 @@ class Matches extends React.Component {
           }
         });
       });
-  }
+  };
 
   render() {
     return (
@@ -275,6 +291,12 @@ class Matches extends React.Component {
                 </TouchableOpacity>
               );
             }}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
           />
         </ImageBackground>
       </View>

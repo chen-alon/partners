@@ -158,11 +158,13 @@ class PartnerProfile extends React.Component {
                         {this.props.navigation.state.params.age}
                       </Text>
                     </View>
-                    <View style={styles.percent}>
-                      <Text style={styles.percentText}>
-                        {this.props.navigation.state.params.percentage + '%'}
-                      </Text>
-                    </View>
+                    {this.props.navigation.state.params.percentage ? (
+                      <View style={styles.percent}>
+                        <Text style={styles.percentText}>
+                          {this.props.navigation.state.params.percentage}%
+                        </Text>
+                      </View>
+                    ) : null}
                   </View>
                 </View>
               </View>

@@ -65,8 +65,8 @@ class Messages extends Component {
     return oldMessages.map((message, i) =>
       this.userid === message.Uid ? (
         <View>
-          <Text style={{paddingTop: 10, alignSelf: 'flex-end'}}>
-            {message.Date.slice(4, 25)}
+          <Text style={{paddingTop: 10, alignSelf: 'flex-end', fontSize: 12}}>
+            {message.Date.slice(4, 21)}
           </Text>
           <ListItem
             titleStyle={styles.titleStyle1}
@@ -77,8 +77,8 @@ class Messages extends Component {
         </View>
       ) : (
         <View>
-          <Text style={{paddingTop: 10, alignSelf: 'flex-start'}}>
-            {message.Date.slice(4, 25)}
+          <Text style={{paddingTop: 10, alignSelf: 'flex-start', fontSize: 12}}>
+            {message.Date.slice(4, 21)}
           </Text>
           <ListItem
             titleStyle={styles.titleStyle2}

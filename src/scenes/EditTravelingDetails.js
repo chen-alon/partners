@@ -73,8 +73,9 @@ const months = [
 class EditTravelingDetails extends React.Component {
   constructor(props) {
     super(props);
+    this.ref = firebase.firestore().collection('users');
+
     this.state = {
-      checked: false,
       mode: this.props.navigation.state.params.mode,
       mainland: this.props.navigation.state.params.mainland,
       country: this.props.navigation.state.params.country,
@@ -121,9 +122,7 @@ class EditTravelingDetails extends React.Component {
         return parseInt(a) - parseInt(b);
       });
       if (this.state.mode == 'israel') {
-        firebase
-          .firestore()
-          .collection('users')
+        this.ref
           .doc(firebase.auth().currentUser.uid)
           .update({
             mode: this.state.mode,
@@ -134,25 +133,24 @@ class EditTravelingDetails extends React.Component {
             selectedItems: this.state.selectedItems,
           })
           .then(
-            Alert.alert('details updated successfully'),
-            this.setState({
-              mode: this.state.mode,
-              area: this.state.area,
-              partnerAge: this.state.partnerAge,
-              partnerGender: this.state.partnerGender,
-              theme: this.state.theme,
-              selectedItems: this.state.selectedItems,
-              checked: false,
-            }),
+            this.setState(
+              {
+                mode: this.state.mode,
+                area: this.state.area,
+                partnerAge: this.state.partnerAge,
+                partnerGender: this.state.partnerGender,
+                theme: this.state.theme,
+                selectedItems: this.state.selectedItems,
+              },
+              () => Alert.alert('details updated successfully'),
+            ),
           )
           .catch(error => {
             console.error('Error adding document: ', error);
           });
       }
       if (this.state.mode == 'worldwide') {
-        firebase
-          .firestore()
-          .collection('users')
+        this.ref
           .doc(firebase.auth().currentUser.uid)
           .update({
             mode: this.state.mode,
@@ -164,17 +162,18 @@ class EditTravelingDetails extends React.Component {
             theme: this.state.theme,
           })
           .then(
-            Alert.alert('details updated successfully'),
-            this.setState({
-              mode: this.state.mode,
-              mainland: this.state.mainland,
-              country: this.state.country,
-              partnerAge: this.state.partnerAge,
-              partnerGender: this.state.partnerGender,
-              selectedItems: this.state.selectedItems,
-              theme: this.state.theme,
-              checked: false,
-            }),
+            this.setState(
+              {
+                mode: this.state.mode,
+                mainland: this.state.mainland,
+                country: this.state.country,
+                partnerAge: this.state.partnerAge,
+                partnerGender: this.state.partnerGender,
+                selectedItems: this.state.selectedItems,
+                theme: this.state.theme,
+              },
+              () => Alert.alert('details updated successfully'),
+            ),
           )
           .catch(error => {
             console.error('Error adding document: ', error);
@@ -358,7 +357,10 @@ class EditTravelingDetails extends React.Component {
                 marginLeft: 10,
                 marginBottom: 10,
               }}
-              onPress={() => goBack(params.go_back_key)}
+              onPress={() => {
+                goBack(params.go_back_key),
+                  this.props.navigation.state.params.onGoBack();
+              }}
             />
 
             <View>

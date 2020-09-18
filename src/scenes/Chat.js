@@ -7,7 +7,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Alert,
+  RefreshControl,
 } from 'react-native';
 import {Title} from 'react-native-paper';
 import firebase from 'firebase';
@@ -16,21 +16,35 @@ class Chat extends Component {
   constructor(props) {
     super(props);
 
+    this.unsubscribe1 = null;
+    this.unsubscribe2 = null;
+
     this.state = {
       uid: firebase.auth().currentUser.uid,
       partnersDetails: [],
       images: {},
       listOfUserCon: {},
+      refreshing: false,
     };
   }
 
   componentDidMount() {
     this.renderMessages();
 
-    this.unsubscribe = firebase
+    this.unsubscribe1 = firebase
       .firestore()
       .collection('messages')
       .onSnapshot(this.renderMessages);
+
+    this.unsubscribe2 = firebase
+      .firestore()
+      .collection('users')
+      .onSnapshot(this.renderMessages);
+  }
+
+  _onRefresh() {
+    this.setState({refreshing: true});
+    this.renderMessages().then(() => this.setState({refreshing: false}));
   }
 
   retrieveImage(doc) {
@@ -47,7 +61,7 @@ class Chat extends Component {
       .catch(_ => {});
   }
 
-  renderMessages() {
+  renderMessages = async () => {
     firebase
       .firestore()
       .collection('messages')
@@ -61,7 +75,7 @@ class Chat extends Component {
           }
         });
       });
-  }
+  };
 
   renderDetails(refdoc) {
     const partnersDetails = [];
@@ -83,7 +97,24 @@ class Chat extends Component {
             !doc.data().disable &&
             !doc.data().delete
           ) {
-            const {uid, firstName, lastName, age} = doc.data();
+            const {
+              uid,
+              firstName,
+              lastName,
+              age,
+              rangeAge,
+              gender,
+              dateOfBirth,
+              countries,
+              languages,
+              more,
+              ListOfQandA,
+              mode,
+              area,
+              country,
+              theme,
+              selectedItems,
+            } = doc.data();
             partnersDetails.push({
               key: doc.id,
               doc,
@@ -91,6 +122,18 @@ class Chat extends Component {
               firstName,
               lastName,
               age,
+              rangeAge,
+              gender,
+              dateOfBirth,
+              countries,
+              languages,
+              more,
+              ListOfQandA,
+              mode,
+              area,
+              country,
+              theme,
+              selectedItems,
             });
             this.setState({
               partnersDetails,
@@ -118,7 +161,7 @@ class Chat extends Component {
 
           <View style={{flex: 1, justifyContent: 'center', paddingTop: 10}}>
             <FlatList
-              data={this.state.partnersDetails}
+              data={this.state.partnersDetails.sort((a, b) => b.Date - a.Date)}
               keyExtractor={item => item.uid}
               ItemSeparatorComponent={() => {
                 return <View style={{marginTop: 10}} />;
@@ -126,35 +169,70 @@ class Chat extends Component {
               renderItem={post => {
                 const item = post.item;
                 return (
-                  <TouchableOpacity
-                    style={styles.boxDetails}
-                    onPress={() =>
-                      this.props.navigation.navigate('Messages', {
-                        ...item,
-                        partnerUid: item.uid,
-                        partnerImage: this.state.images[item.uid],
-                        partnerFirstName: item.firstName,
-                        partnerLastName: item.lastName,
-                      })
-                    }>
-                    <View style={styles.imageContainer}>
-                      <Image
-                        style={styles.partnerImage}
-                        source={
-                          this.state.images[item.uid]
-                            ? {uri: this.state.images[item.uid]}
-                            : require('../images/user.png')
-                        }
-                      />
-                    </View>
-                    <View>
-                      <Text style={styles.details}>
-                        {item.firstName + ' ' + item.lastName}, {item.age}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
+                  <View style={styles.boxDetails}>
+                    <TouchableOpacity
+                      style={styles.box}
+                      onPress={() =>
+                        this.props.navigation.navigate('Messages', {
+                          ...item,
+                          partnerUid: item.uid,
+                          partnerImage: this.state.images[item.uid],
+                          partnerFirstName: item.firstName,
+                          partnerLastName: item.lastName,
+                        })
+                      }>
+                      <View style={styles.imageContainer}>
+                        <Image
+                          style={styles.partnerImage}
+                          source={
+                            this.state.images[item.uid]
+                              ? {uri: this.state.images[item.uid]}
+                              : require('../images/user.png')
+                          }
+                        />
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}>
+                        <Text style={styles.details}>
+                          {item.firstName + ' ' + item.lastName}, {item.age}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={{paddingRight: 15}}
+                      onPress={() =>
+                        this.props.navigation.navigate('PartnerProfile', {
+                          ...item,
+                          //percentage: this.state.percentage[item.uid],
+                          image: this.state.images[item.uid],
+                          months: item.selectedItems,
+                        })
+                      }>
+                      {item.gender === 'male' ? (
+                        <Image
+                          style={styles.icon}
+                          source={require('../images/info_male.png')}
+                        />
+                      ) : (
+                        <Image
+                          style={styles.icon}
+                          source={require('../images/info_female.png')}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
                 );
               }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                />
+              }
             />
           </View>
         </ImageBackground>
@@ -190,11 +268,16 @@ const styles = StyleSheet.create({
     elevation: 9,
   },
   boxDetails: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderColor: '#d3d3d3',
+    borderBottomWidth: 2,
+  },
+  box: {
     alignItems: 'center',
     flexDirection: 'row',
     paddingLeft: 10,
-    borderColor: '#d3d3d3',
-    borderBottomWidth: 2,
   },
   details: {
     fontSize: 20,
@@ -202,6 +285,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 10,
     marginBottom: 10,
+  },
+  icon: {
+    width: 28,
+    height: 28,
   },
 });
 

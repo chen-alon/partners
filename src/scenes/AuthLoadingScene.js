@@ -28,6 +28,12 @@ class AuthLoadingScene extends React.Component {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
 
+  // handling Android Back Button Press in React Native
+  onBackPress = () => {
+    // BackHandler.exitApp();
+    return true;
+  };
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged(() => {
       const user = firebase.auth().currentUser;
@@ -61,25 +67,21 @@ class AuthLoadingScene extends React.Component {
     }
   }
 
-  // handling Android Back Button Press in React Native
-  onBackPress = () => {
-    // BackHandler.exitApp();
-    return true;
-  };
-
   renderContent() {
     // if (this.state.loading) {
     //   return <DotIndicator color="#fe5f55" />;
     // } else {
     if (this.state.loggedIn) {
-      if (this.state.details.finished) {
-        this.props.navigation.navigate('Navigation');
-      } else if (!this.state.details.firstName) {
-        this.props.navigation.navigate('UserInformation');
-      } else if (!this.state.details.mode) {
-        this.props.navigation.navigate('TravelingDetails');
-      } else if (this.state.details.mode && !this.state.details.finished) {
-        this.props.navigation.navigate('Questions');
+      if (!this.state.details.delete && !this.state.details.disable) {
+        if (this.state.details.finished) {
+          this.props.navigation.navigate('Navigation');
+        } else if (!this.state.details.firstName) {
+          this.props.navigation.navigate('UserInformation');
+        } else if (!this.state.details.mode) {
+          this.props.navigation.navigate('TravelingDetails');
+        } else if (this.state.details.mode && !this.state.details.finished) {
+          this.props.navigation.navigate('Questions');
+        }
       }
     }
   }
