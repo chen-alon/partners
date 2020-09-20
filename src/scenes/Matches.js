@@ -10,16 +10,20 @@ import {
   RefreshControl,
 } from 'react-native';
 import firebase from 'firebase';
+import {Value} from 'react-native-reanimated';
 
 class Matches extends React.Component {
   constructor(props) {
     super(props);
 
-    this.unsubscribe = null;
+    this.unsubscribe1 = null;
+    this.unsubscribe2 = null;
+
     this.state = {
       percentage: {},
       uid: firebase.auth().currentUser.uid,
       partnersDetails: [],
+      currentUserDetails: [],
       images: {},
       refreshing: false,
     };
@@ -28,10 +32,19 @@ class Matches extends React.Component {
   componentDidMount() {
     this.renderDetails();
 
-    this.unsubscribe = firebase
+    this.unsubscribe1 = firebase
       .firestore()
       .collection('users')
-      .onSnapshot(this.renderDetails);
+      .onSnapshot(this.renderDetails.bind(this));
+
+    this.unsubscribe2 = firebase
+      .firestore()
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .onSnapshot(
+        () => this.setState({partnersDetails: []}),
+        // this.renderDetails.bind(this),
+      );
   }
 
   _onRefresh() {
@@ -143,7 +156,6 @@ class Matches extends React.Component {
   }
 
   renderDetails = async () => {
-    console.log('km here');
     var partnersDetails = [];
 
     firebase
@@ -159,7 +171,8 @@ class Matches extends React.Component {
         } else {
           console.log('No such document!');
         }
-      });
+      })
+      .catch(() => console.log('No such document!'));
 
     firebase
       .firestore()

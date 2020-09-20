@@ -23,6 +23,14 @@ class UserProfile extends React.Component {
     };
   }
 
+  componentDidMount() {
+    if (firebase.auth().currentUser) {
+      this.readUserData();
+    } else {
+      this.props.navigation.navigate('LoginForm');
+    }
+  }
+
   alertDeleteImage = () => {
     Alert.alert(
       'Remove Image',
@@ -109,7 +117,6 @@ class UserProfile extends React.Component {
   }
 
   readUserData() {
-    console.log('here');
     firebase
       .storage()
       .ref('images')
@@ -135,14 +142,6 @@ class UserProfile extends React.Component {
           console.log('No such document!');
         }
       });
-  }
-
-  componentDidMount() {
-    if (firebase.auth().currentUser) {
-      this.readUserData();
-    } else {
-      this.props.navigation.navigate('LoginForm');
-    }
   }
 
   render() {
