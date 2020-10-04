@@ -1,5 +1,4 @@
 import React from 'react';
-import {DotIndicator} from 'react-native-indicators';
 import {
   View,
   BackHandler,
@@ -17,6 +16,7 @@ class AuthLoadingScene extends React.Component {
     this.state = {
       loggedIn: false,
       details: {},
+      loading: false,
     };
   }
 
@@ -38,9 +38,9 @@ class AuthLoadingScene extends React.Component {
     firebase.auth().onAuthStateChanged(() => {
       const user = firebase.auth().currentUser;
       if (user) {
-        this.setState({loggedIn: true});
+        this.setState({loggedIn: true, loading: true});
       } else {
-        this.setState({loggedIn: false});
+        this.setState({loggedIn: false, details: {}, loading: false});
         this.props.navigation.navigate('LoginForm');
       }
       if (user != null) this.retrieveData();
@@ -59,6 +59,7 @@ class AuthLoadingScene extends React.Component {
           if (doc.exists) {
             this.setState({
               details: doc.data(),
+              loading: false,
             });
           } else {
             console.log('No such document!');
@@ -68,14 +69,11 @@ class AuthLoadingScene extends React.Component {
   }
 
   renderContent() {
-    // if (this.state.loading) {
-    //   return <DotIndicator color="#fe5f55" />;
-    // } else {
-    if (this.state.loggedIn) {
+    if (this.state.loggedIn && !this.state.loading) {
       if (!this.state.details.delete && !this.state.details.disable) {
         if (this.state.details.finished) {
           this.props.navigation.navigate('Navigation');
-        } else if (!this.state.details.firstName) {
+        } else if (!this.state.details.age) {
           this.props.navigation.navigate('UserInformation');
         } else if (!this.state.details.mode) {
           this.props.navigation.navigate('TravelingDetails');

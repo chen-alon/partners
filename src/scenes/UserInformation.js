@@ -57,7 +57,6 @@ class UserInformation extends React.Component {
         .put(file);
       upload.on(
         'state_changed',
-        //snapshot => {},
         err => {
           reject(err);
         },
@@ -77,11 +76,7 @@ class UserInformation extends React.Component {
       this.state.gender === 'gender' ||
       this.state.age === 0
     ) {
-      Alert.alert(
-        'Missing details',
-        // [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-        // {cancelable: false},
-      );
+      Alert.alert('Missing details');
     } else {
       this.setState({
         isLoading: true,
@@ -343,6 +338,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     //color: '#4f6367',
     fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+  icon: {
+    width: 20,
+    height: 20,
     alignSelf: 'center',
   },
 });

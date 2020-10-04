@@ -80,7 +80,7 @@ class CreateUser extends React.Component {
       error: '',
       loading: false,
     });
-    this.props.navigation.navigate('UserInformation');
+    // this.props.navigation.navigate('UserInformation');
   }
 
   onChangeFailure(errorMessage) {
@@ -137,7 +137,10 @@ class CreateUser extends React.Component {
               />
             </View>
           </ScrollView>
-          <TouchableOpacity style={styles.button} onPress={this.checkDetails}>
+          <TouchableOpacity
+            style={styles.button}
+            // onPress={this.checkDetails}
+          >
             <Text style={styles.buttonText}>Change</Text>
           </TouchableOpacity>
         </ImageBackground>

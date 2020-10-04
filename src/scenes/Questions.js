@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
     borderWidth: 25,
     borderColor: '#bbd8d8',
     position: 'relative',
-    alignItems: 'center',
   },
   RadioButtonStyle: {
     fontSize: 30,

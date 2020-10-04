@@ -80,8 +80,6 @@ class UserProfile extends React.Component {
         console.log('User tapped custom button: ', res.customButton);
         alert(res.customButton);
       } else {
-        let source = res;
-
         this.setState({
           profileImageUrl: res.uri,
         });
@@ -254,8 +252,11 @@ class UserProfile extends React.Component {
                           .auth()
                           .signOut()
                           .then(() => {
-                            this.setState({details: []});
-                            this.props.navigation.navigate('LoginForm');
+                            this.setState({
+                              details: [],
+                              profileImageUrl: null,
+                              resourcePath: {},
+                            });
                           })
                           .catch(console.log('Someting worng'))
                       }>
