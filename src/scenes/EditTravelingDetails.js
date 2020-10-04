@@ -456,7 +456,7 @@ class EditTravelingDetails extends React.Component {
                 }>
                 <Picker.Item label="select gender" value="select gender" />
                 <Picker.Item label="all" value="all" />
-                <Picker.Item label="man" value="man" />
+                <Picker.Item label="male" value="male" />
                 <Picker.Item label="female" value="female" />
               </Picker>
               <Picker

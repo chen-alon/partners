@@ -82,7 +82,6 @@ class TravelingDetails extends React.Component {
       partnerGender: '',
       theme: '',
       mode: 'israel',
-      checked: false,
       selectedItems: [],
     };
   }
@@ -144,7 +143,6 @@ class TravelingDetails extends React.Component {
               partnerGender: '',
               theme: '',
               mode: 'israel',
-              checked: false,
               selectedItems: [],
               isLoading: false,
             }),
@@ -177,7 +175,6 @@ class TravelingDetails extends React.Component {
               partnerGender: '',
               theme: '',
               mode: 'israel',
-              checked: false,
               selectedItems: [],
               isLoading: false,
             }),
@@ -513,7 +510,7 @@ class TravelingDetails extends React.Component {
                 }>
                 <Picker.Item label="select gender" value="select gender" />
                 <Picker.Item label="all" value="all" />
-                <Picker.Item label="man" value="man" />
+                <Picker.Item label="male" value="male" />
                 <Picker.Item label="female" value="female" />
               </Picker>
               <Picker

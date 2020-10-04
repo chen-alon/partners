@@ -69,14 +69,6 @@ class Matches extends React.Component {
   checkMatch(doc, currentUser) {
     var idealHitch = 0;
     var similarMonths = 0;
-    if (currentUser.partnerGender === doc.data().gender) {
-      idealHitch++;
-    } else if (
-      currentUser.partnerGender === 'all' ||
-      doc.data().partnerGender === 'all'
-    ) {
-      idealHitch = idealHitch + 0.5;
-    }
 
     if (
       currentUser.theme === doc.data().theme ||
@@ -84,15 +76,6 @@ class Matches extends React.Component {
       doc.data().theme === 'all the theme'
     ) {
       idealHitch++;
-    }
-
-    if (currentUser.partnerAge === doc.data().rangeAge) {
-      idealHitch++;
-    } else if (
-      currentUser.partnerAge === 'all' ||
-      doc.data().partnerAge === 'all'
-    ) {
-      idealHitch = idealHitch + 0.5;
     }
 
     if (
@@ -136,7 +119,7 @@ class Matches extends React.Component {
       }
     }
 
-    var perIdealHitch = Math.round((idealHitch / 4) * 60);
+    var perIdealHitch = Math.round((idealHitch / 2) * 60);
     var perSimilarAnswer = Math.round((similarAnswers / 15) * 40);
     var percent = perIdealHitch + perSimilarAnswer;
     if (percent >= 60) {
@@ -184,6 +167,25 @@ class Matches extends React.Component {
             this.state.uid != doc.data().uid &&
             !doc.data().disable &&
             !doc.data().delete &&
+            //בדיקות עבור כל המקרים של המגדר
+            ((this.state.currentUserDetails.partnerGender != 'all' &&
+              this.state.currentUserDetails.partnerGender ===
+                doc.data().gender) ||
+              (this.state.currentUserDetails.partnerGender === 'all' &&
+                doc.data().partnerGender ===
+                  this.state.currentUserDetails.gender) ||
+              (this.state.currentUserDetails.partnerGender === 'all' &&
+                doc.data().partnerGender === 'all')) &&
+            //בדיקות עבור כל המקרים של הגיל
+            ((this.state.currentUserDetails.partnerAge != 'all' &&
+              this.state.currentUserDetails.partnerAge ===
+                doc.data().rangeAge) ||
+              (this.state.currentUserDetails.partnerAge === 'all' &&
+                doc.data().partnerAge ===
+                  this.state.currentUserDetails.rangeAge) ||
+              (this.state.currentUserDetails.partnerAge === 'all' &&
+                doc.data().partnerAge === 'all')) &&
+            //
             ((((this.state.currentUserDetails.mode === doc.data().mode &&
               doc.data().mode === 'israel' &&
               this.state.currentUserDetails.area === doc.data().area) ||

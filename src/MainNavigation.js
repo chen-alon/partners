@@ -104,6 +104,9 @@ const MainNavigator = createStackNavigator(
     EditTravelingDetails: {
       screen: EditTravelingDetails,
     },
+    Navigation: {
+      screen: Navigation,
+    },
   },
 
   {
