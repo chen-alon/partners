@@ -9,6 +9,8 @@ import {
   Alert,
   Dimensions,
   Keyboard,
+  Image,
+  ScrollView,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
 import firebase from 'firebase';
@@ -69,66 +71,72 @@ class LoginForm extends React.Component {
           source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
           style={styles.backgroundImage}>
-          <View
-            style={{
-              justifyContent: 'center',
-              paddingTop: 180,
-            }}>
-            <KeyboardAvoidingView behavior="padding">
-              <Text style={styles.title}>hitchhiker</Text>
-              <View style={styles.content}>
-                <TextInput
-                  style={styles.inputContainer}
-                  textAlign="center"
-                  placeholder={'Email'}
-                  placeholderStyle={{
-                    fontFamily: 'AmaticSC-Bold',
-                  }}
-                  placeholderTextColor="#4f6367"
-                  height={45}
-                  autoCorrect={false}
-                  onChangeText={email => this.setState({email})}
-                  value={this.state.email}
+          <ScrollView style={styles.scroll}>
+            <View
+              style={{
+                justifyContent: 'center',
+                paddingTop: 45,
+              }}>
+              <KeyboardAvoidingView behavior="padding">
+                {/* <Text style={styles.title}>hitchhiker</Text> */}
+                <Image
+                  style={{alignSelf: 'center'}}
+                  source={require('../images/hitchhiker_logo.png')}
                 />
-              </View>
-              <View style={styles.content}>
-                <TextInput
-                  style={styles.inputContainer}
-                  textAlign="center"
-                  placeholder={'Password'}
-                  placeholderStyle={{
-                    fontFamily: 'AmaticSC-Bold',
-                  }}
-                  placeholderTextColor="#4f6367"
-                  secureTextEntry={true}
-                  autoCorrect={false}
-                  height={45}
-                  onChangeText={password => this.setState({password})}
-                  value={this.state.password}
-                />
+                <View style={styles.content}>
+                  <TextInput
+                    style={styles.inputContainer}
+                    textAlign="center"
+                    placeholder={'Email'}
+                    placeholderStyle={{
+                      fontFamily: 'AmaticSC-Bold',
+                    }}
+                    placeholderTextColor="#4f6367"
+                    height={45}
+                    autoCorrect={false}
+                    onChangeText={email => this.setState({email})}
+                    value={this.state.email}
+                  />
+                </View>
+                <View style={styles.content}>
+                  <TextInput
+                    style={styles.inputContainer}
+                    textAlign="center"
+                    placeholder={'Password'}
+                    placeholderStyle={{
+                      fontFamily: 'AmaticSC-Bold',
+                    }}
+                    placeholderTextColor="#4f6367"
+                    secureTextEntry={true}
+                    autoCorrect={false}
+                    height={45}
+                    onChangeText={password => this.setState({password})}
+                    value={this.state.password}
+                  />
+                  <Text
+                    style={styles.forgetPassword}
+                    onPress={() => navigate('ForgotPasswordController')}>
+                    Forgot your password?
+                  </Text>
+                </View>
+                <View>{this.renderButton()}</View>
+              </KeyboardAvoidingView>
+              <View>
+                <Text style={styles.signIn}> Don't have an account yet?</Text>
                 <Text
-                  style={styles.forgetPassword}
-                  onPress={() => navigate('ForgotPasswordController')}>
-                  Forgot your password?
+                  onPress={() => navigate('CreateUser')}
+                  style={{
+                    color: '#fe5f55',
+                    fontSize: 18,
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    position: 'relative',
+                  }}>
+                  Create
                 </Text>
               </View>
-              <View>{this.renderButton()}</View>
-            </KeyboardAvoidingView>
-            <View>
-              <Text style={styles.signIn}> Don't have an account yet?</Text>
-              <Text
-                onPress={() => navigate('CreateUser')}
-                style={{
-                  color: '#fe5f55',
-                  fontSize: 18,
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  position: 'relative',
-                }}>
-                Create
-              </Text>
             </View>
-          </View>
+          </ScrollView>
         </ImageBackground>
       </View>
     );
