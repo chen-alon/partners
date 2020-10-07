@@ -1,0 +1,11 @@
+{
+  "name": "partners",
+  "displayName": "hitchhiker",
+  "icon": "./hitchhiker_icon",
+  "description": "Application for finding travel partners, based on who you really are and what you look for in your partners",
+  "sdkVersion": "23.0.0",
+  "version": "1.0.0",
+  "android": {
+    "package": "com.chenalon.hitchhiker"
+  }
+}
