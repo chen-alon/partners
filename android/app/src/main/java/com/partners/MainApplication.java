@@ -1,4 +1,4 @@
-package com.partners;
+package com.chenalon.hitchhiker;
 
 import android.app.Application;
 import android.content.Context;

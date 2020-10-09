@@ -73,7 +73,7 @@ class AuthLoadingScene extends React.Component {
       if (!this.state.details.delete && !this.state.details.disable) {
         if (this.state.details.finished) {
           this.props.navigation.navigate('Navigation');
-        } else if (!this.state.details.age) {
+        } else if (!this.state.details.age || !this.state.details.firstName) {
           this.props.navigation.navigate('UserInformation');
         } else if (!this.state.details.mode) {
           this.props.navigation.navigate('TravelingDetails');

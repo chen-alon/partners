@@ -9,9 +9,12 @@ import {
   Alert,
   ImageBackground,
   Dimensions,
+  Image,
+  Linking,
+  Button,
 } from 'react-native';
 import {Icon} from 'native-base';
-import {CheckBox, Header} from 'react-native-elements';
+import {CheckBox} from 'react-native-elements';
 import firebase from 'firebase';
 
 class CreateUser extends React.Component {
@@ -86,7 +89,7 @@ class CreateUser extends React.Component {
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
-          imageStyle={{opacity: 0.4}}
+          imageStyle={{opacity: 0.3}}
           style={styles.backgroundImage}>
           <ScrollView style={styles.scroll}>
             <Icon
@@ -94,28 +97,13 @@ class CreateUser extends React.Component {
               style={{
                 color: '#4f6367',
                 marginLeft: 10,
-                marginBottom: 10,
+                marginTop: 10,
               }}
               onPress={() => goBack(params.go_back_key)}
             />
-            <Header
-              centerComponent={{
-                text: 'Register',
-                style: {
-                  color: '#bbd8d8',
-                  fontSize: 25,
-                  fontWeight: 'bold',
-                  paddingBottom: 20,
-                },
-              }}
-              containerStyle={{
-                backgroundColor: '#FE5F55',
-                justifyContent: 'space-around',
-                marginBottom: 10,
-                borderRadius: 10,
-                borderWidth: 4,
-                borderColor: '#eef5d8',
-              }}
+            <Image
+              style={{alignSelf: 'center'}}
+              source={require('../images/Register.png')}
             />
 
             <View style={styles.container}>
@@ -143,6 +131,17 @@ class CreateUser extends React.Component {
                 secureTextEntry={true}
               />
             </View>
+
+            <Button
+              color="#7a9e9f"
+              title="Click Here To Open terms and conditions"
+              onPress={() =>
+                Linking.openURL(
+                  'https://www.websitepolicies.com/policies/view/AUx0esQi',
+                )
+              }
+            />
+
             <CheckBox
               containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
               textStyle={{fontSize: 13, color: '#4F6367'}}
@@ -176,7 +175,6 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height, //for full screen
   },
   container: {
-    marginTop: 10,
     flex: 1,
     backgroundColor: 'transparent',
     alignItems: 'center',
@@ -207,9 +205,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#bbd8d8',
-  },
-  buttonSignup: {
-    fontSize: 12,
   },
 });
 

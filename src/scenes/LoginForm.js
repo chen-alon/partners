@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
     }
     return (
       <Button
-        buttonStyle={styles.login}
+        buttonStyle={styles.signUp}
         title="Sign Up"
         onPress={this.onButtonPress.bind(this)}></Button>
     );
@@ -71,17 +71,16 @@ class LoginForm extends React.Component {
           source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
           style={styles.backgroundImage}>
-          <ScrollView style={styles.scroll}>
+          <ScrollView>
             <View
               style={{
                 justifyContent: 'center',
-                paddingTop: 45,
+                paddingTop: 70,
               }}>
               <KeyboardAvoidingView behavior="padding">
-                {/* <Text style={styles.title}>hitchhiker</Text> */}
                 <Image
                   style={{alignSelf: 'center'}}
-                  source={require('../images/hitchhiker_logo.png')}
+                  source={require('../images/hitchhiker.png')}
                 />
                 <View style={styles.content}>
                   <TextInput
@@ -144,22 +143,22 @@ class LoginForm extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  login: {
+  signUp: {
     borderRadius: 10,
     width: '30%',
     alignSelf: 'center',
     color: '#eef5d8',
     fontWeight: 'bold',
     backgroundColor: '#fe5f55',
-    marginBottom: 15,
   },
   signIn: {
     textAlign: 'center',
     fontSize: 14,
     color: '#fe5f55',
     alignSelf: 'center',
-    marginTop: 40,
     position: 'relative',
+    paddingTop: 60,
+    bottom: 0,
   },
   title: {
     alignSelf: 'center',

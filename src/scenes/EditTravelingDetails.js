@@ -363,7 +363,7 @@ class EditTravelingDetails extends React.Component {
               }}
             />
 
-            <View>
+            <View style={{padding: 20}}>
               <View style={styles.card}>
                 <View>
                   <TouchableHighlight

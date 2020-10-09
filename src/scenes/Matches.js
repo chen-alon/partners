@@ -119,9 +119,9 @@ class Matches extends React.Component {
       }
     }
 
-    var perIdealHitch = Math.round((idealHitch / 2) * 60);
+    var perIdealHitch = Math.round((idealHitch / 2) * 10);
     var perSimilarAnswer = Math.round((similarAnswers / 15) * 40);
-    var percent = perIdealHitch + perSimilarAnswer;
+    var percent = 50 + perIdealHitch + perSimilarAnswer;
     if (percent >= 60) {
       if (!this.state.images[doc.data().uid]) {
         this.retrieveImage(doc);

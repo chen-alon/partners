@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, Alert} from 'react-native';
+import {Text, View, StyleSheet, ImageBackground, Image} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {Button} from 'react-native-elements';
 import {ListOfQandA} from './ListOfQandA';
@@ -89,29 +89,38 @@ class Questions extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.note}>Answered:</Text>
-        <Text style={styles.counter}>{this.getAnswersCount()} / 15</Text>
-        <View style={styles.RadioButtonStyle}>
-          {this.renderQ(
-            this.state.currentQ,
-            this.state.ListOfQandA[this.state.currentQ],
-          )}
-        </View>
-        <Button
-          titleStyle={styles.buttonAnswer}
-          title={
-            this.getAnswersCount() === 15 ? "Let's Start" : 'Next Question'
-          }
-          type="clear"
-          color="#ef5f55"
-          onPress={() => {
-            if (this.getAnswersCount() === 15) {
-              this.handleDetails();
+        <ImageBackground
+          source={require('../images/questions_background.jpg')}
+          imageStyle={{opacity: 0.2}}
+          style={styles.backgroundImage}>
+          <Image
+            style={{alignSelf: 'center', height: 80}}
+            source={require('../images/Answered.png')}
+          />
+          <Text style={styles.counter}>{this.getAnswersCount()} / 15</Text>
+          <View style={styles.RadioButtonStyle}>
+            {this.renderQ(
+              this.state.currentQ,
+              this.state.ListOfQandA[this.state.currentQ],
+            )}
+          </View>
+          <Button
+            titleStyle={styles.buttonAnswer}
+            title={
+              this.getAnswersCount() === 15 ? "Let's Start" : 'Next Question'
             }
-            this.setState(prev => ({
-              currentQ: this.getNext(prev),
-            }));
-          }}></Button>
+            type="clear"
+            color="#ef5f55"
+            onPress={() => {
+              if (this.getAnswersCount() === 15) {
+                this.handleDetails();
+              }
+              this.setState(prev => ({
+                currentQ: this.getNext(prev),
+              }));
+            }}
+          />
+        </ImageBackground>
       </View>
     );
   }
@@ -120,21 +129,26 @@ class Questions extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 30,
-    backgroundColor: '#EEF5D8',
+    padding: 10,
     justifyContent: 'center',
+    alignContent: 'center',
     borderWidth: 25,
     borderColor: '#bbd8d8',
     position: 'relative',
   },
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+  },
   RadioButtonStyle: {
     fontSize: 30,
-    marginBottom: 60,
+    marginBottom: 80,
     marginTop: 40,
+    marginLeft: 15,
   },
   question: {
     fontSize: 20,
-    marginBottom: 30,
+    marginBottom: 10,
     color: '#4f6367',
   },
   textAnswers: {
@@ -144,14 +158,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontWeight: 'bold',
   },
-  note: {
-    fontSize: 22,
-    color: '#ef5f55',
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
   counter: {
     fontSize: 30,
     color: '#4f6367',
@@ -160,11 +166,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttonAnswer: {
-    position: 'relative',
-    marginTop: 20,
-    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 0,
     color: '#ef5f55',
-    fontSize: 23,
+    fontSize: 25,
     fontWeight: 'bold',
   },
 });

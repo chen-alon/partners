@@ -10,10 +10,10 @@ import {
   Alert,
   ImageBackground,
   Dimensions,
+  Image,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import {IconButton, Colors} from 'react-native-paper';
-import {Header} from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import firebase from 'firebase';
 
@@ -146,27 +146,12 @@ class UserInformation extends React.Component {
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
-          imageStyle={{opacity: 0.4}}
+          imageStyle={{opacity: 0.3}}
           style={styles.backgroundImage}>
           <ScrollView style={styles.scroll}>
-            <Header
-              centerComponent={{
-                text: 'Details',
-                style: {
-                  color: '#bbd8d8',
-                  fontSize: 25,
-                  fontWeight: 'bold',
-                  paddingBottom: 20,
-                },
-              }}
-              containerStyle={{
-                backgroundColor: '#FE5F55',
-                justifyContent: 'space-around',
-                marginBottom: 10,
-                borderRadius: 10,
-                borderWidth: 4,
-                borderColor: '#eef5d8',
-              }}
+            <Image
+              style={{alignSelf: 'center'}}
+              source={require('../images/Details.png')}
             />
             <View style={styles.container}>
               <TextInput
@@ -199,9 +184,8 @@ class UserInformation extends React.Component {
                 date={this.state.dateOfBirth}
                 mode="date"
                 placeholder={this.state.dateOfBirth}
-                //format="MM/DD/YYYY"
                 minDate="1920-01-01"
-                maxDate={this.state.maximumDate}
+                maxDate="2002-12-31"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 customStyles={{
@@ -333,12 +317,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingTop: 15,
-  },
-  percentText: {
-    fontSize: 25,
-    //color: '#4f6367',
-    fontWeight: 'bold',
-    alignSelf: 'center',
   },
   icon: {
     width: 20,

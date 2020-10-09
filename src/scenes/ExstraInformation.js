@@ -8,9 +8,9 @@ import {
   Text,
   ImageBackground,
   Dimensions,
+  Image,
 } from 'react-native';
 import {Icon} from 'native-base';
-import {Header} from 'react-native-elements';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -55,7 +55,7 @@ class ExstraInformation extends React.Component {
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
-          imageStyle={{opacity: 0.4}}
+          imageStyle={{opacity: 0.3}}
           style={styles.backgroundImage}>
           <ScrollView style={styles.scroll}>
             <Icon
@@ -63,28 +63,13 @@ class ExstraInformation extends React.Component {
               style={{
                 color: '#4f6367',
                 marginLeft: 10,
-                marginBottom: 10,
+                marginTop: 10,
               }}
               onPress={() => goBack(params.go_back_key)}
             />
-            <Header
-              centerComponent={{
-                text: 'More about me',
-                style: {
-                  color: '#bbd8d8',
-                  fontSize: 25,
-                  fontWeight: 'bold',
-                  paddingBottom: 20,
-                },
-              }}
-              containerStyle={{
-                backgroundColor: '#FE5F55',
-                justifyContent: 'space-around',
-                marginBottom: 10,
-                borderRadius: 10,
-                borderWidth: 4,
-                borderColor: '#eef5d8',
-              }}
+            <Image
+              style={{alignSelf: 'center'}}
+              source={require('../images/More.png')}
             />
             <View style={styles.container}>
               <TextInput
@@ -145,7 +130,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    paddingTop: 20,
     marginTop: 5,
     marginBottom: 5,
     borderRadius: 18,

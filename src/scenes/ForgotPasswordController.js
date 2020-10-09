@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Text,
   View,
   TextInput,
   Alert,
@@ -8,15 +7,15 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
+  Image,
 } from 'react-native';
 import {Icon} from 'native-base';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 import Button from '../components/common/Button';
 import {DotIndicator} from 'react-native-indicators';
 
 class ForgotPasswordController extends React.Component {
   static defaultProps = {
-    submitText: 'send',
     placeHolderText: 'example@domain.com',
   };
 
@@ -75,24 +74,20 @@ class ForgotPasswordController extends React.Component {
     firebase
       .auth()
       .sendPasswordResetEmail(this.state.email)
-      .then(function(username) {
-        Alert.alert(
-          'Reset Password',
-          'A password renewal email has been sent to the email address you entered',
-          [{text: 'OK', onPress: () => this.setState({spinner: false})}],
-          {cancelable: false},
-        );
-        username.sendEmailVerification();
-      })
-      .catch(e => {
-        alert(e);
+      .then(
+        function(username) {
+          Alert.alert(
+            'Reset Password',
+            'A password renewal email has been sent to the email address you entered',
+            [{text: 'OK', onPress: () => this.setState({spinner: false})}],
+            {cancelable: false},
+          );
+          username.sendEmailVerification();
+        }.bind(this),
+      )
+      .catch(() => {
         this.setState({spinner: false});
       });
-  }
-
-  //Button close pressed
-  btnClosePress() {
-    this.props.callbackAfterForgotPassword(0, this.props.otherParamsToSend);
   }
 
   render() {
@@ -112,17 +107,17 @@ class ForgotPasswordController extends React.Component {
                 color: '#4f6367',
                 marginLeft: 10,
                 marginTop: 10,
-                marginBottom: 10,
               }}
               onPress={() => goBack(params.go_back_key)}
             />
-            <Text style={styles.header}>Forgot Password</Text>
-
-            <View style={{paddingTop: 80}}>
+            <Image
+              style={{alignSelf: 'center'}}
+              source={require('../images/Forgot_Password.png')}
+            />
+            <View>
               <TextInput
                 style={styles.inputBox}
                 autoCorrect={false}
-                keyboardType={'email-address'}
                 textAlign="center"
                 placeholder={this.props.placeHolderText}
                 placeholderStyle={{
@@ -162,13 +157,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Dimensions.get('window').width, //for full screen
     height: Dimensions.get('window').height, //for full screen
-  },
-  header: {
-    color: '#7a9e9f',
-    fontSize: 35,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    padding: 10,
   },
 });
 

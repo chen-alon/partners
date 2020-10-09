@@ -9,9 +9,9 @@ import {
   Picker,
   Alert,
   ImageBackground,
+  Image,
 } from 'react-native';
 import {Icon} from 'native-base';
-import {Header} from 'react-native-elements';
 import MultiSelect from 'react-native-multiple-select';
 import firebase from 'firebase';
 import 'firebase/firestore';
@@ -351,11 +351,6 @@ class TravelingDetails extends React.Component {
       <View style={{flex: 1}}>
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
-          // source={
-          //   this.props.navigation.state.params.finished
-          //     ? require('../images/background.jpg')
-          //     : '../images/vanishing_hitchhiker2.jpg'
-          // }
           imageStyle={{opacity: 0.3}}
           style={{resizeMode: 'cover', flex: 1}}>
           <ScrollView style={styles.scroll}>
@@ -364,61 +359,15 @@ class TravelingDetails extends React.Component {
               style={{
                 color: '#4f6367',
                 marginLeft: 10,
-                marginBottom: 10,
+                marginTop: 10,
               }}
-              // onPress={() => navigate('ExstraInformation')}
               onPress={() => goBack(params.go_back_key)}
             />
-            <Header
-              centerComponent={{
-                text: 'Lets find your partner',
-                style: {
-                  color: '#bbd8d8',
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  paddingBottom: 20,
-                },
-              }}
-              containerStyle={{
-                backgroundColor: '#FE5F55',
-                justifyContent: 'space-around',
-                marginBottom: 10,
-                borderRadius: 10,
-                borderWidth: 4,
-                borderColor: '#eef5d8',
-              }}
+            <Image
+              style={{alignSelf: 'center'}}
+              source={require('../images/Travel_Details.png')}
             />
             <View style={styles.container}>
-              {/* {this.props.navigation.state.params.finished ? (
-                <View></View>
-              ) : (
-                <Header
-                  centerComponent={{
-                    text: 'Lets find your partner',
-                    style: {
-                      color: '#bbd8d8',
-                      fontSize: 18,
-                      fontWeight: 'bold',
-                      paddingBottom: 20,
-                    },
-                  }}
-                  containerStyle={{
-                    backgroundColor: '#FE5F55',
-                    justifyContent: 'space-around',
-                    marginBottom: 10,
-                    borderRadius: 10,
-                    borderWidth: 4,
-                    borderColor: '#eef5d8',
-                  }}
-                />
-              )}
-
-              <View
-                style={
-                  this.props.navigation.state.params.finished
-                    ? null
-                    : styles.container
-                }></View> */}
               <View style={styles.card}>
                 <View>
                   <TouchableHighlight
@@ -668,30 +617,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingTop: 10,
   },
-  inputBox: {
-    width: '85%',
-    margin: 10,
-    padding: 15,
-    fontSize: 16,
-    borderColor: '#d3d3d3',
-    borderBottomWidth: 1,
-    color: '#4f6367',
-    backgroundColor: '#eef5d8',
-  },
   card: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignSelf: 'center',
-  },
-  buttonMode: {
-    margin: 10,
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderColor: '#fff',
-    borderWidth: 1,
-    borderRadius: 5,
-    width: 130,
-    padding: 10,
   },
   button: {
     margin: 10,
