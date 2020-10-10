@@ -42,18 +42,16 @@ export default class ResetPassword extends React.Component {
     firebase
       .auth()
       .sendPasswordResetEmail(this.state.email)
-      .then(function(username) {
+      .then(() => {
         Alert.alert(
           'Reset Password',
           'A password renewal message has been sent to the email account you have successfully entered.',
           [{text: 'OK', onPress: () => this.setState({spinner: false})}],
           {cancelable: false},
         );
-        username.sendEmailVerification();
       })
-      .catch(() => {
-        // alert(e);
-        this.setState({spinner: false});
+      .catch(e => {
+        console.log(e);
       });
   }
 

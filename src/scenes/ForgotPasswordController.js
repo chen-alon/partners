@@ -10,7 +10,7 @@ import {
   Image,
 } from 'react-native';
 import {Icon} from 'native-base';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 import Button from '../components/common/Button';
 import {DotIndicator} from 'react-native-indicators';
 
@@ -74,17 +74,16 @@ class ForgotPasswordController extends React.Component {
     firebase
       .auth()
       .sendPasswordResetEmail(this.state.email)
-      .then(function(username) {
+      .then(() => {
         Alert.alert(
           'Reset Password',
           'A password renewal email has been sent to the email address you entered',
           [{text: 'OK', onPress: () => this.setState({spinner: false})}],
           {cancelable: false},
         );
-        username.sendEmailVerification();
       })
-      .catch(() => {
-        this.setState({spinner: false});
+      .catch(e => {
+        console.log(e);
       });
   }
 
