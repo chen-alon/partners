@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   FlatList,
+  Dimensions,
 } from 'react-native';
 import {Icon} from 'native-base';
 
@@ -124,7 +125,7 @@ class PartnerProfile extends React.Component {
         <ImageBackground
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.4}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          style={styles.backgroundImage}>
           <ScrollView style={styles.scrollContainer}>
             <Icon
               name="arrow-back"
@@ -175,7 +176,7 @@ class PartnerProfile extends React.Component {
                   onPress={() => this.setState({choice: 'moreDetails'})}>
                   <Image
                     style={styles.icon}
-                    source={require('../images/information.png')}
+                    source={require('../images/icon_information.png')}
                   />
                 </TouchableHighlight>
 
@@ -184,7 +185,7 @@ class PartnerProfile extends React.Component {
                   onPress={() => this.setState({choice: 'travelingDetails'})}>
                   <Image
                     style={styles.icon}
-                    source={require('../images/airplane-take-off.png')}
+                    source={require('../images/icon_country.png')}
                   />
                 </TouchableHighlight>
 
@@ -202,7 +203,7 @@ class PartnerProfile extends React.Component {
                   }>
                   <Image
                     style={styles.icon}
-                    source={require('../images/send-message.png')}
+                    source={require('../images/icon_wings.png')}
                   />
                 </TouchableHighlight>
               </View>
@@ -220,6 +221,12 @@ class PartnerProfile extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   scrollContainer: {
     flex: 1,
     padding: 10,
@@ -239,23 +246,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   button: {
-    width: 70,
-    height: 70,
-    flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fe5f55',
     marginBottom: 20,
-    borderRadius: 40,
-    margin: 15,
-    shadowColor: 'black',
-    elevation: 13,
-    borderWidth: 2,
-    borderColor: '#fff',
+    margin: 20,
   },
   icon: {
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
   },
   boxDetails: {
     backgroundColor: '#dcdcdc',

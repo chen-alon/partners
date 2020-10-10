@@ -8,6 +8,7 @@ import {
   ScrollView,
   ImageBackground,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {DotIndicator} from 'react-native-indicators';
 import ImagePicker from 'react-native-image-picker';
@@ -148,7 +149,7 @@ class UserProfile extends React.Component {
         <ImageBackground
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.5}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          style={styles.backgroundImage}>
           <ScrollView style={{flex: 1}}>
             <View style={styles.bodyContent}>
               {this.state.details.firstName === undefined ? (
@@ -167,16 +168,15 @@ class UserProfile extends React.Component {
                         <TouchableOpacity onPress={this.alertDeleteImage}>
                           <View style={styles.deleteIcon}>
                             <Image
-                              style={styles.icon}
-                              source={require('../images/delete.png')}
+                              source={require('../images/icon_delete.png')}
                             />
                           </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this.editImage}>
                           <View style={styles.uploadIcon1}>
                             <Image
-                              style={styles.icon}
-                              source={require('../images/edit.png')}
+                              style={{width: 60, height: 60}}
+                              source={require('../images/icon_camera.png')}
                             />
                           </View>
                         </TouchableOpacity>
@@ -191,8 +191,8 @@ class UserProfile extends React.Component {
                       <TouchableOpacity onPress={this.editImage}>
                         <View style={styles.uploadIcon2}>
                           <Image
-                            style={styles.icon}
-                            source={require('../images/edit.png')}
+                            style={{width: 60, height: 60}}
+                            source={require('../images/icon_camera.png')}
                           />
                         </View>
                       </TouchableOpacity>
@@ -279,6 +279,12 @@ class UserProfile extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   buttons: {
     flexDirection: 'row',
     marginTop: 200,
@@ -333,46 +339,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fe5f55',
   },
   uploadIcon1: {
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    backgroundColor: '#dcdcdc',
-    borderRadius: 40,
-    elevation: 15,
-    borderWidth: 2,
-    borderColor: '#fff',
-    alignSelf: 'center',
     marginTop: 10,
   },
   uploadIcon2: {
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    backgroundColor: '#dcdcdc',
-    borderRadius: 40,
-    elevation: 15,
-    borderWidth: 2,
-    borderColor: '#fff',
-    alignSelf: 'center',
     marginLeft: 170,
     marginTop: 210,
   },
   deleteIcon: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    backgroundColor: '#dcdcdc',
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: '#fff',
-    alignSelf: 'center',
     marginLeft: 120,
-    marginTop: 45,
-  },
-  icon: {
-    width: 40,
-    height: 40,
-    alignSelf: 'center',
+    marginTop: 40,
   },
 });
 

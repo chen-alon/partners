@@ -8,8 +8,8 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
-import {Title} from 'react-native-paper';
 import firebase from 'firebase';
 
 class Chat extends Component {
@@ -152,14 +152,13 @@ class Chat extends Component {
         <ImageBackground
           source={require('../images/backgroundimagechat.jpeg')}
           imageStyle={{opacity: 0.1}}
-          style={{resizeMode: 'cover', flex: 1}}>
-          <View style={styles.container}>
-            <Title style={{color: '#4f6367', fontSize: 25}}>
-              conversations
-            </Title>
-          </View>
+          style={styles.backgroundImage}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <Image
+              style={{alignSelf: 'center'}}
+              source={require('../images/conversations.png')}
+            />
 
-          <View style={{flex: 1, justifyContent: 'center', paddingTop: 10}}>
             <FlatList
               data={this.state.partnersDetails.sort((a, b) => b.Date - a.Date)}
               keyExtractor={item => item.uid}
@@ -213,15 +212,9 @@ class Chat extends Component {
                         })
                       }>
                       {item.gender === 'male' ? (
-                        <Image
-                          style={styles.icon}
-                          source={require('../images/info_male.png')}
-                        />
+                        <Image source={require('../images/icon_male.png')} />
                       ) : (
-                        <Image
-                          style={styles.icon}
-                          source={require('../images/info_female.png')}
-                        />
+                        <Image source={require('../images/icon_female.png')} />
                       )}
                     </TouchableOpacity>
                   </View>
@@ -242,11 +235,11 @@ class Chat extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 15,
-    backgroundColor: '#fff',
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
   },
   partnerImage: {
     width: 60,
@@ -277,7 +270,7 @@ const styles = StyleSheet.create({
   box: {
     alignItems: 'center',
     flexDirection: 'row',
-    paddingLeft: 10,
+    //paddingLeft: 10,
   },
   details: {
     fontSize: 20,
@@ -285,10 +278,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 10,
     marginBottom: 10,
-  },
-  icon: {
-    width: 28,
-    height: 28,
   },
 });
 

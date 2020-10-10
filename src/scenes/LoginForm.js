@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   forgetPassword: {
     color: '#7a9e9f',
-    fontSize: 14,
+    fontSize: 16,
     justifyContent: 'center',
     textAlign: 'center',
     fontFamily: 'AmaticSC-Bold',

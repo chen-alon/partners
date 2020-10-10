@@ -6,6 +6,7 @@ import {
   ScrollView,
   ImageBackground,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {Icon} from 'native-base';
 import firebase from 'firebase';
@@ -92,7 +93,7 @@ class AccountSettings extends React.Component {
         <ImageBackground
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.3}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          style={styles.backgroundImage}>
           <View style={{flex: 1}}>
             <ScrollView style={styles.scroll}>
               <Icon
@@ -150,6 +151,12 @@ class AccountSettings extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   scroll: {
     flex: 1,
     padding: 20,

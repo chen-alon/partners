@@ -8,9 +8,9 @@ import {
   FlatList,
   ImageBackground,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import firebase from 'firebase';
-import {Value} from 'react-native-reanimated';
 
 class Matches extends React.Component {
   constructor(props) {
@@ -256,10 +256,9 @@ class Matches extends React.Component {
         <ImageBackground
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.5}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          style={styles.backgroundImage}>
           <FlatList
             style={styles.list}
-            //contentContainerStyle={styles.listContainer}
             data={this.state.partnersDetails
               .filter(partner => this.state.percentage[partner.uid])
               .sort(
@@ -320,12 +319,15 @@ class Matches extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   list: {
     paddingHorizontal: 10,
     paddingTop: 10,
-  },
-  listContainer: {
-    //alignItems: 'center',
   },
   separator: {
     marginTop: 10,
@@ -333,13 +335,10 @@ const styles = StyleSheet.create({
   /******** card **************/
   card: {
     marginVertical: 8,
-    //backgroundColor: '#eef5db',
-
     flexBasis: '45%',
     marginHorizontal: 10,
   },
   cardContent: {
-    //paddingVertical: 17,
     justifyContent: 'space-between',
   },
   cardImage: {

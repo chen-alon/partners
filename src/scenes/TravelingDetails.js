@@ -10,6 +10,7 @@ import {
   Alert,
   ImageBackground,
   Image,
+  Dimensions,
 } from 'react-native';
 import {Icon} from 'native-base';
 import MultiSelect from 'react-native-multiple-select';
@@ -352,7 +353,7 @@ class TravelingDetails extends React.Component {
         <ImageBackground
           source={require('../images/vanishing_hitchhiker2.jpg')}
           imageStyle={{opacity: 0.3}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          style={styles.backgroundImage}>
           <ScrollView style={styles.scroll}>
             <Icon
               name="arrow-back"
@@ -597,6 +598,12 @@ class TravelingDetails extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   scroll: {
     flex: 1,
     padding: 20,

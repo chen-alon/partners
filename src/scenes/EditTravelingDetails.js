@@ -9,6 +9,7 @@ import {
   Alert,
   Image,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import {Icon} from 'native-base';
 import MultiSelect from 'react-native-multiple-select';
@@ -348,7 +349,7 @@ class EditTravelingDetails extends React.Component {
         <ImageBackground
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.3}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          style={styles.backgroundImage}>
           <ScrollView style={styles.scroll}>
             <Icon
               name="arrow-back"
@@ -579,10 +580,7 @@ class EditTravelingDetails extends React.Component {
             <TouchableHighlight
               style={styles.button}
               onPress={this.handleDetails.bind(this)}>
-              <Image
-                style={{width: 40, height: 40}}
-                source={require('../images/approval.png')}
-              />
+              <Image source={require('../images/icon_confirm.png')} />
             </TouchableHighlight>
           </ScrollView>
         </ImageBackground>
@@ -592,6 +590,12 @@ class EditTravelingDetails extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   scroll: {
     flex: 1,
     padding: 20,

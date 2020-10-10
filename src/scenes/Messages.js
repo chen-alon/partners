@@ -167,7 +167,7 @@ class Messages extends Component {
         <ImageBackground
           source={require('../images/imagebackgroundchat.jpeg')}
           imageStyle={{opacity: 0.5}}
-          style={{resizeMode: 'cover', flex: 1}}>
+          style={styles.backgroundImage}>
           <ScrollView
             style={{flex: 1, margin: 10}}
             ref="flatList"
@@ -201,10 +201,7 @@ class Messages extends Component {
                 );
                 Keyboard.dismiss();
               }}>
-              <Image
-                style={styles.icon}
-                source={require('../images/send.png')}
-              />
+              <Image source={require('../images/icon_paper_plane.png')} />
             </TouchableOpacity>
           </Footer>
         </ImageBackground>
@@ -214,6 +211,12 @@ class Messages extends Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    resizeMode: 'cover',
+    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
+  },
   partnerImage: {
     width: 60,
     height: 60,
@@ -264,11 +267,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     shadowColor: 'black',
     elevation: 10,
-  },
-  icon: {
-    width: 45,
-    height: 45,
-    alignSelf: 'center',
   },
 });
 

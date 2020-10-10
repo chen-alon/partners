@@ -74,17 +74,15 @@ class ForgotPasswordController extends React.Component {
     firebase
       .auth()
       .sendPasswordResetEmail(this.state.email)
-      .then(
-        function(username) {
-          Alert.alert(
-            'Reset Password',
-            'A password renewal email has been sent to the email address you entered',
-            [{text: 'OK', onPress: () => this.setState({spinner: false})}],
-            {cancelable: false},
-          );
-          username.sendEmailVerification();
-        }.bind(this),
-      )
+      .then(function(username) {
+        Alert.alert(
+          'Reset Password',
+          'A password renewal email has been sent to the email address you entered',
+          [{text: 'OK', onPress: () => this.setState({spinner: false})}],
+          {cancelable: false},
+        );
+        username.sendEmailVerification();
+      })
       .catch(() => {
         this.setState({spinner: false});
       });
