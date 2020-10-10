@@ -37,7 +37,7 @@ class PartnerProfile extends React.Component {
             <View>
               <View style={styles.boxText}>
                 <Text style={{fontWeight: 'bold', fontSize: 19}}>
-                  {'countries: '}
+                  {'Places/Countries I have visited: '}
                 </Text>
                 <Text style={{fontSize: 16}}>
                   {this.props.navigation.state.params.countries}
@@ -45,7 +45,7 @@ class PartnerProfile extends React.Component {
               </View>
               <View style={styles.boxText}>
                 <Text style={{fontWeight: 'bold', fontSize: 19}}>
-                  {'languages: '}
+                  {'Languages ​​I know: '}
                 </Text>
                 <Text style={{fontSize: 16}}>
                   {this.props.navigation.state.params.languages}

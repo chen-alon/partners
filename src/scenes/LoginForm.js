@@ -77,7 +77,7 @@ class LoginForm extends React.Component {
                 justifyContent: 'center',
                 paddingTop: 70,
               }}>
-              <KeyboardAvoidingView behavior="padding">
+              <KeyboardAvoidingView behavior="position">
                 <Image
                   style={{alignSelf: 'center'}}
                   source={require('../images/hitchhiker.png')}
@@ -119,21 +119,21 @@ class LoginForm extends React.Component {
                   </Text>
                 </View>
                 <View>{this.renderButton()}</View>
+                <View>
+                  <Text style={styles.signIn}> Don't have an account yet?</Text>
+                  <Text
+                    onPress={() => navigate('CreateUser')}
+                    style={{
+                      color: '#fe5f55',
+                      fontSize: 18,
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      position: 'relative',
+                    }}>
+                    Create
+                  </Text>
+                </View>
               </KeyboardAvoidingView>
-              <View>
-                <Text style={styles.signIn}> Don't have an account yet?</Text>
-                <Text
-                  onPress={() => navigate('CreateUser')}
-                  style={{
-                    color: '#fe5f55',
-                    fontSize: 18,
-                    textAlign: 'center',
-                    fontWeight: 'bold',
-                    position: 'relative',
-                  }}>
-                  Create
-                </Text>
-              </View>
             </View>
           </ScrollView>
         </ImageBackground>

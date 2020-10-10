@@ -28,6 +28,11 @@ class UserProfile extends React.Component {
     if (firebase.auth().currentUser) {
       this.readUserData();
     } else {
+      this.setState({
+        details: [],
+        profileImageUrl: null,
+        resourcePath: {},
+      });
       this.props.navigation.navigate('LoginForm');
     }
   }

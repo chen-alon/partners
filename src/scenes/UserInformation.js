@@ -30,7 +30,41 @@ class UserInformation extends React.Component {
       maximumDate: new Date(),
       check: false,
       isLoading: false,
+      flag: false,
     };
+  }
+
+  alertDeleteImage = () => {
+    Alert.alert(
+      'Remove Image',
+      'Are you sure you want to remove your profile picture?',
+      [
+        {
+          text: 'Yes',
+
+          onPress: () => {
+            this.deleteImage(), this.setState({flag: false});
+          },
+        },
+        {
+          text: 'No',
+          onPress: () => console.log('No Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
+  deleteImage() {
+    firebase
+      .storage()
+      .ref('images')
+      .child(`${firebase.auth().currentUser.uid}`)
+      .delete()
+      .then(() => this.setState({profileImageUrl: null}));
+
+    return;
   }
 
   selectImage() {
@@ -47,6 +81,8 @@ class UserInformation extends React.Component {
   }
 
   async uploadImage(uri = 'application/octet-stream') {
+    this.setState({flag: true});
+
     return new Promise(async (resolve, reject) => {
       const response = await fetch(uri);
       const file = await response.blob();
@@ -226,6 +262,11 @@ class UserInformation extends React.Component {
                   onPress={() => this.selectImage()}
                 />
               </View>
+              {this.state.flag ? (
+                <TouchableOpacity onPress={this.alertDeleteImage}>
+                  <Image source={require('../images/icon_image.png')} />
+                </TouchableOpacity>
+              ) : null}
             </View>
             <TouchableOpacity
               style={[styles.button]}

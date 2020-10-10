@@ -220,7 +220,7 @@ class EditDeatils extends React.Component {
                     placeholder={
                       this.props.navigation.state.params.more
                         ? this.props.navigation.state.params.more
-                        : 'more about me...'
+                        : 'More about me...'
                     }
                     autoCapitalize="none"
                   />
@@ -235,7 +235,7 @@ class EditDeatils extends React.Component {
                     placeholder={
                       this.props.navigation.state.params.countries
                         ? this.props.navigation.state.params.countries
-                        : 'places I have visited...'
+                        : 'Places/Countries I have visited...'
                     }
                     autoCapitalize="none"
                   />
@@ -250,7 +250,7 @@ class EditDeatils extends React.Component {
                     placeholder={
                       this.props.navigation.state.params.languages
                         ? this.props.navigation.state.params.languages
-                        : 'languages ​​I know...'
+                        : 'Languages ​​I know...'
                     }
                     autoCapitalize="none"
                   />

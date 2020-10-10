@@ -11,6 +11,7 @@ import {
   Dimensions,
 } from 'react-native';
 import firebase from 'firebase';
+import {DotIndicator} from 'react-native-indicators';
 
 class Matches extends React.Component {
   constructor(props) {
@@ -257,61 +258,67 @@ class Matches extends React.Component {
           source={require('../images/background.jpg')}
           imageStyle={{opacity: 0.5}}
           style={styles.backgroundImage}>
-          <FlatList
-            style={styles.list}
-            data={this.state.partnersDetails
-              .filter(partner => this.state.percentage[partner.uid])
-              .sort(
-                (a, b) =>
-                  this.state.percentage[b.uid] - this.state.percentage[a.uid],
-              )}
-            horizontal={false}
-            numColumns={2}
-            keyExtractor={item => item.uid}
-            ItemSeparatorComponent={() => {
-              return <View style={styles.separator} />;
-            }}
-            renderItem={post => {
-              const item = post.item;
-              return (
-                <TouchableOpacity
-                  style={styles.card}
-                  onPress={() =>
-                    this.props.navigation.navigate('PartnerProfile', {
-                      ...item,
-                      percentage: this.state.percentage[item.uid],
-                      image: this.state.images[item.uid],
-                      months: item.selectedItems,
-                    })
-                  }>
-                  <View style={styles.imageContainer}>
-                    <Image
-                      style={styles.cardImage}
-                      source={
-                        this.state.images[item.uid]
-                          ? {uri: this.state.images[item.uid]}
-                          : require('../images/user.png')
-                      }
-                    />
-                  </View>
-                  <View style={styles.cardContent}>
-                    <Text style={styles.details}>
-                      {item.firstName + ' ' + item.lastName}, {item.age}
-                    </Text>
-                    <Text style={styles.percentage}>
-                      {this.state.percentage[item.uid] + '%'}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            }}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}
-              />
-            }
-          />
+          {this.state.partnersDetails === null ? (
+            <View style={{flex: 1, paddingVertical: '70%'}}>
+              <DotIndicator color="#fe5f55" />
+            </View>
+          ) : (
+            <FlatList
+              style={styles.list}
+              data={this.state.partnersDetails
+                .filter(partner => this.state.percentage[partner.uid])
+                .sort(
+                  (a, b) =>
+                    this.state.percentage[b.uid] - this.state.percentage[a.uid],
+                )}
+              horizontal={false}
+              numColumns={2}
+              keyExtractor={item => item.uid}
+              ItemSeparatorComponent={() => {
+                return <View style={styles.separator} />;
+              }}
+              renderItem={post => {
+                const item = post.item;
+                return (
+                  <TouchableOpacity
+                    style={styles.card}
+                    onPress={() =>
+                      this.props.navigation.navigate('PartnerProfile', {
+                        ...item,
+                        percentage: this.state.percentage[item.uid],
+                        image: this.state.images[item.uid],
+                        months: item.selectedItems,
+                      })
+                    }>
+                    <View style={styles.imageContainer}>
+                      <Image
+                        style={styles.cardImage}
+                        source={
+                          this.state.images[item.uid]
+                            ? {uri: this.state.images[item.uid]}
+                            : require('../images/user.png')
+                        }
+                      />
+                    </View>
+                    <View style={styles.cardContent}>
+                      <Text style={styles.details}>
+                        {item.firstName + ' ' + item.lastName}, {item.age}
+                      </Text>
+                      <Text style={styles.percentage}>
+                        {this.state.percentage[item.uid] + '%'}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={this._onRefresh.bind(this)}
+                />
+              }
+            />
+          )}
         </ImageBackground>
       </View>
     );
