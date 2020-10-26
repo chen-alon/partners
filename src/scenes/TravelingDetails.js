@@ -489,20 +489,15 @@ class TravelingDetails extends React.Component {
                   styleMainWrapper={{
                     backgroundColor: '#eef5d8',
                     borderBottomColor: '#eef5d8',
-                    // backgroundColor: 'transparent',
                     borderEndColor: '#eef5d8',
-                    // borderStartColor: '#eef5d8',
                     width: '104%',
                     paddingLeft: 9,
                     fontSize: 16,
                     color: '#fff',
-                    //borderRightColor: '#eef5d8',
                   }}
                   styleDropdownMenuSubsection={{
                     backgroundColor: '#eef5d8',
                     borderColor: '#eef5d8',
-                    // backgroundColor: 'transparent',
-                    // borderColor: 'transparent',
                   }}
                   styleTextDropdown={{
                     backgroundColor: '#eef5d8',
@@ -511,7 +506,6 @@ class TravelingDetails extends React.Component {
                   }}
                   textInputProps={{editable: false}}
                   searchInputStyle={{
-                    //backgroundColor: '#eef5d8',
                     fontSize: 16,
                     width: '85%',
                     maxWidth: '80%',

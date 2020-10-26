@@ -1,5 +1,12 @@
 import React from 'react';
-import {Text, View, StyleSheet, ImageBackground, Image} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  Dimensions,
+} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import {Button} from 'react-native-elements';
 import {ListOfQandA} from './ListOfQandA';
@@ -91,10 +98,10 @@ class Questions extends React.Component {
       <View style={styles.container}>
         <ImageBackground
           source={require('../images/questions_background.jpg')}
-          imageStyle={{opacity: 0.2}}
+          imageStyle={{opacity: 0.1}}
           style={styles.backgroundImage}>
           <Image
-            style={{alignSelf: 'center', height: 80}}
+            style={{alignSelf: 'center', height: 100, marginTop: 60}}
             source={require('../images/Answered.png')}
           />
           <Text style={styles.counter}>{this.getAnswersCount()} / 15</Text>
@@ -129,26 +136,29 @@ class Questions extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
     justifyContent: 'center',
     alignContent: 'center',
+    alignItems: 'center',
     borderWidth: 25,
     borderColor: '#bbd8d8',
-    position: 'relative',
   },
   backgroundImage: {
     resizeMode: 'cover',
-    flex: 1,
+    width: Dimensions.get('window').width, //for full screen
+    height: Dimensions.get('window').height, //for full screen
   },
   RadioButtonStyle: {
     fontSize: 30,
     marginBottom: 80,
     marginTop: 40,
-    marginLeft: 15,
+    marginLeft: 45,
   },
   question: {
     fontSize: 20,
+    marginTop: 10,
     marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 30,
     color: '#4f6367',
   },
   textAnswers: {
@@ -171,6 +181,7 @@ const styles = StyleSheet.create({
     color: '#ef5f55',
     fontSize: 25,
     fontWeight: 'bold',
+    paddingTop: 50,
   },
 });
 

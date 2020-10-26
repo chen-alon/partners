@@ -135,14 +135,14 @@ class CreateUser extends React.Component {
                 placeholder="Confirm New password"
                 secureTextEntry={true}
               />
+              <TouchableOpacity
+                style={styles.button}
+                // onPress={this.checkDetails}
+              >
+                <Text style={styles.buttonText}>change</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={this.checkDetails}
-          >
-            <Text style={styles.buttonText}>Change</Text>
-          </TouchableOpacity>
         </ImageBackground>
       </View>
     );
@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   button: {
-    marginBottom: 20,
     justifyContent: 'flex-end',
     paddingVertical: 5,
     alignItems: 'center',
@@ -186,6 +185,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     width: 200,
+    marginTop: 50,
   },
   buttonText: {
     fontSize: 20,

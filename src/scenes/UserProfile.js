@@ -208,40 +208,34 @@ class UserProfile extends React.Component {
                       ' ' +
                       this.state.details.lastName}
                   </Text>
-                  <TouchableOpacity style={styles.buttonContainer}>
-                    <Text
-                      style={{color: '#eef5d8'}}
-                      onPress={() =>
-                        this.props.navigation.navigate('EditDetails', {
-                          ...this.state.details,
-                          onGoBack: this.readUserData.bind(this),
-                        })
-                      }>
-                      Edit profile
-                    </Text>
+                  <TouchableOpacity
+                    style={styles.buttonContainer}
+                    onPress={() =>
+                      this.props.navigation.navigate('EditDetails', {
+                        ...this.state.details,
+                        onGoBack: this.readUserData.bind(this),
+                      })
+                    }>
+                    <Text style={{color: '#eef5d8'}}>Edit profile</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.buttonContainer}>
-                    <Text
-                      style={{color: '#eef5d8'}}
-                      onPress={() =>
-                        this.props.navigation.navigate('EditTravelingDetails', {
-                          ...this.state.details,
-                          onGoBack: this.readUserData.bind(this),
-                        })
-                      }>
-                      Ideal hitchhiker
-                    </Text>
+                  <TouchableOpacity
+                    style={styles.buttonContainer}
+                    onPress={() =>
+                      this.props.navigation.navigate('EditTravelingDetails', {
+                        ...this.state.details,
+                        onGoBack: this.readUserData.bind(this),
+                      })
+                    }>
+                    <Text style={{color: '#eef5d8'}}>Ideal hitchhiker</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.buttonContainer}>
-                    <Text
-                      style={{color: '#eef5d8'}}
-                      onPress={() =>
-                        this.props.navigation.navigate('AccountSettings', {
-                          ...this.state.details,
-                        })
-                      }>
-                      Account settings
-                    </Text>
+                  <TouchableOpacity
+                    style={styles.buttonContainer}
+                    onPress={() =>
+                      this.props.navigation.navigate('AccountSettings', {
+                        ...this.state.details,
+                      })
+                    }>
+                    <Text style={{color: '#eef5d8'}}>Account settings</Text>
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <Text

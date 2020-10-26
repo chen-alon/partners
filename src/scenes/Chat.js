@@ -151,7 +151,7 @@ class Chat extends Component {
       <View style={{flex: 1, backgroundColor: 'transparent'}}>
         <ImageBackground
           source={require('../images/backgroundimagechat.jpeg')}
-          imageStyle={{opacity: 0.1}}
+          imageStyle={{opacity: 0.2}}
           style={styles.backgroundImage}>
           <View style={{flex: 1, justifyContent: 'center'}}>
             <Image

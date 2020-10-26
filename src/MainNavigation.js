@@ -20,6 +20,7 @@ import EditTravelingDetails from './scenes/EditTravelingDetails';
 import AccountSettings from './scenes/AccountSettings';
 import ResetPassword from './scenes/ResetPassword';
 import ChangePassword from './scenes/ChangePassword';
+import WelcomeBack from './scenes/WelcomeBack';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs';
 
 const Navigation = createMaterialBottomTabNavigator(
@@ -106,6 +107,9 @@ const MainNavigator = createStackNavigator(
     },
     Navigation: {
       screen: Navigation,
+    },
+    WelcomeBack: {
+      screen: WelcomeBack,
     },
   },
 

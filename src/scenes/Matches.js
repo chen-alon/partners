@@ -168,7 +168,7 @@ class Matches extends React.Component {
             this.state.uid != doc.data().uid &&
             !doc.data().disable &&
             !doc.data().delete &&
-            //בדיקות עבור כל המקרים של המגדר
+            //Tests for all cases of gender
             ((this.state.currentUserDetails.partnerGender != 'all' &&
               this.state.currentUserDetails.partnerGender ===
                 doc.data().gender) ||
@@ -177,7 +177,7 @@ class Matches extends React.Component {
                   this.state.currentUserDetails.gender) ||
               (this.state.currentUserDetails.partnerGender === 'all' &&
                 doc.data().partnerGender === 'all')) &&
-            //בדיקות עבור כל המקרים של הגיל
+            //Tests for all cases of age
             ((this.state.currentUserDetails.partnerAge != 'all' &&
               this.state.currentUserDetails.partnerAge ===
                 doc.data().rangeAge) ||

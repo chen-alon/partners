@@ -16,12 +16,12 @@ class AccountSettings extends React.Component {
     firebase
       .firestore()
       .collection('users')
-      .doc(this.props.navigation.state.params.uid)
+      .doc(firebase.auth().currentUser.uid)
       .update({
         delete: true,
       })
-      .then(firebase.auth().currentUser.delete())
-      .catch(this.props.navigation.navigate('LoginForm'));
+      .then(() => firebase.auth().currentUser.delete())
+      .catch(_ => {});
   }
 
   alertDeleteAccount = () => {

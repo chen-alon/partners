@@ -101,10 +101,10 @@ class ExstraInformation extends React.Component {
               />
             </View>
 
-            <TouchableOpacity style={styles.button}>
-              <Text onPress={this.ExDetailsCheck} style={styles.buttonText}>
-                Continue
-              </Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.ExDetailsCheck}>
+              <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
           </ScrollView>
         </ImageBackground>

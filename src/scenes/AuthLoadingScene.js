@@ -5,6 +5,7 @@ import {
   ImageBackground,
   StyleSheet,
   Dimensions,
+  Alert,
 } from 'react-native';
 import firebase from '../utils/firebase/firebase-db';
 
@@ -70,7 +71,12 @@ class AuthLoadingScene extends React.Component {
 
   renderContent() {
     if (this.state.loggedIn && !this.state.loading) {
-      if (!this.state.details.delete && !this.state.details.disable) {
+      if (this.state.details.disable === true) {
+        this.props.navigation.navigate('WelcomeBack');
+      } else if (
+        !this.state.details.delete &&
+        (!this.state.details.disable || this.state.details.disable === false)
+      ) {
         if (this.state.details.finished) {
           this.props.navigation.navigate('Navigation');
         } else if (!this.state.details.firstName) {

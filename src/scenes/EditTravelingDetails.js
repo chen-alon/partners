@@ -518,7 +518,7 @@ class EditTravelingDetails extends React.Component {
                   }}
                   onSelectedItemsChange={this.onSelectedItemsChange}
                   selectedItems={selectedItems}
-                  selectText="select months"
+                  //selectText={selectedItems}
                   searchInputPlaceholderText="select months"
                   textColor="#4f6367"
                   tagTextColor="#eef5d8"

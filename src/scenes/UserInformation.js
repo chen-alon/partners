@@ -37,7 +37,7 @@ class UserInformation extends React.Component {
   alertDeleteImage = () => {
     Alert.alert(
       'Remove Image',
-      'Are you sure you want to remove your profile picture?',
+      'Are you sure you want to delete your profile picture?',
       [
         {
           text: 'Yes',
@@ -252,7 +252,7 @@ class UserInformation extends React.Component {
               )}
 
               <View style={styles.pic}>
-                <Text style={styles.text}>upload picture</Text>
+                <Text style={styles.text}>upload profile picture</Text>
 
                 <IconButton
                   style={{paddingTop: 13}}
