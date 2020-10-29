@@ -113,6 +113,13 @@ class UserInformation extends React.Component {
       this.state.age === 0
     ) {
       Alert.alert('Missing details');
+    } else if (
+      this.state.firstName.length < 2 ||
+      this.state.firstName.length > 15 ||
+      this.state.lastName.length < 2 ||
+      this.state.lastName.length > 15
+    ) {
+      Alert.alert('The name needs to be more than 1 char and maximum 15 chars');
     } else {
       this.setState({
         isLoading: true,

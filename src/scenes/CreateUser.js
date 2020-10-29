@@ -44,8 +44,13 @@ class CreateUser extends React.Component {
       Alert.alert('Please enter password');
     } else if (this.state.password != this.state.confirmPassword) {
       Alert.alert('Unmatched password');
-    } else if (this.state.password.length < 6) {
-      Alert.alert('The password needs to be more than 6 chars');
+    } else if (
+      this.state.password.length < 6 ||
+      this.state.password.length > 18
+    ) {
+      Alert.alert(
+        'The password needs to be more than 6 chars and maximum 18 chars',
+      );
     } else if (this.state.checked === false) {
       Alert.alert('Please agree the terms and conditions');
     } else {
