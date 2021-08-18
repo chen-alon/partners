@@ -9,15 +9,10 @@ matching his travel buddies.
 The system will show the user only the potential partners for him.
 
 
-## Install and Run
+<!-- ## Install and Run
 Clone the repository, then, in the directory, run: 
 ```bash
-npm install
-```
+``` -->
 
-Then, to deploy to local host:
-```bash
-npm start
-```
 
 
